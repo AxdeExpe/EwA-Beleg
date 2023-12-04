@@ -1,0 +1,5 @@
+- wie ist der 3. Punkt genau gemeint, wie soll inkrementieren und dekrementieren erfolgen?
+- wie ist das mit SPA gemeint? sind mehrere Seiten möglich oder soll es nur eine Seite geben, welche immer wieder von JS geändert werden
+- sollen Reklamationen betrachtet werden?
+- Wie sollen parallel Bestellungen bzw. bezahlungen betrachtet werden (Negative Menge von Büchern, es wurden zu viele bezahlt) bzw. DB Deadlocks behandeln?
+- nicht admin im admin bereich? ==> ist auch dekrementieren und andere updates (neue Bücher anlegen, bücher löschen, allgemeine kataloginhalte [vorschaubilder, titel, etc.] ändern) vollziehen legitim?
