@@ -13,7 +13,7 @@ if ($conn->connect_error) {
 
 echo "Successfully connected to DB!";
 
-$statement = $conn->prepare("SELECT * FROM buecher");
+$statement = $conn->prepare("SELECT * FROM Books");
 $statement->execute();
 $result = $statement->get_result();
 
@@ -26,14 +26,14 @@ if ($result) {
     while ($row = $result->fetch_assoc()) {
         $json = [
             'image' => base64_encode(file_get_contents($row['image'])),
-            'id' => $row['id'],
+            'id' => $row['id'], # primary key
             'title' => $row['titel'],
             'author' => $row['author'],
-            'publisher' => $row['publisher'], # Verlag
+            'publisher' => $row['publisher'], # publishing company
             'description' => $row['description'],
             'amount' => $row['amount'],
             'price' => $row['price'],
-            'mwst' => $row['mwst'], # Mehrwertsteuer
+            'mwst' => $row['mwst'], # tax
             'weight' => $row['weight']
         ];
 
