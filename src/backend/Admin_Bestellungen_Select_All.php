@@ -13,37 +13,78 @@ if ($conn->connect_error) {
 
 echo "Successfully connected to DB!";
 
-$statement = $conn->prepare("SELECT * FROM Orders");
+# Datapacket: JSON: {Purchase: [{book_id, title, order_id, order_date, order_date, amount, price}, ...], Stock: [{book_id, title, author, description, publisher, price_netto, weight, stock}, ...]}
+
+# Purchase
+
+$statement = $conn->prepare("SELECT o.order_id, o.order_date, b.id, b.title, o.amount, o.price FROM Orders o JOIN Books b ON o.book_id = b.id;");
 $statement->execute();
 $result = $statement->get_result();
 
 $statement->close();
 
+
+
 if ($result) {
-    $i = 0;
-    $packetJSON = [];
+    $purchaseJSON = [];
 
     while ($row = $result->fetch_assoc()) {
         $json = [
-            'id' => $row['id'], # foreign key
-            'order_number' => $row['order_number'],
-            'order_date' => $row['order_date'], # server time
+            'book_id' => $row['b.id'],
+            'title' => $row['b.title'],
+            'order_id' => $row['o.order_id'],
+            'order_date' => $row['o.order_date'],
             'amount' => $row['amount'],
-            'price' => $row['price'],
-            'mwst' => $row['mwst'], # Mehrwertsteuer
-            'weight' => $row['weight']
+            'price' => $row['price']
         ];
 
-        $packetJSON[] = $json;
-        $i++;
+        $purchaseJSON[] = $json;
     }
 
-    header('Content-Type: application/json');
-    $conn->close();
-    echo json_encode($packetJSON);
 } else {
     $conn->close();
     echo "Error: " . $statement . "<br>" . $conn->error;
+}
+
+
+
+# Stock
+
+$statement = $conn->prepare("SELECT * FROM Books");
+$statement->execute();
+$result = $statement->get_result();
+
+$statement->close();
+
+if($result){
+
+    $stockJSON= [];
+    while($row = $result->fetch_assoc()){
+        $json = [
+            'book_id' => $row['id'],
+            'title' => $row['titel'],
+            'author' => $row['author'],
+            'description' => $row['description'],
+            'publisher' => $row['publisher'],
+            'price_netto' => $row['price_netto'],
+            'weight' => $row['weight'],
+            'stock' => $row['stock']
+        ];
+
+        $stockJSON[] = $json;
+    }
+
+    $conn->close();
+
+    header('Content-Type: application/json');
+    $packetJSON = ['Purchase' => $purchaseJSON, 'Stock' => $stockJSON];
+
+    echo json_encode($packetJSON);
+
+}
+else{
+    $conn->close();
+    echo "Error: " . $statement . "<br>" . $conn->error; 
 }
 
 ?>

@@ -31,9 +31,8 @@ if ($result) {
             'author' => $row['author'],
             'publisher' => $row['publisher'], # publishing company
             'description' => $row['description'],
-            'amount' => $row['amount'],
-            'price' => $row['price'],
-            'mwst' => $row['mwst'], # tax
+            'stock' => $row['stock'],
+            'price_netto' => $row['price_netto'],
             'weight' => $row['weight']
         ];
 
