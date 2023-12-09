@@ -11,7 +11,7 @@ if ($conn->connect_error) {
     die("Connection failed: " . $conn->connect_error);
 }
 
-echo "Successfully connected to DB!";
+#echo "Successfully connected to DB!";
 
 $statement = $conn->prepare("SELECT * FROM Books");
 $statement->execute();
@@ -23,17 +23,17 @@ if ($result) {
     $i = 0;
     $packetJSON = [];
 
-    while ($row = $result->fetch_assoc()) {
+   while ($row = $result->fetch_assoc()) {
         $json = [
-            'image' => base64_encode(file_get_contents($row['image'])),
             'id' => $row['id'], # primary key
-            'title' => $row['titel'],
+            'image' => base64_encode(file_get_contents($row['image'])),
+            'title' => $row['title'],
             'author' => $row['author'],
             'publisher' => $row['publisher'], # publishing company
             'description' => $row['description'],
-            'stock' => $row['stock'],
-            'price_netto' => $row['price_netto'],
-            'weight' => $row['weight']
+            'weight' => $row['weight'],
+            'price_brutto' => $row['price_brutto'],
+            'stock' => $row['stock']
         ];
 
         $packetJSON[] = $json;
@@ -42,6 +42,7 @@ if ($result) {
 
     header('Content-Type: application/json');
     $conn->close();
+    #echo "Successfully fetched " . $i . " books from DB!";
     echo json_encode($packetJSON);
 } else {
     $conn->close();
