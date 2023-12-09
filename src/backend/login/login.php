@@ -1,9 +1,21 @@
 <?php
 
+#error_reporting(E_ALL);
+#ini_set('display_errors', 1);
+
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+
+    if (!isset($_POST['username']) || !isset($_POST['password'])) {
+        echo "no username or password";
+        echo "400"; # bad request
+        exit;
+    }
     
-    $benutzername = $_POST['benutzername'];
-    $passwort = $_POST['passwort'];
+    $benutzername = $_POST['username'];
+    $passwort = $_POST['password'];
+
+    echo "$benutzername";
+    echo "$passwort";
 
 
     if (empty($benutzername) || empty($passwort)) {
@@ -25,10 +37,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         die("Connection failed: " . $conn->connect_error);
     }
 
-    echo "Successfully connected to DB!";
+    #echo "Successfully connected to DB!";
 
-    $statement = $conn->prepare("SELECT * FROM users WHERE username = ? AND password = ?");
-    $statement->bind_param("ss", $benutzername, $passwort);
+    $statement = $conn->prepare("SELECT pw FROM users WHERE username = ?");
+    $statement->bind_param("s", $benutzername);
     $statement->execute();
     $result = $statement->get_result();
 
@@ -36,17 +48,19 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     $conn->close();
 
-    if($result){
-        echo "200"; # login successful
-        exit;
+    while($row = $result->fetch_assoc()){
+        if ($row['pw'] === $passwort) {
+            echo "200"; # login successful
+            exit;
+        } 
     }
-    else{
-        echo "401"; # login failed
-        exit;
-    }
+
+    echo "401"; # login failed
+    exit;
 
 
 } else {
+    echo "no post request";
     echo "400"; # no POST-Request
 }
 
