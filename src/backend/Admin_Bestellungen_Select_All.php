@@ -11,11 +11,11 @@ if ($conn->connect_error) {
     die("Connection failed: " . $conn->connect_error);
 }
 
-echo "Successfully connected to DB!";
+#echo "Successfully connected to DB!";
 
 # Datapacket: JSON: {Purchase: [{book_id, title, order_id, order_date, order_date, amount, price}, ...], Stock: [{book_id, title, author, description, publisher, price_netto, weight, stock}, ...]}
 
-# Purchase
+# Orders
 
 $statement = $conn->prepare("SELECT o.order_id, o.order_date, b.id, b.title, o.amount, o.price FROM Orders o JOIN Books b ON o.book_id = b.id;");
 $statement->execute();
@@ -62,7 +62,7 @@ if($result){
     while($row = $result->fetch_assoc()){
         $json = [
             'book_id' => $row['id'],
-            'title' => $row['titel'],
+            'title' => $row['title'],
             'author' => $row['author'],
             'description' => $row['description'],
             'publisher' => $row['publisher'],
