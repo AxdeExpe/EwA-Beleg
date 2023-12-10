@@ -8,7 +8,8 @@ $database = "g08";
 $conn = new mysqli($host, $username, $password, $database);
 
 if ($conn->connect_error) {
-    die("Connection failed: " . $conn->connect_error);
+    http_response_code(500);
+    exit;
 }
 
 #echo "Successfully connected to DB!";
@@ -43,7 +44,8 @@ if ($result) {
 
 } else {
     $conn->close();
-    echo "Error: " . $statement . "<br>" . $conn->error;
+    http_response_code(404);
+    exit;
 }
 
 
@@ -84,7 +86,8 @@ if($result){
 }
 else{
     $conn->close();
-    echo "Error: " . $statement . "<br>" . $conn->error; 
+    http_response_code(404);
+    exit;
 }
 
 ?>

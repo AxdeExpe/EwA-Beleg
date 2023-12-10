@@ -5,9 +5,9 @@
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
-    if (!isset($_POST['username']) || !isset($_POST['password'])) {
-        echo "no username or password";
-        echo "400"; # bad request
+    if (!isset($_POST['username']) || !isset($_POST['password']) || empty($_POST['username']) || empty($_POST['password'])) {
+        # bad request, no username or password
+        http_response_code(400);
         exit;
     }
     
@@ -16,14 +16,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     echo "$benutzername";
     echo "$passwort";
-
-
-    if (empty($benutzername) || empty($passwort)) {
-
-        echo "401"; # login failed
-        exit;
-    }
-
 
     # TODO check if user exists in DB
     $host = "localhost";
@@ -34,7 +26,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $conn = new mysqli($host, $username, $password, $database);
 
     if ($conn->connect_error) {
-        die("Connection failed: " . $conn->connect_error);
+        http_response_code(500);
+        exit;
     }
 
     #echo "Successfully connected to DB!";
@@ -50,18 +43,20 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     while($row = $result->fetch_assoc()){
         if ($row['pw'] === $passwort) {
-            echo "200"; # login successful
+            # login successful
+            http_response_code(200);
             exit;
         } 
     }
 
-    echo "401"; # login failed
+    # login failed
+    http_response_code(401);
     exit;
 
 
 } else {
-    echo "no post request";
-    echo "400"; # no POST-Request
+    # no post request
+    http_response_code(400);
 }
 
 ?>
