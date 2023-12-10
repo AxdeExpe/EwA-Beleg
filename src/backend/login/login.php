@@ -1,8 +1,5 @@
 <?php
 
-#error_reporting(E_ALL);
-#ini_set('display_errors', 1);
-
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     if (!isset($_POST['username']) || !isset($_POST['password']) || empty($_POST['username']) || empty($_POST['password'])) {
@@ -17,7 +14,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     echo "$benutzername";
     echo "$passwort";
 
-    # TODO check if user exists in DB
     $host = "localhost";
     $username = "g08";
     $password = "em28rust";
