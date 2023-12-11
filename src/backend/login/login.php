@@ -28,7 +28,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     #echo "Successfully connected to DB!";
 
-    $statement = $conn->prepare("SELECT pw FROM users WHERE username = ?");
+    $statement = $conn->prepare("SELECT pw, is_admin FROM users WHERE username = ?");
     $statement->bind_param("s", $benutzername);
     $statement->execute();
     $result = $statement->get_result();
@@ -38,7 +38,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $conn->close();
 
     while($row = $result->fetch_assoc()){
-        if ($row['pw'] === $passwort) {
+        if ($row['pw'] === $passwort && $row['is_admin'] === 1) {
             # login successful
             http_response_code(200);
             exit;
