@@ -11,8 +11,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $benutzername = $_POST['username'];
     $passwort = $_POST['password'];
 
-    echo "$benutzername";
-    echo "$passwort";
+    #echo "$benutzername";
+    #echo "$passwort";
 
     $host = "localhost";
     $username = "g08";
@@ -45,7 +45,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         } 
     }
 
-    # login failed
+    # login failed / unauthorized
     http_response_code(401);
     exit;
 
@@ -53,6 +53,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 } else {
     # no post request
     http_response_code(400);
+    exit;
 }
 
 ?>
