@@ -112,7 +112,7 @@ if($result){
             'author' => $row['author'],
             'description' => $row['description'],
             'publisher' => $row['publisher'],
-            'price_netto' => $row['price_netto'],
+            'price_brutto' => $row['price_brutto'],
             'weight' => $row['weight'],
             'stock' => $row['stock']
         ];
