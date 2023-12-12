@@ -34,6 +34,7 @@
 
     if($http_status !== 200){
         # user is not admin
+        echo "no admin";
         http_response_code($http_status);
         exit;
     }
@@ -150,6 +151,40 @@
         exit;
     }
 
+    $sql = "UPDATE books SET
+            image = IFNULL(?, image),
+            title = IFNULL(?, title),
+            author = IFNULL(?, author),
+            price_netto = (?, price_netto),
+            mwst = IFNULL(?, mwst),
+            weight = IFNULL(?, weight),
+            stock = IFNULL(?, stock),
+            description = IFNULL(?, description),
+            publisher = IFNULL(?, publisher)
+            WHERE id = ?";
 
-    
+    $stmt = $conn->prepare($sql);
+
+    if(!$stmt){
+        echo "Error while preparing the statement!";
+        http_response_code(500);
+        exit;
+    }
+
+    $stmt->bind_param("sssddiissi", $_POST['image'], $_POST['title'], 
+    $_POST['author'], $_POST['price_netto'], $_POST['mwst'], $_POST['weight'],
+    $_POST['stock'], $_POST['description'], $_POST['publisher'], $_POST['id']);
+
+    $stmt->execute();
+
+    if ($stmt->affected_rows > 0) {
+        echo "successfull updated";
+        http_response_code(200);
+        exit;
+    } 
+    else {
+        echo "Something went wrong!";
+        http_response_code(500);
+        exit;
+    }
 ?>
