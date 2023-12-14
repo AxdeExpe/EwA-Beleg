@@ -58,12 +58,12 @@
     # publisher is changeable
 
     # check if all fields are set
-    # if(!isset($_POST['id']) || !isset($_POST['image']) || !isset($_POST['title']) || !isset($_POST['author']) || !isset($_POST['price_netto']) || !isset($_POST['mwst']) || !isset($_POST['weight']) || !isset($_POST['stock']) || !isset($_POST['description']) || !isset($_POST['publisher']) || empty($_POST['id']) || empty($_POST['image']) || empty($_POST['title']) || empty($_POST['author']) || empty($_POST['price_netto']) || empty($_POST['mwst']) || empty($_POST['weight']) || empty($_POST['stock']) || empty($_POST['description']) || empty($_POST['publisher'])){
-      #  # bad request, not all fields set
-       # echo "Not all fields are set";
-        #http_response_code(400);
-        #exit;
-    #}
+    if(!isset($_POST['id']) || !isset($_POST['image']) || !isset($_POST['title']) || !isset($_POST['author']) || !isset($_POST['price_netto']) || !isset($_POST['mwst']) || !isset($_POST['weight']) || !isset($_POST['stock']) || !isset($_POST['description']) || !isset($_POST['publisher'])){
+       # bad request, not all fields set
+       echo "Not all fields are set";
+       http_response_code(400);
+       exit;
+    }
 
     # check if id is valid, int
     if((!ctype_digit($_POST['id']) || $_POST['id'] < 0 || $_POST['id'] > 9999999999)){
