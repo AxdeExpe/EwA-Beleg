@@ -58,7 +58,7 @@
     # publisher is changeable
 
     # check if all fields are set
-    if(!isset($_POST['id']) || !isset($_POST['image']) || !isset($_POST['title']) || !isset($_POST['author']) || !isset($_POST['price_netto']) || !isset($_POST['mwst']) || !isset($_POST['weight']) || !isset($_POST['stock']) || !isset($_POST['description']) || !isset($_POST['publisher'])){
+    if(!isset($_POST['id']) || empty($_POST['id']) || !isset($_POST['image']) || !isset($_POST['title']) || !isset($_POST['author']) || !isset($_POST['price_netto']) || !isset($_POST['mwst']) || !isset($_POST['weight']) || !isset($_POST['stock']) || !isset($_POST['description']) || !isset($_POST['publisher'])){
        # bad request, not all fields set
        echo "Not all fields are set";
        http_response_code(400);
@@ -242,6 +242,8 @@
     echo $sql;
 
     $stmt->execute();
+
+    $conn->close();
 
     echo $stmt->get_result();
 
