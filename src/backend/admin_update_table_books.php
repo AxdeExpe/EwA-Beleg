@@ -179,6 +179,34 @@
         exit;
     }
 
+
+    $selectQuery = "SELECT * FROM books WHERE id = ?";
+    $selectStmt = $conn->prepare($selectQuery);
+    $selectStmt->bind_param("i", $_POST['id']);
+    $selectStmt->execute();
+    $result = $selectStmt->get_result();
+    $existingData = $result->fetch_assoc();
+    $selectStmt->close();
+
+    if (
+        (empty($_POST['image']) || $existingData['image'] == $_POST['image']) &&
+        (empty($_POST['title']) || $existingData['title'] == $_POST['title']) &&
+        (empty($_POST['author']) || $existingData['author'] == $_POST['author']) &&
+        (empty($_POST['price_netto']) || $existingData['price_netto'] == $_POST['price_netto']) &&
+        (empty($_POST['mwst']) || $existingData['mwst'] == $_POST['mwst']) &&
+        (empty($_POST['weight']) || $existingData['weight'] == $_POST['weight']) &&
+        (empty($_POST['stock']) || $existingData['stock'] == $_POST['stock']) &&
+        (empty($_POST['description']) || $existingData['description'] == $_POST['description']) &&
+        (empty($_POST['publisher']) || $existingData['publisher'] == $_POST['publisher'])
+    ) {
+        echo "Data is identical, no update needed";
+        http_response_code(304);
+        exit;
+    }
+
+
+
+
     $sql = "UPDATE books SET
             image = IF(LENGTH(?) > 0, ?, image),
             title = IF(LENGTH(?) > 0, ?, title),
@@ -215,17 +243,21 @@
 
     $stmt->execute();
 
+    echo $stmt->get_result();
+
     echo $stmt->error;
 
     echo $_POST['image'] . " " . $_POST['title'] . " " . $_POST['author'] . " " . $_POST['price_netto'] . " " . $_POST['mwst'] . " " . $_POST['weight'] . " " . $_POST['stock'] . " " . $_POST['description'] . " " . $_POST['publisher'] . " " . $_POST['id'];
 
     if ($stmt->affected_rows > 0) {
         echo "successfull updated";
+        $stmt->close();
         http_response_code(200);
         exit;
     } 
     else {
         echo "Something went wrong!";
+        $stmt->close();
         http_response_code(500);
         exit;
     }
