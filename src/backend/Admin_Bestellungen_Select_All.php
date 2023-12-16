@@ -75,10 +75,10 @@ if ($result) {
 
     while ($row = $result->fetch_assoc()) {
         $json = [
-            'book_id' => $row['b.id'],
-            'title' => $row['b.title'],
-            'order_id' => $row['o.order_id'],
-            'order_date' => $row['o.order_date'],
+            'book_id' => $row['id'],
+            'title' => $row['title'],
+            'order_id' => $row['order_id'],
+            'order_date' => $row['order_date'],
             'amount' => $row['amount'],
             'price' => $row['price']
         ];
