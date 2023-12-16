@@ -1,6 +1,7 @@
 DELIMITER //
-CREATE TRIGGER after_insert_orders
-AFTER INSERT ON Orders
+
+CREATE TRIGGER before_insert_orders
+BEFORE INSERT ON Orders
 FOR EACH ROW
 BEGIN
     DECLARE available_stock INT;
@@ -9,14 +10,12 @@ BEGIN
     FROM Books
     WHERE id = NEW.book_id;
 
-    IF available_stock >= NEW.amount THEN
-        UPDATE Books
-        SET stock = stock - NEW.amount
-        WHERE id = NEW.book_id;
-    ELSE
+    IF available_stock < NEW.amount THEN
         SIGNAL SQLSTATE '45000'
         SET MESSAGE_TEXT = 'Nicht genügend Lagerbestand für Buch';
     END IF;
+    
 END;
+
 //
 DELIMITER ;
