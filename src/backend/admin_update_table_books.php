@@ -185,6 +185,13 @@
     $selectStmt->bind_param("i", $_POST['id']);
     $selectStmt->execute();
     $result = $selectStmt->get_result();
+    
+    if($result->num_rows === 0){
+        echo "no book with this id";
+        http_response_code(404);
+        exit;
+    }
+    
     $existingData = $result->fetch_assoc();
     $selectStmt->close();
 

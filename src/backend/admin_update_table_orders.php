@@ -120,7 +120,7 @@
         exit;
     }
 
-    if($result && $result->num_rows === 0){
+    if($result->num_rows === 0){
         echo "No data found!";
         http_response_code(404);
         exit;

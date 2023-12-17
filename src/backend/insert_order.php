@@ -3,7 +3,7 @@
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     if (!isset($_POST['id']) || !isset($_POST['amount']) || empty($_POST['id']) || empty($_POST['amount'])) {
-        # bad request, no username or password
+        # bad request, no id or amount
         http_response_code(400);
         exit;
     }
