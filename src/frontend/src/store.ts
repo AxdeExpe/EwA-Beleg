@@ -16,7 +16,7 @@ interface KatalogItem {
 
 interface WarenkorbItem extends KatalogItem {
     quantity: number;
-}
+};
 
 interface Store {
   warenkorb: KatalogItem[];
@@ -36,4 +36,13 @@ export const removeFromWarenkorb = (itemId: number) => {
     if (index !== -1) {
       store.value.warenkorb.splice(index, 1);
     }
-  };
+};
+
+export const gesamtsumme = ref<string>('0.00');
+
+export const updateGesamtsumme = () => {
+    const newGesamtsumme = store.value.warenkorb.reduce((total, item) => {
+      return total + parseFloat(item.price_brutto) * item.quantity;
+    }, 0).toFixed(2);
+    gesamtsumme.value = newGesamtsumme;
+};

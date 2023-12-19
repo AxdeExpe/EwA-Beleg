@@ -1,5 +1,14 @@
 <script setup lang="ts">
 import { RouterLink, RouterView } from 'vue-router';
+import { store, updateGesamtsumme } from '@/store';
+
+let gesamtPreis = () => {
+  return store.value.warenkorb.reduce((total, item) => {
+    return total + parseFloat(item.price_brutto) * item.quantity;
+  }, 0).toFixed(2);
+};
+
+updateGesamtsumme();
 </script>
 
 <template>
@@ -16,8 +25,7 @@ import { RouterLink, RouterView } from 'vue-router';
         <ul class="warenkorb-container">
           <li class="punkt-entfernen">
             <RouterLink to="/warenkorb" class="nav-link">
-              <!-- Warenkorb ({{ gesamtPreis() }}€) -->
-              Warenkorb
+              Warenkorb ({{ gesamtPreis() }}€)
             </RouterLink>
           </li>
         </ul>

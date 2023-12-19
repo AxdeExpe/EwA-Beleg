@@ -1,7 +1,12 @@
 <script setup lang="ts">
-import { store, removeFromWarenkorb } from '@/store';
+import { onMounted } from 'vue';
+import { store, removeFromWarenkorb, updateGesamtsumme } from '@/store';
 
 const warenkorb = store.value.warenkorb;
+
+onMounted(() => {
+  updateGesamtsumme();
+});
 
 const gesamtsumme = () => {
   return warenkorb.reduce((total, item) => {
