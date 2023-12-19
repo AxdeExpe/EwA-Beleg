@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { RouterLink, RouterView } from 'vue-router'
+import { RouterLink, RouterView } from 'vue-router';
 </script>
 
 <template>
@@ -12,6 +12,14 @@ import { RouterLink, RouterView } from 'vue-router'
           <li><RouterLink to="/" class="nav-link">Home</RouterLink></li>
           <li><RouterLink to="/katalog" class="nav-link">Katalog</RouterLink></li>
           <li><RouterLink to="/about" class="nav-link">About</RouterLink></li>
+        </ul>
+        <ul class="warenkorb-container">
+          <li class="punkt-entfernen">
+            <RouterLink to="/warenkorb" class="nav-link">
+              <!-- Warenkorb ({{ gesamtPreis() }}€) -->
+              Warenkorb
+            </RouterLink>
+          </li>
         </ul>
         <ul class="button-container">
            <li class="punkt-entfernen"><button class="login-button"><RouterLink to="/Login"> Login</RouterLink></button></li>  
@@ -65,5 +73,9 @@ nav {
   text-decoration: none;
   color:black;
 }
-
+.warenkorb-container{
+  display: flex;
+  justify-content: flex-end;
+  margin-right: 15px;
+}
 </style>
