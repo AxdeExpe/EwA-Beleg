@@ -21,7 +21,7 @@ let count = ref(0);
 
 onMounted(async () => {
   try {
-    let response = await fetch('http://ivm108.informatik.htw-dresden.de/ewa/g08/backend/Katalog_Beleg_Select_All.php', {
+    let response = await fetch('https://ivm108.informatik.htw-dresden.de/ewa/g08/backend/Katalog_Beleg_Select_All.php', {
     //let response = await fetch('../../../../backend/Katalog_Beleg_Select_All.php', {
       method: 'POST',
       headers: {

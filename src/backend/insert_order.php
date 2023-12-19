@@ -1,5 +1,8 @@
 <?php
 
+header('Access-Control-Allow-Origin: *');
+
+
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     if (!isset($_POST['id']) || !isset($_POST['amount']) || empty($_POST['id']) || empty($_POST['amount'])) {
