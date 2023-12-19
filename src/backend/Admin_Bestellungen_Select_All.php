@@ -63,8 +63,20 @@ if ($conn->connect_error) {
 # Orders
 
 $statement = $conn->prepare("SELECT o.order_id, o.order_date, b.id, b.title, o.amount, o.price FROM Orders o JOIN Books b ON o.book_id = b.id;");
+
+if(!$statement){
+    http_response_code(500);
+    exit;
+}
+
 $statement->execute();
 $result = $statement->get_result();
+
+if ($result->num_rows === 0) {
+    $conn->close();
+    http_response_code(404);
+    exit;
+}
 
 $statement->close();
 
@@ -75,10 +87,10 @@ if ($result) {
 
     while ($row = $result->fetch_assoc()) {
         $json = [
-            'book_id' => $row['b.id'],
-            'title' => $row['b.title'],
-            'order_id' => $row['o.order_id'],
-            'order_date' => $row['o.order_date'],
+            'book_id' => $row['id'],
+            'title' => $row['title'],
+            'order_id' => $row['order_id'],
+            'order_date' => $row['order_date'],
             'amount' => $row['amount'],
             'price' => $row['price']
         ];
@@ -88,7 +100,7 @@ if ($result) {
 
 } else {
     $conn->close();
-    http_response_code(404);
+    http_response_code(500);
     exit;
 }
 
@@ -130,7 +142,7 @@ if($result){
 }
 else{
     $conn->close();
-    http_response_code(404);
+    http_response_code(500);
     exit;
 }
 

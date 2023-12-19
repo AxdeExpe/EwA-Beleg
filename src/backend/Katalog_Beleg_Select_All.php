@@ -8,14 +8,28 @@ $database = "g08";
 $conn = new mysqli($host, $username, $password, $database);
 
 if ($conn->connect_error) {
-    die("Connection failed: " . $conn->connect_error);
+    http_response_code(500);
+    exit;
 }
 
 #echo "Successfully connected to DB!";
 
 $statement = $conn->prepare("SELECT * FROM Books");
+
+if(!$statement){
+    http_response_code(500);
+    exit;
+}
+
 $statement->execute();
 $result = $statement->get_result();
+
+if ($result->num_rows === 0) {
+    $conn->close();
+    echo "No books found in DB!";
+    http_response_code(404);
+    exit;
+}
 
 $statement->close();
 
@@ -43,10 +57,13 @@ if ($result) {
     header('Content-Type: application/json');
     $conn->close();
     #echo "Successfully fetched " . $i . " books from DB!";
+    http_response_code(200);
     echo json_encode($packetJSON);
-} else {
-    $conn->close();
-    echo "Error: " . $statement . "<br>" . $conn->error;
-}
+    } 
+    else {
+        $conn->close();
+        http_response_code(500);
+        echo "Error: " . $statement . "<br>" . $conn->error;
+    }
 
 ?>

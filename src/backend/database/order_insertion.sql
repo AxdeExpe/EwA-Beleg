@@ -1,4 +1,4 @@
-INSERT INTO Orders (book_id, order_id, order_date, amount, price_)
+INSERT INTO Orders (book_id, order_id, order_date, amount, price)
 SELECT
     b.id AS book_id,
     ? AS order_id,
