@@ -25,7 +25,7 @@ updateGesamtsumme();
         <ul class="warenkorb-container">
           <li class="punkt-entfernen">
             <RouterLink to="/warenkorb" class="nav-link">
-              Warenkorb ({{ gesamtPreis() }}€)
+              <img src="../../images/warenkorb.png" class="warenkorb_image"> ({{ gesamtPreis() }}€)
             </RouterLink>
           </li>
         </ul>
@@ -39,8 +39,14 @@ updateGesamtsumme();
 
 <style scoped>
 header {
+  display: block;
   background-color: black;
   color: white;
+  position: fixed;
+  width: 100%;
+  top: 0;
+
+  z-index: 1;
 } 
 nav {
   display: flex;
@@ -64,7 +70,8 @@ nav {
   padding: 0;
 }
 .nav-link {
-  margin-right: 15px;
+  margin: auto;
+  margin-right: 1vw;
   text-decoration: none;
   color: white;
   font-size: 20px;
@@ -73,6 +80,14 @@ nav {
   display: flex;
   justify-content: flex-end;
   margin-right: 15px;
+}
+.warenkorb_image{
+  top: 10%;
+  min-width: 15%;
+  max-width: 15%;
+  position: relative;
+  margin: auto;
+
 }
 .punkt-entfernen{
   list-style: none;

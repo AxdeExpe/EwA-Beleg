@@ -46,8 +46,9 @@ const gesamtsumme = () => {
     padding: 0;
     position: relative;
     font-size: 1;
-    border: 1px solid red;
+   border: 1px solid red;
 }
+
 h1{
     font-size: 300%;
     text-decoration: underline;

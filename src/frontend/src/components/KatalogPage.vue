@@ -74,9 +74,9 @@ let doBestellen = (item: KatalogItem) => {
 <template>
     <div>
     <div v-for="item in katalogItems" :key="item.id" class="item-box">
-      <div class="Image flex_inner">
+      <div class="Image_container flex_inner">
         <!-- <img :src="item.image" alt="Bild" width="100" height="100"> -->
-        <img :src="decodeBase64Image(item.image)" alt="Bild" width="100" height="100">
+        <img :src="decodeBase64Image(item.image)" class="image" alt="Bild" width="100" height="100">
       </div>
       <div class="titel flex_inner">
         <h1>Titel</h1>
@@ -128,35 +128,44 @@ let doBestellen = (item: KatalogItem) => {
     display: flex;
     flex-direction: row;
     flex-wrap: wrap;
+    justify-content: space-between;
+
+
     background-color: rgb(0, 80, 133);
     color: white;
     max-height: 60%;
     width: fit-content;
     max-width: 80%;
+    word-wrap: break-word;
 
     margin: auto; /*top right bottom left*/
-    margin-top: 5%;
-    margin-bottom: 5%;
+    margin-top: 10vh;
+
 
     padding: 0;
     position: relative;
-    font-size: 1;
+
     border: 1px solid red;
 }
 .flex_inner{
-    display: flex;
+    display: inline-block;
     flex-direction: column;
     max-width: 100%;
 }
-.Image{
-    text-align: center;
+.Image_container{
+ 
     border: 1px solid red;
     /* margin-left: 1em;
     margin-right: 1em; */
     margin: 1em 1em 1em 1em; /*top right bottom left*/
+}
+.image{
 
-    width: fit-content;
-    max-width: 11%;
+    border: 1px solid red;
+    max-width: 100%;
+    max-height: 100%;
+    object-fit: contain;
+
 }
 .titel{
     text-align: center;
@@ -164,6 +173,7 @@ let doBestellen = (item: KatalogItem) => {
     margin: 1em 1em ; /*top right bottom left*/
     width: fit-content;
     max-width: 11%;
+    word-wrap: break-word;
 }
 .author{
     text-align: center;
@@ -171,6 +181,7 @@ let doBestellen = (item: KatalogItem) => {
     margin: 1em 1em 1em 1em; /*top right bottom left*/
     width: fit-content;
     max-width: 11%;
+    word-wrap: break-word;
 }
 .Verlag{
     text-align: center;
@@ -178,6 +189,7 @@ let doBestellen = (item: KatalogItem) => {
     margin: 1em 1em ; /*top right bottom left*/
     width: fit-content;
     max-width: 11%;
+    word-wrap: break-word;
 }
 .beschreibung{
     text-align: center;
@@ -185,6 +197,7 @@ let doBestellen = (item: KatalogItem) => {
     margin: 1em 1em 1em 1em; /*top right bottom left*/
     width: fit-content;
     max-width: 11%;
+    word-wrap: break-word;
 }
 .Preis{
     text-align: center;
@@ -192,6 +205,7 @@ let doBestellen = (item: KatalogItem) => {
     margin: 1em 1em; /*top right bottom left*/
     width: fit-content;
     max-width: 11%;
+    word-wrap: break-word;
 }
 .Gewicht{
     text-align: center;
@@ -199,6 +213,7 @@ let doBestellen = (item: KatalogItem) => {
     margin: 1em 1em 1em 1em; /*top right bottom left*/
     width: fit-content;
     max-width: 11%;
+    word-wrap: break-word;
 }
 .Lagerbestand{
     text-align: center;
@@ -206,6 +221,7 @@ let doBestellen = (item: KatalogItem) => {
     margin: 1em 1em; /*top right bottom left*/
     width: fit-content;
     max-width: 11%;
+    word-wrap: break-word;
 }
 .Bestellung{
     text-align: center;
@@ -213,6 +229,7 @@ let doBestellen = (item: KatalogItem) => {
     margin: 1em 1em 1em 1em; /*top right bottom left*/
     width: fit-content;
     max-width: 11%;
+    word-wrap: break-word;
 }
 .menge{
     text-align: center;
