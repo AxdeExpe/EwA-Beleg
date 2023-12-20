@@ -73,7 +73,7 @@ let doBestellen = (item: KatalogItem) => {
 
 <template>
     <div>
-    <div v-for="item in katalogItems" :key="item.id" class="item-box">
+    <div v-for="item in katalogItems" :key="item.id" class="item-box" id="product">
       <div class="Image_container flex_inner">
         <!-- <img :src="item.image" alt="Bild" width="100" height="100"> -->
         <img :src="decodeBase64Image(item.image)" class="image" alt="Bild" width="100" height="100">
@@ -109,7 +109,7 @@ let doBestellen = (item: KatalogItem) => {
       <div class="Bestellung flex_inner">
         <h1>Bestellung</h1>
         <div class="menge flex_inner">
-          <p> {{ item.quantity }} </p>
+          <a> {{ item.quantity }} </a>
         </div>
         <div class="buttons">
           <button class="button" @click="item.quantity++">+</button>
@@ -124,6 +124,18 @@ let doBestellen = (item: KatalogItem) => {
 </template>
 
 <style scoped>
+h1{
+    font-size: 2vh;
+    text-decoration: underline;
+    margin: auto;
+}
+
+a{
+    font-size: 1.5vh;
+    text-decoration: none;
+    margin: auto;
+}
+
 .item-box {
     display: flex;
     flex-direction: row;
@@ -133,39 +145,41 @@ let doBestellen = (item: KatalogItem) => {
 
     background-color: rgb(0, 80, 133);
     color: white;
-    max-height: 60%;
+
     width: fit-content;
-    max-width: 80%;
-    word-wrap: break-word;
+    min-width: 90%;
+    max-width: 90%;
+
 
     margin: auto; /*top right bottom left*/
     margin-top: 10vh;
-
 
     padding: 0;
     position: relative;
 
     border: 1px solid red;
+
+    cursor: pointer;
 }
 .flex_inner{
-    display: inline-block;
     flex-direction: column;
     max-width: 100%;
+    flex: 1;
 }
-.Image_container{
- 
+.Image_container {
     border: 1px solid red;
-    /* margin-left: 1em;
-    margin-right: 1em; */
-    margin: 1em 1em 1em 1em; /*top right bottom left*/
+    margin: 1em;
+    position: relative; /* Fügt relative Positionierung hinzu, damit absolute Positionierung des Bildes relativ zum Container erfolgt */
 }
-.image{
 
+.image {
     border: 1px solid red;
-    max-width: 100%;
-    max-height: 100%;
+    width: 100%;
+    height: 100%;
     object-fit: contain;
-
+    position: absolute; /* Absolute Positionierung innerhalb des Containers */
+    top: 0;
+    left: 0;
 }
 .titel{
     text-align: center;

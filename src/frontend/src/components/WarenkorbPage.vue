@@ -35,31 +35,38 @@ const gesamtsumme = () => {
 
 <style scoped>
 .item-box {
+    margin: auto; /*top right bottom left*/
+    margin-top: 10vh;
+
     display: flex;
     flex-direction: column;
-    flex-wrap: wrap;
+
     background-color: rgb(0, 80, 133);
     color: white;
     min-height: 40%;
-    /* width: 75%; */
-    margin: 5vh 30vw 10em 30vw; /*top right bottom left*/
-    padding: 0;
+    width: 75%;
+    justify-content: center;
+    align-items: center;
     position: relative;
     font-size: 1;
-   border: 1px solid red;
+    border: 1px solid red;
+
 }
 
 h1{
     font-size: 300%;
     text-decoration: underline;
-    margin-left: 1em;
+    margin: auto;
+    
 }
 .ausgabe{
-    margin-left: 3em;
+    margin: auto;
+    border: red 1px solid;
 }
 .endsumme{
-    margin: 1em 0em 0em 1em; /*top right bottom left*/
+    margin: auto;
     font-size: 300%;
     text-decoration: underline;
 }
+
 </style>
