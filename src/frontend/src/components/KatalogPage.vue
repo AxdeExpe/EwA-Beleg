@@ -131,8 +131,13 @@ let doBestellen = (item: KatalogItem) => {
     background-color: rgb(0, 80, 133);
     color: white;
     max-height: 60%;
-    /* width: 75%; */
-    margin: 5vh 10vw 10em 10vw; /*top right bottom left*/
+    width: fit-content;
+    max-width: 80%;
+
+    margin: auto; /*top right bottom left*/
+    margin-top: 5%;
+    margin-bottom: 5%;
+
     padding: 0;
     position: relative;
     font-size: 1;
@@ -150,54 +155,64 @@ let doBestellen = (item: KatalogItem) => {
     margin-right: 1em; */
     margin: 1em 1em 1em 1em; /*top right bottom left*/
 
+    width: fit-content;
+    max-width: 11%;
 }
 .titel{
     text-align: center;
     border: 1px solid red;
-    margin: 1em 1em 1em 1em; /*top right bottom left*/
-    width: 250px;
+    margin: 1em 1em ; /*top right bottom left*/
+    width: fit-content;
+    max-width: 11%;
 }
 .author{
     text-align: center;
     border: 1px solid red;
     margin: 1em 1em 1em 1em; /*top right bottom left*/
-    width: 170px;
+    width: fit-content;
+    max-width: 11%;
 }
 .Verlag{
     text-align: center;
     border: 1px solid red;
-    margin: 1em 1em 1em 1em; /*top right bottom left*/
-    width: 150px;
+    margin: 1em 1em ; /*top right bottom left*/
+    width: fit-content;
+    max-width: 11%;
 }
 .beschreibung{
     text-align: center;
     border: 1px solid red;
     margin: 1em 1em 1em 1em; /*top right bottom left*/
-    width: 500px;
+    width: fit-content;
+    max-width: 11%;
 }
 .Preis{
     text-align: center;
     border: 1px solid red;
-    margin: 1em 1em 1em 1em; /*top right bottom left*/
-    width: 100px;
+    margin: 1em 1em; /*top right bottom left*/
+    width: fit-content;
+    max-width: 11%;
 }
 .Gewicht{
     text-align: center;
     border: 1px solid red;
     margin: 1em 1em 1em 1em; /*top right bottom left*/
-    width: 150px;
+    width: fit-content;
+    max-width: 11%;
 }
 .Lagerbestand{
     text-align: center;
     border: 1px solid red;
-    margin: 1em 1em 1em 1em; /*top right bottom left*/
-    width: 200px;
+    margin: 1em 1em; /*top right bottom left*/
+    width: fit-content;
+    max-width: 11%;
 }
 .Bestellung{
     text-align: center;
     border: 1px solid red;
     margin: 1em 1em 1em 1em; /*top right bottom left*/
-    width: 150px;
+    width: fit-content;
+    max-width: 11%;
 }
 .menge{
     text-align: center;
