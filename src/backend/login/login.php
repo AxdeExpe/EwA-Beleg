@@ -41,7 +41,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $conn->close();
 
     while($row = $result->fetch_assoc()){
-        if ($row['pw'] === $passwort && $row['is_admin'] === 1) {
+        if (password_verify($passwort, $row['pw']) && $row['is_admin'] === 1) {
             # login successful
             http_response_code(200);
             exit;
