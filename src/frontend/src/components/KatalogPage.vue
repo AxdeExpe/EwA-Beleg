@@ -60,6 +60,11 @@ let decodeBase64Image = (base64String: string) => {
 };
 
 let doBestellen = (item: KatalogItem) => {
+
+  if(item.quantity <= 0){
+    return;
+  }
+
   if (item.stock < item.quantity) {
     alert('Nicht genügend Exemplare auf Lager');
     item.quantity = 0;
@@ -69,6 +74,20 @@ let doBestellen = (item: KatalogItem) => {
   addToWarenkorb(item);
   item.quantity = 0;
 };
+
+let increaseQuantity = (item: KatalogItem) => {
+  item.quantity++;
+};
+
+let decreaseQuantity = (item: KatalogItem) => {
+
+  if(item.quantity <= 0){
+    return;
+  }
+
+  item.quantity--;
+};
+
 </script>
 
 <template>
@@ -111,8 +130,8 @@ let doBestellen = (item: KatalogItem) => {
           <a> {{ item.quantity }} </a>
         </div>
         <div class="buttons">
-          <button class="button" @click="item.quantity++">+</button>
-          <button class="button" @click="item.quantity--">-</button>
+          <button class="button" @click="increaseQuantity(item)">+</button>
+          <button class="button" @click="decreaseQuantity(item)">-</button>
         </div>
         <div class="buttons">
           <button class="bestellen" @click="doBestellen(item)">In den Warenkorb</button>
