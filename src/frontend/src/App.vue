@@ -18,30 +18,28 @@ let logOutAlert = () => {
 <template>
     <header>
       <nav>
-        <div class="brand-container">
-          <div class="brand">Buchshop</div>
-        </div>
-        <ul class="nav-container">
-          <li><RouterLink to="/" class="nav-link">Home</RouterLink></li>
-          <li><RouterLink to="/katalog" class="nav-link">Katalog</RouterLink></li>
-          <li><RouterLink to="/about" class="nav-link">About</RouterLink></li>
-        </ul>
+        <div class="brand">Buchshop</div>
+
+        <div class="nav-container">
+            <div><RouterLink to="/" class="nav-link">Home</RouterLink></div>
+            <div><RouterLink to="/katalog" class="nav-link">Katalog</RouterLink></div>
+            <div><RouterLink to="/about" class="nav-link">About</RouterLink></div>
+        </div>        
+
         <div class="right-top">
-          <ul class="warenkorb-container">
-            <li class="punkt-entfernen">
+          <div class="warenkorb-container">
               <RouterLink to="/warenkorb" class="nav-link">
                 <img src="../../images/warenkorb.png" class="warenkorb_image"> ({{ gesamtPreis() }}€)
               </RouterLink>
-            </li>
-          </ul>
-          <ul class="button-container">
-            <div v-if="isloggedIn === true" class="login-button" @click="isloggedIn = false; updateIsloggedIn(false), logOutAlert()">
+          </div>
+          <div class="button-container">
+            <div v-if="isloggedIn === true" class="nav-link" @click="isloggedIn = false; updateIsloggedIn(false), logOutAlert()">
               <RouterLink to="/Login" class="login-button-text">Logout</RouterLink>
             </div>
-            <div v-if="isloggedIn === false" class="login-button">
+            <div v-if="isloggedIn === false" class="nav-link">
               <RouterLink to="/Login" class="login-button-text">Login</RouterLink>
             </div>
-          </ul>
+          </div>
         </div>
       </nav>
     </header>
@@ -49,13 +47,10 @@ let logOutAlert = () => {
 </template>
 
 <style scoped>
-.login-button{
-  font-size: 150%;
-  margin-right: 15%;
-}
 .login-button-text{
   text-decoration: none;
   color: white;
+  font-size: 150%;
 }
 header {
   display: block;
@@ -66,15 +61,13 @@ header {
   top: 0;
   z-index: 1;
 } 
-nav {
+nav{
   display: flex;
   justify-content: space-between;
   align-items: center;   
   padding: 5px;
   font-size: 250%;     
   border: 2px solid white; 
-  /* background-image: url(../../images/wallpaper.jpg); */
-
 }
 .brand {
   font-size: 1.5em;
@@ -94,6 +87,9 @@ nav {
   margin-right: 1vw;
   text-decoration: none;
   color: white;
+}
+.nav-link:hover {
+  border-bottom: 2px solid #c278ff;
 }
 .right-top{
   display: flex;

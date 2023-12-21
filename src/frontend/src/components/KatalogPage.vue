@@ -164,25 +164,17 @@ a{
     flex-direction: row;
     flex-wrap: wrap;
     justify-content: space-between;
-
-
     background-color: rgb(0, 80, 133);
     color: white;
-
     width: fit-content;
     min-width: 90%;
     max-width: 90%;
-
-
     margin: auto; /*top right bottom left*/
     margin-top: 10vh;
-
     padding: 0;
     position: relative;
-
-    border: 1px solid red;
-
     cursor: pointer;
+    /* border: 1px solid red;     */
 }
 .flex_inner{
     flex-direction: column;
@@ -190,93 +182,93 @@ a{
     /* flex: 1; */
 }
 .Image_container {
-    border: 1px solid red;
     margin: 1em -3em 1em 1em; /*top right bottom left*/
     position: relative; /* Fügt relative Positionierung hinzu, damit absolute Positionierung des Bildes relativ zum Container erfolgt */
     width: 10%;
+    /* border: 1px solid red; */
 }
 
 .image {
-    border: 1px solid red;
     width: 100%;
     height: 100%;
     object-fit: contain;
     position: absolute; /* Absolute Positionierung innerhalb des Containers */
     top: 0;
     left: 0;
+    /* border: 1px solid red; */
 }
 .titel{
     text-align: center;
-    border: 1px solid red;
     margin: 1em -3em 1em -3em; /*top right bottom left*/
     width: fit-content;
     width: 9%;
     word-wrap: break-word;
+    /* border: 1px solid red; */
 }
 .author{
     text-align: center;
-    border: 1px solid red;
     margin: 1em -3em 1em -3em; /*top right bottom left*/
     width: fit-content;
     width: 9%;
     word-wrap: break-word;
+    /* border: 1px solid red; */
 }
 .Verlag{
     text-align: center;
-    border: 1px solid red;
     margin: 1em -3em 1em -3em; /*top right bottom left*/
     width: fit-content;
     width: 9%;
     word-wrap: break-word;
+    /* border: 1px solid red; */
 }
 .beschreibung{
     text-align: center;
-    border: 1px solid red;
     margin: 1em -3em 1em -3em; /*top right bottom left*/
     width: fit-content;
     width: 25%;
     word-wrap: break-word;
+    /* border: 1px solid red; */
 }
 .Preis{
     text-align: center;
-    border: 1px solid red;
     margin: 1em -3em 1em -3em; /*top right bottom left*/
     width: fit-content;
     width: 7%;
     word-wrap: break-word;
+    /* border: 1px solid red; */
 }
 .Gewicht{
     text-align: center;
-    border: 1px solid red;
     margin: 1em -3em 1em -3em; /*top right bottom left*/
     width: fit-content;
     width: 7%;
     word-wrap: break-word;
+    /* border: 1px solid red; */
 }
 .Lagerbestand{
     text-align: center;
-    border: 1px solid red;
     margin: 1em -3em 1em -3em; /*top right bottom left*/
     width: fit-content;
     width: 7%;
     word-wrap: break-word;
+    /* border: 1px solid red; */
 }
 .Bestellung{
     text-align: center;
-    border: 1px solid red;
     margin: 1em 0.5em 1em -3em; /*top right bottom left*/
     width: fit-content;
     width: 7%;
     word-wrap: break-word;
+        /* border: 1px solid red; */
 }
 /* Ab hier unter Objekte der Bestellungs-box */
 .menge{
     text-align: center;
-    border: 1px solid red;
+    /* border: 1px solid red; */
     margin: 1.5em 0.5em 0.5em 0.5em; /*top right bottom left*/
 }
 .buttons{
-    border: 1px solid red;
+    /* border: 1px solid red; */
     display: flex;
     margin: 1.5em 0.5em 0.5em 0.5em; /*top right bottom left*/
 }
