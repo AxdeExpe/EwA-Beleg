@@ -196,7 +196,14 @@ a{
     top: 0;
     left: 0;
     /* border: 1px solid red; */
+    transition: transform 0.3s ease;
 }
+
+.image:hover{
+  transform: scale(2);
+  z-index: 1;
+}
+
 .titel{
     text-align: center;
     margin: 1em -3em 1em -3em; /*top right bottom left*/

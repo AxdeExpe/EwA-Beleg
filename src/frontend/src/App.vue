@@ -27,12 +27,8 @@ let logOutAlert = () => {
         </div>        
         
         <div class="searchbar-container">
-          <ul class="searchbar">
-            <li class="punkt-entfernen">
-              <input type="text" placeholder="Suche..." class="searchbar-input">
-              <img src="../images/search-lens.png" class="search-button">
-            </li>
-          </ul>
+          <input type="text" placeholder="Suche..." class="searchbar-input">
+          <img src="../images/search-lens.png" class="search-button">
         </div>
 
         <div class="right-top">
@@ -102,8 +98,7 @@ nav{
 }
 .right-top{
   display: flex;
-  justify-content: center;
-  align-items: center;
+
   margin: auto;
   position: absolute;
   right: 0;  
@@ -130,58 +125,47 @@ nav{
 
 .searchbar-container{
   display: flex;
-  position: fixed;
+  position: relative;
   margin: auto;
-  justify-content: flex-start;
 
-  height: 10%;
-  width: 30%;
+  width: 25%;
 
-  right: 30%;
+  right: 25%;
+  top: 5px;
   
-  border: 2px solid red;
+  border: 2px solid white;
+  border-radius: 100px;
   font-size: 1.5vh;
-  text-decoration: none;
-  color: white;
-  background-color: black;
-}
 
-.searchbar{
-  display: inline;
-  height: 100%;
-  list-style: none;
 }
 
 .searchbar-input{
   display: flex;
+  position: relative;
 
   margin: auto;
 
   height: 100%;
   width: 100%;
-  border: 2px solid red;
+  border: none;
+  outline: none;
+  background: rgba(0, 0, 0, 0);
+
   font-size: 1.5vh;
   text-decoration: none;
   color: white;
-  background-color: black;
 
-  border-radius: 50%;
-  border: solid 1px lightgray;
 }
 
 .search-button{
   display: flex;
-  justify-content: center;
-  align-items: center;
-  margin: auto;
-  margin-left: 1vw;
-  height: 100%;
 
-  min-width: 15%;
-  max-width: 15%;
+  margin-right: 3%;
+  margin-top: 2%;
+  margin-bottom: 2%;
+
+  min-width: 10%;
+  max-width: 10%;
   position: relative;
-
-
-  border: 2px solid red;
 }
 </style>
