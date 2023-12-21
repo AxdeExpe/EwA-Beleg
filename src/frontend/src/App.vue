@@ -26,6 +26,16 @@ let logOutAlert = () => {
           <li><RouterLink to="/katalog" class="nav-link">Katalog</RouterLink></li>
           <li><RouterLink to="/about" class="nav-link">About</RouterLink></li>
         </ul>
+
+        <div class="searchbar-container">
+          <ul class="searchbar">
+            <li class="punkt-entfernen">
+              <input type="text" placeholder="Suche..." class="searchbar-input">
+              <img src="../images/search-lens.png" class="search-button">
+            </li>
+          </ul>
+        </div>
+
         <div class="right-top">
           <ul class="warenkorb-container">
             <li class="punkt-entfernen">
@@ -121,5 +131,62 @@ nav {
   justify-content: flex-end;
   margin: auto;
   list-style: none;
+}
+
+.searchbar-container{
+  display: flex;
+  position: fixed;
+  margin: auto;
+  justify-content: flex-start;
+
+  height: 10%;
+  width: 30%;
+
+  right: 30%;
+  
+  border: 2px solid red;
+  font-size: 1.5vh;
+  text-decoration: none;
+  color: white;
+  background-color: black;
+}
+
+.searchbar{
+  display: inline;
+  height: 100%;
+  list-style: none;
+}
+
+.searchbar-input{
+  display: flex;
+
+  margin: auto;
+
+  height: 100%;
+  width: 100%;
+  border: 2px solid red;
+  font-size: 1.5vh;
+  text-decoration: none;
+  color: white;
+  background-color: black;
+
+  border-radius: 50%;
+  border: solid 1px lightgray;
+}
+
+.search-button{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: auto;
+  margin-left: 1vw;
+  height: 100%;
+
+  min-width: 15%;
+  max-width: 15%;
+  position: relative;
+
+
+  border: 2px solid red;
 }
 </style>
