@@ -20,9 +20,9 @@ export const updateIsloggedIn = (value: boolean) => {
   isloggedIn.value = value;
 };
 
-interface WarenkorbItem extends KatalogItem {
-    quantity: number;
-};
+// interface WarenkorbItem extends KatalogItem {
+//     quantity: number;
+// };
 
 interface Store {
   warenkorb: KatalogItem[];
@@ -34,7 +34,15 @@ export const store = ref<Store>({
 
 export const addToWarenkorb = (item: KatalogItem) => {
   // Hier kannst du deine Logik für die Überprüfung des Lagerbestands usw. hinzufügen
-  store.value.warenkorb.push({ ...item, quantity: item.quantity });
+  // store.value.warenkorb.push({ ...item, quantity: item.quantity });
+  const existingItemIndex = store.value.warenkorb.findIndex((cartItem) => cartItem.id === item.id);
+
+  if (existingItemIndex !== -1) {
+    store.value.warenkorb[existingItemIndex].quantity += item.quantity;
+  } else {
+    store.value.warenkorb.push({ ...item, quantity: item.quantity });
+  }
+  updateGesamtsumme();
 };
 
 export const removeFromWarenkorb = (itemId: number) => {
