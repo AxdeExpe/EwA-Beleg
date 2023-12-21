@@ -14,6 +14,12 @@ interface KatalogItem {
     quantity: number;
 }
 
+export const isloggedIn = ref(false);
+
+export const updateIsloggedIn = (value: boolean) => {
+  isloggedIn.value = value;
+};
+
 interface WarenkorbItem extends KatalogItem {
     quantity: number;
 };

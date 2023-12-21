@@ -1,11 +1,12 @@
 <script setup lang="ts">
     import { ref } from "vue";
     import { useRouter } from "vue-router";
+    import { updateIsloggedIn  } from "@/store";
     
     let username = ref('');
     let password = ref('');
     let router = useRouter();
-
+    
     let doLogin = async () => {
       try {
         let response = await fetch('http://ivm108.informatik.htw-dresden.de/ewa/g08/backend/login.php', {
@@ -21,6 +22,7 @@
 
         if (response.ok) {
           console.log('Login erfolgreich');
+          updateIsloggedIn(true);
           router.push('/');
           alert('Login erfolgreich');
         } else if (response.status === 400) {
@@ -67,11 +69,11 @@ html{
 .flex {
   display: flex;
   flex-direction: column;
-  background-color: black;
+  /* background-color: black; */
   height: 100%;
 }
 .flex-box {
-  background-color: black;
+  /* background-color: black; */
   display: flex;
   align-items: center;
   justify-content: center;

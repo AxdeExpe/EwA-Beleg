@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { RouterLink, RouterView } from 'vue-router';
-import { store, updateGesamtsumme } from '@/store';
+import { store, updateGesamtsumme, isloggedIn, updateIsloggedIn } from '@/store';
 
 let gesamtPreis = () => {
   return store.value.warenkorb.reduce((total, item) => {
@@ -9,6 +9,10 @@ let gesamtPreis = () => {
 };
 
 updateGesamtsumme();
+
+let logOutAlert = () => {
+  alert('Logout erfolgreich');
+};
 </script>
 
 <template>
@@ -31,7 +35,12 @@ updateGesamtsumme();
             </li>
           </ul>
           <ul class="button-container">
-            <li class="punkt-entfernen"><button class="login-button"><RouterLink to="/Login"> Login</RouterLink></button></li>  
+            <div v-if="isloggedIn === true" class="login-button" @click="isloggedIn = false; updateIsloggedIn(false), logOutAlert()">
+              <RouterLink to="/Login" class="login-button-text">Logout</RouterLink>
+            </div>
+            <div v-if="isloggedIn === false" class="login-button">
+              <RouterLink to="/Login" class="login-button-text">Login</RouterLink>
+            </div>
           </ul>
         </div>
       </nav>
@@ -40,6 +49,14 @@ updateGesamtsumme();
 </template>
 
 <style scoped>
+.login-button{
+  font-size: 150%;
+  margin-right: 15%;
+}
+.login-button-text{
+  text-decoration: none;
+  color: white;
+}
 header {
   display: block;
   background-color: black;
@@ -47,78 +64,62 @@ header {
   position: fixed;
   width: 100%;
   top: 0;
-
   z-index: 1;
 } 
 nav {
   display: flex;
   justify-content: space-between;
-  align-items: center; 
-  border: 2px solid red; 
-  padding: 5px;       
+  align-items: center;   
+  padding: 5px;
+  font-size: 250%;     
+  border: 2px solid white; 
+  /* background-image: url(../../images/wallpaper.jpg); */
+
 }
 .brand {
   font-size: 1.5em;
   margin-right: 30px;
-  border: 2px solid red;
   padding: 0.1em;
+  /* border: 2px solid red; */
 }
 .nav-container {
   display: flex;
-
-  border: red 2px solid;
   list-style: none;
   flex-grow: 1;
-
-  padding: 0;
+  padding: 0;  
+  /* border: red 2px solid; */
 }
 .nav-link {
   margin: auto;
   margin-right: 1vw;
   text-decoration: none;
   color: white;
-  font-size: 20px;
 }
-
 .right-top{
   display: flex;
   justify-content: center;
   align-items: center;
-  border: 2px solid red;
-
   margin: auto;
   position: absolute;
-  right: 0;
+  right: 0;  
+  /* border: 2px solid red; */
 }
-
 .button-container{
   display: flex;
-
   justify-content: flex-end;
   margin-right: 15px;
-
+  list-style: none;
 }
 .warenkorb_image{
-
   min-width: 15%;
   max-width: 15%;
   position: relative;
   top: 5px;
-
-}
-.punkt-entfernen{
-  list-style: none;
-}
-.login-button{
-  text-decoration: none;
-  color:black;
 }
 .warenkorb-container{
-
   right: 5%;
   justify-content: flex-end;
   margin: auto;
-
+  list-style: none;
 }
-
 </style>

@@ -75,7 +75,6 @@ let doBestellen = (item: KatalogItem) => {
     <div>
     <div v-for="item in katalogItems" :key="item.id" class="item-box" id="product">
       <div class="Image_container flex_inner">
-        <!-- <img :src="item.image" alt="Bild" width="100" height="100"> -->
         <img :src="decodeBase64Image(item.image)" class="image" alt="Bild" width="100" height="100">
       </div>
       <div class="titel flex_inner">
@@ -164,12 +163,13 @@ a{
 .flex_inner{
     flex-direction: column;
     max-width: 100%;
-    flex: 1;
+    /* flex: 1; */
 }
 .Image_container {
     border: 1px solid red;
-    margin: 1em;
+    margin: 1em -3em 1em 1em; /*top right bottom left*/
     position: relative; /* Fügt relative Positionierung hinzu, damit absolute Positionierung des Bildes relativ zum Container erfolgt */
+    width: 10%;
 }
 
 .image {
@@ -184,67 +184,68 @@ a{
 .titel{
     text-align: center;
     border: 1px solid red;
-    margin: 1em 1em ; /*top right bottom left*/
+    margin: 1em -3em 1em -3em; /*top right bottom left*/
     width: fit-content;
-    max-width: 11%;
+    width: 9%;
     word-wrap: break-word;
 }
 .author{
     text-align: center;
     border: 1px solid red;
-    margin: 1em 1em 1em 1em; /*top right bottom left*/
+    margin: 1em -3em 1em -3em; /*top right bottom left*/
     width: fit-content;
-    max-width: 11%;
+    width: 9%;
     word-wrap: break-word;
 }
 .Verlag{
     text-align: center;
     border: 1px solid red;
-    margin: 1em 1em ; /*top right bottom left*/
+    margin: 1em -3em 1em -3em; /*top right bottom left*/
     width: fit-content;
-    max-width: 11%;
+    width: 9%;
     word-wrap: break-word;
 }
 .beschreibung{
     text-align: center;
     border: 1px solid red;
-    margin: 1em 1em 1em 1em; /*top right bottom left*/
+    margin: 1em -3em 1em -3em; /*top right bottom left*/
     width: fit-content;
-    max-width: 11%;
+    width: 25%;
     word-wrap: break-word;
 }
 .Preis{
     text-align: center;
     border: 1px solid red;
-    margin: 1em 1em; /*top right bottom left*/
+    margin: 1em -3em 1em -3em; /*top right bottom left*/
     width: fit-content;
-    max-width: 11%;
+    width: 7%;
     word-wrap: break-word;
 }
 .Gewicht{
     text-align: center;
     border: 1px solid red;
-    margin: 1em 1em 1em 1em; /*top right bottom left*/
+    margin: 1em -3em 1em -3em; /*top right bottom left*/
     width: fit-content;
-    max-width: 11%;
+    width: 7%;
     word-wrap: break-word;
 }
 .Lagerbestand{
     text-align: center;
     border: 1px solid red;
-    margin: 1em 1em; /*top right bottom left*/
+    margin: 1em -3em 1em -3em; /*top right bottom left*/
     width: fit-content;
-    max-width: 11%;
+    width: 7%;
     word-wrap: break-word;
 }
 .Bestellung{
     text-align: center;
     border: 1px solid red;
-    margin: 1em 1em 1em 1em; /*top right bottom left*/
+    margin: 1em 0.5em 1em -3em; /*top right bottom left*/
     width: fit-content;
-    max-width: 11%;
+    width: 7%;
     word-wrap: break-word;
 }
+/* Ab hier unter Objekte der Bestellungs-box */
 .menge{
     text-align: center;
     border: 1px solid red;
