@@ -41,7 +41,12 @@ onMounted(async () => {
       let data = await response.json();
       katalogItems.value = data.map((item: KatalogItem) => ({ ...item, quantity: 0 }));
       console.log(data);
-    } else {
+    }
+    else if(response.status === 404){
+      alert('Katalog nicht gefunden');
+      console.error('Fehler beim Abrufen des Katalogs: Katalog nicht gefunden');
+    } 
+    else {
       console.error('Fehler beim Abrufen des Katalogs: Serverfehler');
     }
   } catch (error) {
@@ -60,6 +65,11 @@ let decodeBase64Image = (base64String: string) => {
 };
 
 let doBestellen = (item: KatalogItem) => {
+
+  if(item.quantity <= 0){
+    return;
+  }
+
   if (item.stock < item.quantity) {
     alert('Nicht genügend Exemplare auf Lager');
     item.quantity = 0;
@@ -69,6 +79,20 @@ let doBestellen = (item: KatalogItem) => {
   addToWarenkorb(item);
   item.quantity = 0;
 };
+
+let increaseQuantity = (item: KatalogItem) => {
+  item.quantity++;
+};
+
+let decreaseQuantity = (item: KatalogItem) => {
+
+  if(item.quantity <= 0){
+    return;
+  }
+
+  item.quantity--;
+};
+
 </script>
 
 <template>
@@ -111,8 +135,8 @@ let doBestellen = (item: KatalogItem) => {
           <a> {{ item.quantity }} </a>
         </div>
         <div class="buttons">
-          <button class="button" @click="item.quantity++">+</button>
-          <button class="button" @click="item.quantity--">-</button>
+          <button class="button" @click="increaseQuantity(item)">+</button>
+          <button class="button" @click="decreaseQuantity(item)">-</button>
         </div>
         <div class="buttons">
           <button class="bestellen" @click="doBestellen(item)">In den Warenkorb</button>
