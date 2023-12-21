@@ -41,7 +41,12 @@ onMounted(async () => {
       let data = await response.json();
       katalogItems.value = data.map((item: KatalogItem) => ({ ...item, quantity: 0 }));
       console.log(data);
-    } else {
+    }
+    else if(response.status === 404){
+      alert('Katalog nicht gefunden');
+      console.error('Fehler beim Abrufen des Katalogs: Katalog nicht gefunden');
+    } 
+    else {
       console.error('Fehler beim Abrufen des Katalogs: Serverfehler');
     }
   } catch (error) {
