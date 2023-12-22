@@ -15,9 +15,14 @@ interface KatalogItem {
 }
 
 export const isloggedIn = ref(false);
+export const is_admin = ref(false);
 
 export const updateIsloggedIn = (value: boolean) => {
   isloggedIn.value = value;
+};
+
+export const updateIsAdmin = (value: boolean) => {
+  is_admin.value = value;
 };
 
 // interface WarenkorbItem extends KatalogItem {

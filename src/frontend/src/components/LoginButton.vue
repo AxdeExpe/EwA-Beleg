@@ -1,10 +1,11 @@
 <script setup lang="ts">
     import { ref } from "vue";
     import { useRouter } from "vue-router";
-    import { updateIsloggedIn  } from "@/store";
+    import { updateIsloggedIn, updateIsAdmin  } from "@/store";
     
     let username = ref('');
     let password = ref('');
+    let is_admin = ref(false);
     let router = useRouter();
     
     let doLogin = async () => {
@@ -21,6 +22,15 @@
         });
 
         if (response.ok) {
+          let data = await response.json();
+
+          if(data.is_admin === '1'){
+            updateIsAdmin(true);
+          }
+          else{
+            updateIsAdmin(false);
+          }
+
           console.log('Login erfolgreich');
           updateIsloggedIn(true);
           router.push('/');

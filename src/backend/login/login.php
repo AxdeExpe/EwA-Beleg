@@ -51,6 +51,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         if (password_verify($passwort, $row['pw']) && $row['is_admin'] === 1) {
             # login successful
             http_response_code(200);
+            echo json_encode(array("is_admin" => "1"));
+            exit;
+        }
+        if (password_verify($passwort, $row['pw']) && $row['is_admin'] === 0) {
+            # login successful
+            http_response_code(200);
+            echo json_encode(array("is_admin" => "0"));
             exit;
         } 
     }

@@ -63,6 +63,28 @@ if ($result->num_rows !== 0) {
 
 $statement->close();
 
+
+
+$statement = $conn->prepare("SELECT * FROM Users WHERE username = ?");
+
+if(!$statement){
+    http_response_code(500);
+    exit;
+}
+
+$statement->bind_param("s", $_POST['username']);
+$statement->execute();
+$result = $statement->get_result();
+
+if ($result->num_rows !== 0) {
+    $conn->close();
+    echo "User already exists!";
+    http_response_code(409);
+    exit;
+}
+
+$statement->close();
+
 # insert user into DB
 
 $hashedPassword = password_hash($_POST['password'], PASSWORD_DEFAULT);
