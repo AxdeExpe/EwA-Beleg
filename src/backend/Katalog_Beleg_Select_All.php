@@ -14,6 +14,13 @@ if ($conn->connect_error) {
     exit;
 }
 
+
+if (!$conn->set_charset("utf8mb4")) {
+    echo "Fehler beim Laden von UTF-8 " . $conn->error;
+    http_response_code(500);
+    exit;
+}
+
 #echo "Successfully connected to DB!";
 
 $statement = $conn->prepare("SELECT * FROM Books");

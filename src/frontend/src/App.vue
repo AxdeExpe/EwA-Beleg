@@ -92,10 +92,25 @@ nav{
   margin-right: 1vw;
   text-decoration: none;
   color: white;
+  position: relative;
 }
-.nav-link:hover {
-  border-bottom: 2px solid #c278ff;
+
+.nav-link::before {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 0;
+  height: 2px;
+  background-color: #c278ff;
+  transition: width 0.3s ease; /* Füge eine sanfte Übergangsanimation hinzu */
 }
+
+.nav-link:hover::before {
+  width: 100%;
+}
+
+
 .right-top{
   display: flex;
 
@@ -129,9 +144,10 @@ nav{
   margin: auto;
 
   width: 25%;
+  height: 3vh;
 
   right: 25%;
-  top: 5px;
+
   
   border: 2px solid white;
   border-radius: 100px;

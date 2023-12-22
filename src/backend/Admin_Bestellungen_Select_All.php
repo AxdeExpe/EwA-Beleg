@@ -60,6 +60,13 @@ if ($conn->connect_error) {
 }
 
 
+if (!$conn->set_charset("utf8mb4")) {
+    echo "Fehler beim Laden von UTF-8 " . $conn->error;
+    http_response_code(500);
+    exit;
+}
+
+
 
 # Datapacket: JSON: {Purchase: [{book_id, title, order_id, order_date, order_date, amount, price}, ...], Stock: [{book_id, title, author, description, publisher, price_netto, weight, stock}, ...]}
 
