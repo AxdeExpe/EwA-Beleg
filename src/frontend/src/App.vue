@@ -171,17 +171,26 @@ nav{
   text-decoration: none;
   color: white;
 
+
+
 }
 
 .search-button{
   display: flex;
 
-  margin-right: 3%;
-  margin-top: 2%;
-  margin-bottom: 2%;
 
-  min-width: 10%;
-  max-width: 10%;
+
+  height: 100%;
+  margin-right: 1%;
+  padding: 1%;
+
   position: relative;
+  transition: transform 0.15s ease;
 }
+
+.search-button:hover{
+  transform: scale(0.85);
+  cursor: pointer;
+}
+
 </style>

@@ -18,6 +18,7 @@ interface KatalogItem {
 let katalogItems = ref<Array<KatalogItem>>([]);
 
 onMounted(async () => {
+
   try {
     let response = await fetch('https://ivm108.informatik.htw-dresden.de/ewa/g08/backend/Katalog_Beleg_Select_All.php', {
       method: 'POST',
@@ -164,6 +165,7 @@ let resizeProduct = (item: KatalogItem, index: number) => {
 </template>
 
 <style scoped>
+
 h1{
     font-size: 2vh;
     text-decoration: underline;
