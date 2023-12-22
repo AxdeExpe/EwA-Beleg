@@ -1,61 +1,75 @@
 <script setup lang="ts">
     import { ref } from "vue";
     import { useRouter } from "vue-router";
-    import { updateIsloggedIn  } from "@/store";
     
     let username = ref('');
     let password = ref('');
+    let email = ref('');
     let router = useRouter();
     
-    let doLogin = async () => {
+    let register = async () => {
+
+     if (!isValidEmail(email.value)) {
+        alert('Bitte geben Sie eine gültige E-Mail-Adresse ein!');
+        return;
+     }
+
+     
       try {
-        let response = await fetch('http://ivm108.informatik.htw-dresden.de/ewa/g08/backend/login.php', {
+        let response = await fetch('http://ivm108.informatik.htw-dresden.de/ewa/g08/backend/register.php', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/x-www-form-urlencoded',
           },
           body: new URLSearchParams({
+            email: email.value,
             username: username.value,
             password: password.value,
           }),
         });
 
         if (response.ok) {
-          console.log('Login erfolgreich');
-          updateIsloggedIn(true);
+          console.log('Registrierung erfolgreich');
           router.push('/');
-          alert('Login erfolgreich');
-        } else if (response.status === 400) {
-          console.error('username or password are empty or not set, no POST-Request');
-          alert('username or password are empty or not set, no POST-Request');
+          alert('Registrierung erfolgreich');
+        }else if(response.status === 409){
+            alert('User existiert bereits!');
+            console.error('Fehler beim Registrieren: Username bereits vergeben');
+        } 
+        else if (response.status === 400) {
+          console.error('email or username or password are empty or not set, no POST-Request');
+          alert('email or username or password are empty or not set, no POST-Request');
           username.value = '';
           password.value = '';
-        } else if (response.status === 401) {
-          console.error('not authorized');
-          alert('not authorized');
-          username.value = '';
-          password.value = '';
-        } else if (response.status === 500) {
+          email.value = '';
+        }
+        else if (response.status === 500) {
           console.error('Server Error');
           alert('Server Error');
           username.value = '';
           password.value = '';
+          email.value = '';
         }
       } catch (error) {
         console.error('Fehler bei der Anfrage:', error);}
     };
+
+    function isValidEmail(email: string) {
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        return emailRegex.test(email);
+    }
 </script>
 
 <template>
     <div class="flex">
       <div class="flex-box">
         <div class="login">
-          <div class="login-header">Sign in</div>
+          <div class="login-header">Register</div>
             <input v-model="username" type="text" class="username form-control" placeholder="Username" required><br>
-            <input v-model="password" @keydown.enter="doLogin" type="password" class="password form-control" placeholder="Password" required><br>
-            <button @click="doLogin" class="btn btn-primary">Login</button>
-            <button @click="router.push('/register')" class="register">Register</button>
-        </div>
+            <input v-model="password"  type="password" class="password form-control" placeholder="Password" required><br>
+            <input v-model="email" @keydown.enter="register" type="text" class="username form-control" placeholder="E-Mail" required><br>
+            <button @click="register" class="btn btn-primary">Register</button>
+          </div>
       </div>
     </div>
 </template>
@@ -118,29 +132,5 @@ input[type="submit"]:hover {
   background-color: #440000;
   font-weight: bold;
   color: white;
-}
-
-.register{
-  
-  left: 100%;
-  position: relative;
-
-  background-color: rgb(212, 212, 212);
-  padding: 10px;
-  margin: auto;
-  box-sizing: border-box;
-  max-width: 100%;
-  width: fit-content;
-  font-weight: bold;
-  text-align: center;
-
-  border: 1px solid black;
-  border-radius: 7px;
-  cursor: pointer;
-}
-
-.register:hover {
-  background-color: rgba(212, 212, 212,0.8);
-  font-weight: bold;
 }
 </style>
