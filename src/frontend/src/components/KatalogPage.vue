@@ -36,7 +36,6 @@ onMounted(async () => {
         stock: 'stock',
       }),
     });
-
     if (response.ok) {
       let data = await response.json();
       katalogItems.value = data.map((item: KatalogItem) => ({ ...item, quantity: 0 }));
@@ -93,13 +92,31 @@ let decreaseQuantity = (item: KatalogItem) => {
   item.quantity--;
 };
 
+let resizeProduct = (item: KatalogItem, index: number) => {
+
+  let container = document.getElementById(item.id.toString());
+
+  if(container === null){
+    return;
+  }
+
+  let isOverflowing = container.scrollHeight > container.offsetHeight;
+
+  if (isOverflowing) {
+    container.style.maxHeight = 'fit-content';
+
+  } else {
+    container.style.maxHeight = '50vh';
+  }
+};
+
 </script>
 
 <template>
     <div>
-    <div v-for="item in katalogItems" :key="item.id" class="item-box" id="product">
+    <div v-for="(item, index) in katalogItems" :key="item.id" class="item-box" :id="item.id.toString()" @click="resizeProduct(item, index)">
       <div class="Image_container flex_inner">
-        <img :src="decodeBase64Image(item.image)" class="image" alt="Bild" width="100" height="100">
+        <img :src="decodeBase64Image(item.image)" class="image" alt="Product_Image" width="100" height="100">
       </div>
       <div class="titel flex_inner">
         <h1>Titel</h1>
@@ -159,22 +176,30 @@ a{
     margin: auto;
 }
 
+
 .item-box {
     display: flex;
-    flex-direction: row;
-    flex-wrap: wrap;
     justify-content: space-between;
+
     background-color: rgb(0, 80, 133);
     color: white;
+    overflow: hidden;
+
     width: fit-content;
     min-width: 90%;
     max-width: 90%;
+
+    height: fit-content;
+
+    max-height: 50vh;
+
     margin: auto; /*top right bottom left*/
     margin-top: 10vh;
+
     padding: 0;
     position: relative;
+
     cursor: pointer;
-    /* border: 1px solid red;     */
 }
 .flex_inner{
     flex-direction: column;
@@ -182,27 +207,21 @@ a{
     /* flex: 1; */
 }
 .Image_container {
+    justify-content: center;
     margin: 1em -3em 1em 1em; /*top right bottom left*/
-    position: relative; /* Fügt relative Positionierung hinzu, damit absolute Positionierung des Bildes relativ zum Container erfolgt */
+    position: relative; 
     width: 10%;
-    /* border: 1px solid red; */
 }
 
 .image {
     width: 100%;
     height: 100%;
     object-fit: contain;
-    position: absolute; /* Absolute Positionierung innerhalb des Containers */
+
     top: 0;
     left: 0;
-    /* border: 1px solid red; */
-    transition: transform 0.3s ease;
 }
 
-.image:hover{
-  transform: scale(2);
-  z-index: 1;
-}
 
 .titel{
     text-align: center;
@@ -210,7 +229,6 @@ a{
     width: fit-content;
     width: 9%;
     word-wrap: break-word;
-    /* border: 1px solid red; */
 }
 .author{
     text-align: center;
@@ -218,7 +236,6 @@ a{
     width: fit-content;
     width: 9%;
     word-wrap: break-word;
-    /* border: 1px solid red; */
 }
 .Verlag{
     text-align: center;
@@ -226,7 +243,6 @@ a{
     width: fit-content;
     width: 9%;
     word-wrap: break-word;
-    /* border: 1px solid red; */
 }
 .beschreibung{
     text-align: center;
@@ -234,7 +250,6 @@ a{
     width: fit-content;
     width: 25%;
     word-wrap: break-word;
-    /* border: 1px solid red; */
 }
 .Preis{
     text-align: center;
@@ -242,7 +257,6 @@ a{
     width: fit-content;
     width: 7%;
     word-wrap: break-word;
-    /* border: 1px solid red; */
 }
 .Gewicht{
     text-align: center;
@@ -250,7 +264,6 @@ a{
     width: fit-content;
     width: 7%;
     word-wrap: break-word;
-    /* border: 1px solid red; */
 }
 .Lagerbestand{
     text-align: center;
@@ -258,7 +271,7 @@ a{
     width: fit-content;
     width: 7%;
     word-wrap: break-word;
-    /* border: 1px solid red; */
+/* border: 1px solid red; */
 }
 .Bestellung{
     text-align: center;
@@ -266,7 +279,7 @@ a{
     width: fit-content;
     width: 7%;
     word-wrap: break-word;
-        /* border: 1px solid red; */
+/* border: 1px solid red; */
 }
 /* Ab hier unter Objekte der Bestellungs-box */
 .menge{
