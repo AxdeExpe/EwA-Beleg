@@ -64,7 +64,8 @@
     <div class="flex">
       <div class="flex-box">
         <div class="login">
-          <div class="login-header">Register</div>
+          <router-link to="/login" class="back">Go back</router-link>
+          <div class="login-header" @click="">Register</div>
             <input v-model="username" type="text" class="username form-control" placeholder="Username" required><br>
             <input v-model="password"  type="password" class="password form-control" placeholder="Password" required><br>
             <input v-model="email" @keydown.enter="register" type="text" class="username form-control" placeholder="E-Mail" required><br>
@@ -133,4 +134,12 @@ input[type="submit"]:hover {
   font-weight: bold;
   color: white;
 }
+
+.back{
+  text-decoration: underline;
+  color: blue;
+  font-size: 120%;
+  margin: auto;
+}
+
 </style>

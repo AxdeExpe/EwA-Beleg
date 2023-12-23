@@ -64,7 +64,10 @@
             <input v-model="username" type="text" class="username form-control" placeholder="Username" required><br>
             <input v-model="password" @keydown.enter="doLogin" type="password" class="password form-control" placeholder="Password" required><br>
             <button @click="doLogin" class="btn btn-primary">Login</button>
-            <button @click="router.push('/register')" class="register">Register</button>
+            <router-link to="/register" class="register">
+              <div>No Account?</div>
+              <div>Register now!</div>
+            </router-link>
         </div>
       </div>
     </div>
@@ -130,27 +133,14 @@ input[type="submit"]:hover {
   color: white;
 }
 
-.register{
-  
-  left: 100%;
-  position: relative;
-
-  background-color: rgb(212, 212, 212);
-  padding: 10px;
-  margin: auto;
-  box-sizing: border-box;
-  max-width: 100%;
-  width: fit-content;
-  font-weight: bold;
-  text-align: center;
-
-  border: 1px solid black;
-  border-radius: 7px;
+.register {
+  color: blue;
+  text-decoration: underline;
   cursor: pointer;
-}
+  display: flex;
+  flex-direction: column;
 
-.register:hover {
-  background-color: rgba(212, 212, 212,0.8);
-  font-weight: bold;
+  margin: auto;
+  text-align: center;
 }
 </style>
