@@ -18,6 +18,7 @@ interface KatalogItem {
 let katalogItems = ref<Array<KatalogItem>>([]);
 
 onMounted(async () => {
+
   try {
     let response = await fetch('https://ivm108.informatik.htw-dresden.de/ewa/g08/backend/Katalog_Beleg_Select_All.php', {
       method: 'POST',
@@ -36,7 +37,6 @@ onMounted(async () => {
         stock: 'stock',
       }),
     });
-
     if (response.ok) {
       let data = await response.json();
       katalogItems.value = data.map((item: KatalogItem) => ({ ...item, quantity: 0 }));
@@ -93,13 +93,31 @@ let decreaseQuantity = (item: KatalogItem) => {
   item.quantity--;
 };
 
+// let resizeProduct = (item: KatalogItem, index: number) => {
+
+//   let container = document.getElementById(item.id.toString());
+
+//   if(container === null){
+//     return;
+//   }
+
+//   let isOverflowing = container.scrollHeight > container.offsetHeight;
+
+//   if (isOverflowing) {
+//     container.style.maxHeight = 'fit-content';
+
+//   } else {
+//     container.style.maxHeight = '50vh';
+//   }
+// };
+
 </script>
 
 <template>
     <div>
-    <div v-for="item in katalogItems" :key="item.id" class="item-box" id="product">
+     <div v-for="(item  ) in katalogItems" :key="item.id" class="item-box" :id="item.id.toString()"> <!--@click="resizeProduct(item, index)" --><!--, index-->
       <div class="Image_container flex_inner">
-        <img :src="decodeBase64Image(item.image)" class="image" alt="Bild" width="100" height="100">
+        <img :src="decodeBase64Image(item.image)" class="image" alt="Product_Image" width="100" height="100">
       </div>
       <div class="titel flex_inner">
         <h1>Titel</h1>
@@ -147,6 +165,7 @@ let decreaseQuantity = (item: KatalogItem) => {
 </template>
 
 <style scoped>
+
 h1{
     font-size: 2vh;
     text-decoration: underline;
@@ -157,19 +176,23 @@ a{
     text-decoration: none;
     margin: auto;
 }
+
+
 .item-box {
     display: flex;
-    flex-direction: row;
-    flex-wrap: wrap;
     justify-content: space-between;
+
     background-color: rgb(0, 80, 133);
     color: white;
+    overflow: hidden;
+
     width: fit-content;
     min-width: 90%;
     max-width: 90%;
     margin: 7% 0 0 5%; /*top right bottom left*/
     padding: 0;
     position: relative;
+
     cursor: pointer;
 }
 .flex_inner{
@@ -178,6 +201,7 @@ a{
 }
 /* ----------------------------------------------------------------------------------------- */
 .Image_container {
+    justify-content: center;
     margin: 1em -3em 1em 1em; /*top right bottom left*/
     position: relative; 
     width: 10%;
@@ -187,9 +211,12 @@ a{
     height: 100%;
     object-fit: contain;
     position: absolute;
+
     top: 0;
     left: 0;
 }
+
+
 .titel{
     text-align: center;
     margin: 1em -3em 1em -3em; /*top right bottom left*/
@@ -238,6 +265,7 @@ a{
     width: fit-content;
     width: 7%;
     word-wrap: break-word;
+/* border: 1px solid red; */
 }
 .Bestellung{
     text-align: center;
@@ -245,6 +273,7 @@ a{
     width: fit-content;
     width: 7%;
     word-wrap: break-word;
+/* border: 1px solid red; */
 }
 /* ------------------------------------------------------------------------------------ */
 .menge{

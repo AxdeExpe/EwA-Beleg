@@ -108,6 +108,12 @@
         exit;
     }
 
+    if (!$conn->set_charset("utf8mb4")) {
+        echo "Fehler beim Laden von UTF-8 " . $conn->error;
+        http_response_code(500);
+        exit;
+    }
+
 
 
     $selectQuery = "SELECT * FROM orders WHERE order_id = ?";

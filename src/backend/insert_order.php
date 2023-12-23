@@ -40,6 +40,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
 
 
+    if (!$conn->set_charset("utf8mb4")) {
+        echo "Fehler beim Laden von UTF-8 " . $conn->error;
+        http_response_code(500);
+        exit;
+    }
+
+
     $conn->begin_transaction();
 
     $sql = "INSERT INTO Orders (book_id, order_date, amount, price)

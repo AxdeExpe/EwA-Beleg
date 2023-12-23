@@ -193,7 +193,15 @@ nav{
 .nav-link:hover {
   border-bottom: 2px solid #c278ff;
 }
-/*  */
+.right-top{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: auto;
+  position: absolute;
+  right: 0;  
+  /* border: 2px solid red; */
+}
 .button-container{
   display: flex;
   justify-content: flex-end;
@@ -215,58 +223,57 @@ nav{
 
 .searchbar-container{
   display: flex;
-  position: fixed;
+  position: relative;
   margin: auto;
-  justify-content: flex-start;
 
-  height: 10%;
-  width: 30%;
+  width: 25%;
+  height: 3vh;
 
-  right: 30%;
+  right: 25%;
+
   
-  border: 2px solid red;
+  border: 2px solid white;
+  border-radius: 100px;
   font-size: 1.5vh;
-  text-decoration: none;
-  color: white;
-  background-color: black;
-}
 
-.searchbar{
-  display: inline;
-  height: 100%;
-  list-style: none;
 }
 
 .searchbar-input{
   display: flex;
+  position: relative;
 
   margin: auto;
 
   height: 100%;
   width: 100%;
-  border: 2px solid red;
+  border: none;
+  outline: none;
+  background: rgba(0, 0, 0, 0);
+
   font-size: 1.5vh;
   text-decoration: none;
   color: white;
-  background-color: black;
 
-  border-radius: 50%;
-  border: solid 1px lightgray;
+
+
 }
 
 .search-button{
   display: flex;
-  justify-content: center;
-  align-items: center;
-  margin: auto;
-  margin-left: 1vw;
+
+
+
   height: 100%;
+  margin-right: 1%;
+  padding: 1%;
 
-  min-width: 15%;
-  max-width: 15%;
   position: relative;
-
-
-  border: 2px solid red;
+  transition: transform 0.15s ease;
 }
+
+.search-button:hover{
+  transform: scale(0.85);
+  cursor: pointer;
+}
+
 </style>
