@@ -74,6 +74,13 @@ function filteredList() {
     item.title.toLowerCase().includes(input.value.toLowerCase())
   );
 }
+
+function myFunction() {
+  let dropdown = document.getElementById("myDropdown");
+  if (dropdown) {
+    dropdown.classList.toggle("show");
+  }
+}
 </script>
 
 <template>
@@ -92,13 +99,18 @@ function filteredList() {
             </div>        
           </div>
 <!-- ------------------------------------------------------------------------------------ -->
-          <div class="mitte">
-            <input type="text" v-model="input" placeholder="Suche..." >
-            <div v-if="input && filteredList().length > 0" >
-              <div v-for="book in filteredList()" :key="book.id" >
-                <RouterLink :to="{ name: 'buch-detail', params: { title: book.title } }">{{ book.title }}</RouterLink>
+          <div class="mitte">   
+            <div class="dropdown">
+              <input type="text" v-model="input" placeholder="Suche..." >
+              <div v-if="input && filteredList().length > 0" @input="myFunction()" id="myDropdown" class="dropdown-content">
+                <div v-for="book in filteredList()" :key="book.id" >
+                  <RouterLink :to="{ name: 'buch-detail', params: { title: book.title } }">{{ book.title }}</RouterLink>
+                </div>
+                <div class="item error" v-if="input && !filteredList().length">
+                  <p>No results found!</p>
+                </div>
               </div>
-            </div>
+            </div>         
           </div>
 <!-- ------------------------------------------------------------------------------------ -->
             <div class="rechts">
@@ -127,7 +139,8 @@ function filteredList() {
   background-color: #2196F3;
   padding: 10px;
   width: 100%;
-  overflow: auto;
+  display:block;
+  position: relative;
 }
 @media screen and (max-width: 1000px) {
   .links,
@@ -178,7 +191,7 @@ function filteredList() {
   min-width: 200px;
   text-align: right;
 }
-.rechts::after{
+.grid-container::after{
   content: "";
   clear: both;
   display: table;
@@ -186,6 +199,23 @@ function filteredList() {
 .rechts div{
   display: inline-block;
 }
+/* ------------------------------------------------------ */
+.dropdown{
+  position: relative;
+  box-sizing: border-box;
+  width: 100%;
+}
+.dropdown-content{
+  /* display: none; */
+  position: absolute;
+  background-color: #f1f1f1;
+  /* min-width: 160px; */
+  overflow: auto;
+  border: 1px solid #ddd;
+  z-index: 1;
+}
+.dropdown a:hover {background-color: #ddd;}
+.show {display: block;}
 /* ------------------------------------------------------ */
 .login-button-text{
   text-decoration: none;
@@ -196,7 +226,6 @@ header {
   display: block; 
   background-color: black;
   color: white;
-  position: fixed;
   width: 100%;
   top: 0;
   z-index: 1;
