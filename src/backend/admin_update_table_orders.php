@@ -25,9 +25,9 @@
         'username' => $_POST['username'],
         'password' => $_POST['password']
     );
-
+    
     $http = curl_init($url);
-
+    
     curl_setopt($http, CURLOPT_POST, 1);
     curl_setopt($http, CURLOPT_POSTFIELDS, http_build_query($data)); // Hier wird der POST-Dateninhalt korrekt übergeben
     curl_setopt($http, CURLOPT_RETURNTRANSFER, true);
@@ -35,12 +35,13 @@
     $result = curl_exec($http);
     $http_status = curl_getinfo($http, CURLINFO_HTTP_CODE);
     curl_close($http);
-
-    #echo $http_status;
-
-    if($http_status !== 200){
-        # user is not admin
-        http_response_code($http_status);
+    
+    $json_data = json_decode($result, true);
+    
+    # Überprüfe is_admin
+    if (!isset($json_data['is_admin']) || $json_data['is_admin'] !== '1') {
+        echo "no admin";
+        http_response_code(401);
         exit;
     }
 
