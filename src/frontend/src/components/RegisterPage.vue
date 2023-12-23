@@ -63,12 +63,12 @@
     <div class="flex">
       <div class="flex-box">
         <div class="login">
-          <router-link to="/login" class="back">Go back</router-link>
           <div class="login-header" @click="">Register</div>
             <input v-model="username" type="text" class="username form-control" placeholder="Username" required><br>
             <input v-model="password"  type="password" class="password form-control" placeholder="Password" required><br>
             <input v-model="email" @keydown.enter="register" type="text" class="username form-control" placeholder="E-Mail" required><br>
-            <button @click="register" class="btn btn-primary">Register</button>
+            <button @click="register" class="btn btn-primary btnreg">Register</button>
+            <router-link to="/login" class="back">Go back</router-link>
           </div>
       </div>
     </div>
@@ -101,6 +101,9 @@ html{
   display: inline-block;
   max-width: 90%;
   box-sizing: border-box;
+
+  border: 3px solid #ddd;
+  border-radius: 20px;
 }
 .login-header{
   font-size: 300%;
@@ -108,6 +111,7 @@ html{
   padding-bottom: 20px;
   text-align: center;
   color: black;
+  text-decoration: underline;
 }
 input[type="text"], input[type="password"] {
   padding: 10px;
@@ -135,10 +139,52 @@ input[type="submit"]:hover {
 }
 
 .back{
-  text-decoration: underline;
-  color: blue;
+  display: flex;
+  flex-direction: column;
+  text-decoration: none;
   font-size: 120%;
+  color: black;
   margin: auto;
+  text-align: center;
+  justify-content: center;
+  align-items: center;
+
+  border: solid 1px rgb(180, 180, 180);
+  border-radius: 5px;
+  
+  transition: 0.3s;
 }
 
+.back:hover{
+  background-color: rgba(180, 180, 180, 0.8);
+  font-weight: bold;
+}
+
+.btnreg{
+  margin: auto;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  margin-top: 40px;
+  margin-bottom: 15px;
+  text-align: center;
+  justify-content: center;
+  align-items: center;
+  height: 50px;
+  font-size: 20px;
+  font-weight: bold;
+  background-color: rgb(33, 150, 243);
+  color: white;
+  border: none;
+  cursor: pointer;
+  border-radius: 5px;
+  transition: 0.3s;
+
+}
+
+.btnreg:hover{
+  background-color: rgb(14, 127, 219);
+  font-weight: bold;
+  color: white;
+}
 </style>
