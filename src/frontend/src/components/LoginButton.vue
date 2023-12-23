@@ -100,7 +100,10 @@ html{
   max-width: 90%;
   box-sizing: border-box;
   height: 70%;
-  width: 30%;
+  width: 20%;
+
+  min-width: 300px;
+
   margin: auto;
 }
 .login-header{
