@@ -1,31 +1,71 @@
 <?php
 
-header('Access-Control-Allow-Origin: *');
+    header('Access-Control-Allow-Origin: *');
 
-
-if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-
-    if (!isset($_POST['id']) || !isset($_POST['amount']) || empty($_POST['id']) || empty($_POST['amount'])) {
-        # bad request, no id or amount
-        http_response_code(400);
-        exit;
-    }
-
-    if((!ctype_digit($_POST['id']) || $_POST['id'] < 0 || $_POST['id'] > 9999999999)){
-        # bad request, book_id is not numeric
-        http_response_code(400);
-        exit;
-    }
-
-    if((!ctype_digit($_POST['amount']) || $_POST['amount'] < 0 || $_POST['amount'] > 9999999999)){
-        # bad request, amount is not numeric
+    if (!$_SERVER['REQUEST_METHOD'] === 'POST') {
+        # no post request
         http_response_code(400);
         exit;
     }
 
 
-    $book_id = $_POST['id']; 
-    $amount = $_POST['amount'];
+    ## JSON-Format:
+    ##[
+    ##    {"id": 1, "amount": 2},
+    ##    {"id": 2, "amount": 7}
+    ##]
+
+    $requestData = file_get_contents('php://input');
+
+    $jsonData = json_decode($requestData, true);
+
+    echo $requestData;
+    echo $jsonData[0]['id'];
+
+    if ($jsonData === null || json_last_error() !== JSON_ERROR_NONE) {
+        echo 'No valid JSON data found in request.';
+        http_response_code(400);
+        exit;
+    }
+
+    if (!is_array($jsonData) || count($jsonData) < 0 || !is_array($jsonData[0])) {
+        echo 'No valid JSON Array found in request.';
+        http_response_code(400);
+        exit;
+    }
+
+    $numberOfArrays = count($jsonData);
+
+
+    # check if all keys of each array has legit values
+
+    for($i = 0; $i < $numberOfArrays; $i++){
+        if(!isset($jsonData[$i]['id']) || !isset($jsonData[$i]['amount']) || empty($jsonData[$i]['id']) || empty($jsonData[$i]['amount'])){
+            # bad request, no id or amount
+            echo $jsonData[$i]->id;
+            echo "No id or amount found in request.";
+            http_response_code(400);
+            exit;
+        }
+
+        if(!is_numeric($jsonData[$i]['id']) || $jsonData[$i]['id'] < 0 || $jsonData[$i]['id'] > 9999999999){
+            # bad request, book_id is not numeric
+            echo "Book id is not numeric.";
+            http_response_code(400);
+            exit;
+        }
+
+        if(!is_numeric($jsonData[$i]['amount']) || $jsonData[$i]['amount'] < 0 || $jsonData[$i]['amount'] > 9999999999){
+            # bad request, amount is not numeric
+            echo "Amount is not numeric.";
+            http_response_code(400);
+            exit;
+        }
+    }
+
+    exit;
+
+
 
     $host = "localhost";
     $username = "g08";
@@ -47,6 +87,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
 
 
+
+    # insert into the purchases into Orders
     $conn->begin_transaction();
 
     $sql = "INSERT INTO Orders (book_id, order_date, amount, price)
@@ -136,10 +178,4 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         http_response_code(500);
         exit;
     }
-}
-else {
-    # no post request
-    http_response_code(400);
-}
-
 ?>
