@@ -114,15 +114,38 @@
 - **Data:**
   - `username`: needed
   - `password`: needed
-  - `order_id`: needed (psoitive int)
-  - `amount`: NULL (positive int)
-  - `price`: NULL (positive decimal)
-  - `order_date`: NULL (Format: 2023-12-16 18:51:49)
+  - `image`: needed (string)
+  - `amount`: needed (positive int)
+  - `price_netto`: needed (positive decimal)
+  - `title`: needed (string)
+  - `author`: needed (string)
+  - `mwst`: NULL (positive decimal)
+  - `weight`: needed (positive int)
+  - `stock`: needed (positive int)
+  - `description`: needed (string)
+  - `publisher`: needed (string)
+
 
 - **HTTP-Responses:**
-  - `200`: successfully updated
+  - `200`: successfully inserted
   - `500`: Server error
   - `400`: data is invalid, no POST-Request
-  - `304`: Data is not different
-  - `404`: no updatable rows found
+  - Anything else: login.php
+
+
+
+# admin_delete_books.php
+## POST-Request
+
+- **Data:**
+  - `username`: needed
+  - `password`: needed
+  - `image`: needed (positive int)
+
+
+- **HTTP-Responses:**
+  - `200`: successfully inserted
+  - `500`: Server error
+  - `400`: data is invalid, no POST-Request
+  - `404`: no book with this id found
   - Anything else: login.php
