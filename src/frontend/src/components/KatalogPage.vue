@@ -178,21 +178,16 @@ a{
 .item-box {
     display: flex;
     justify-content: space-between;
-
     background-color: rgb(0, 80, 133);
     color: white;
     overflow: hidden;
-
     width: fit-content;
     min-width: 90%;
     max-width: 90%;
     margin: 15px 0 0 5%; /*top right bottom left*/
-    max-height: 50vh;
-    
-    margin: 7% 0 0 5%; /*top right bottom left*/
-    padding: 0;
+    max-height: 300px;
+    padding: 0px 0px 5px;
     position: relative;
-
     cursor: pointer;
 }
 .flex_inner{
