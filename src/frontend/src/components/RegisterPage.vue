@@ -14,7 +14,6 @@
         return;
      }
 
-     
       try {
         let response = await fetch('http://ivm108.informatik.htw-dresden.de/ewa/g08/backend/register.php', {
           method: 'POST',

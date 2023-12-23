@@ -11,6 +11,20 @@
   - `200`: successful logged in 
   - `401`: not authorized
 
+# Register.php
+## POST-Request
+
+- **Data:**
+  - `username`: needed
+  - `password`: needed
+  - `email`: needed
+
+- **HTTP-Response:**
+  - `500`: Server Error
+  - `400`: username or password or email are empty or not set, no POST-Request
+  - `200`: successful registered
+  - `409`: user already exists
+
 # Katalog_Beleg_Select_All.php
 ## GET-Request but u can use every other request
 
@@ -74,6 +88,27 @@
   - Anything else: from login.php
 
 # Admin_update_table_orders.php
+## POST-Request
+
+- **Data:**
+  - `username`: needed
+  - `password`: needed
+  - `order_id`: needed (psoitive int)
+  - `amount`: NULL (positive int)
+  - `price`: NULL (positive decimal)
+  - `order_date`: NULL (Format: 2023-12-16 18:51:49)
+
+- **HTTP-Responses:**
+  - `200`: successfully updated
+  - `500`: Server error
+  - `400`: data is invalid, no POST-Request
+  - `304`: Data is not different
+  - `404`: no updatable rows found
+  - Anything else: login.php
+
+
+
+# Admin_insert_book.php
 ## POST-Request
 
 - **Data:**
