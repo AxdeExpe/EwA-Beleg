@@ -106,7 +106,7 @@ let resizeProduct = (item: KatalogItem, index: number) => {
   if (isOverflowing) {
     container.style.maxHeight = 'fit-content';
   } else {
-         container.style.maxHeight = '50vh';
+    container.style.maxHeight = '300px';
   }
 };
 
