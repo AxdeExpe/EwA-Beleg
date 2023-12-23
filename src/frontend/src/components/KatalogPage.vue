@@ -55,14 +55,27 @@ onMounted(async () => {
 });
 
 let decodeBase64Image = (base64String: string) => {
-  let binaryString = atob(base64String);
-  let byteArray = new Uint8Array(binaryString.length);
-  for (let i = 0; i < binaryString.length; i++) {
-    byteArray[i] = binaryString.charCodeAt(i);
+  if(base64String){
+    let binaryString = atob(base64String);
+    let byteArray = new Uint8Array(binaryString.length);
+    for (let i = 0; i < binaryString.length; i++) {
+      byteArray[i] = binaryString.charCodeAt(i);
+    }
+    const blob = new Blob([byteArray], { type: 'image/png' });
+    return URL.createObjectURL(blob);
   }
-  const blob = new Blob([byteArray], { type: 'image/png' });
-  return URL.createObjectURL(blob);
+  
 };
+
+// let decodeBase64Image = (base64String: string) => {
+//   let binaryString = atob(base64String);
+//   let byteArray = new Uint8Array(binaryString.length);
+//   for (let i = 0; i < binaryString.length; i++) {
+//     byteArray[i] = binaryString.charCodeAt(i);
+//   }
+//   const blob = new Blob([byteArray], { type: 'image/png' });
+//   return URL.createObjectURL(blob);
+// };
 
 let doBestellen = (item: KatalogItem) => {
 
