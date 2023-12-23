@@ -124,35 +124,68 @@ function filteredList() {
 
 <style scoped>
 .grid-container {
-  display: grid;
-  grid-template-columns: repeat(3, 33%);
   background-color: #2196F3;
   padding: 10px;
   width: 100%;
+  overflow: auto;
+}
+@media screen and (max-width: 1000px) {
+  .links,
+  .mitte,
+  .rechts
+  {
+    float: none !important;
+    border: 1px solid yellow;
+    width: 100% !important;
+  }
+  .grid-container{
+    background-color: red;
+  }
+  .rechts{
+    text-align: left !important;
+  }
 }
 .links{
-  display: flex;
-  justify-content: flex-start;
   align-items: center;
-  max-width: 33%;
   list-style: none;
+  float: left;
+  width: 33%;
+  min-width: 200px;
+}
+.links div{
+  display: inline-block;
+}
+.mitte{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  list-style: none;
+  float: left;
+  width: 33%;
+  min-width: 200px;
 }
 .mitte input[type="text"]{
   justify-content: center;
-  align-items: center;
+  align-items: center; 
   position: relative;
   margin-top: 2em;
 }
 .rechts{
-  display: flex;
-  justify-content: center;
   align-items: center;
   margin: auto;
-  position: absolute;
-  right: 0;  
-  /* border: 2px solid red; */
+  float: left;
+  width: 33%;
+  min-width: 200px;
+  text-align: right;
 }
-
+.rechts::after{
+  content: "";
+  clear: both;
+  display: table;
+}
+.rechts div{
+  display: inline-block;
+}
 /* ------------------------------------------------------ */
 .login-button-text{
   text-decoration: none;

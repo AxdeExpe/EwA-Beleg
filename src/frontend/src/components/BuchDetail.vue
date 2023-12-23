@@ -2,7 +2,7 @@
 import { ref, onMounted, defineProps } from 'vue';
 import { useRoute } from 'vue-router';
 
-interface KatalogItem {
+interface katalogItem {
   id: number;
   image: string;
   title: string;
@@ -15,10 +15,10 @@ interface KatalogItem {
   quantity: number;
 }
 
-const props = defineProps(['katalogItems']);
-const route = useRoute();
+let props = defineProps(['katalogItems']);
+let route = useRoute();
 
-const book = ref<KatalogItem>({
+let book = ref<katalogItem>({
     id: 0,
     image: '',
     title: '',
@@ -31,17 +31,18 @@ const book = ref<KatalogItem>({
     quantity: 0,
 });
 
+
 onMounted(() => {
-  const title = route.params.title;
-  const selectedBook = props.katalogItems.find((item: KatalogItem) => item.title === title);
-  console.log('Selected Book:', selectedBook);
+  let title = route.params.title;
+  let selectedBook = props.katalogItems.find((item: katalogItem) => item.title === title);
 
   if (selectedBook) {
-    Object.assign(book, selectedBook);
-    console.log("Selected Book:", selectedBook);
-    console.log("Updated Book:", book);
+    book.value = Object.assign({},selectedBook);
   }
 });
+
+console.log("Updated Book:", book);
+
 
 let decodeBase64Image = (base64String: string) => {
   let binaryString = atob(base64String);
@@ -49,7 +50,7 @@ let decodeBase64Image = (base64String: string) => {
   for (let i = 0; i < binaryString.length; i++) {
     byteArray[i] = binaryString.charCodeAt(i);
   }
-  const blob = new Blob([byteArray], { type: 'image/png' });
+  let blob = new Blob([byteArray], { type: 'image/png' });
   return URL.createObjectURL(blob);
 };
 </script>
