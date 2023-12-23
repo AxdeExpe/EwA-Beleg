@@ -93,29 +93,28 @@ let decreaseQuantity = (item: KatalogItem) => {
   item.quantity--;
 };
 
-// let resizeProduct = (item: KatalogItem, index: number) => {
+let resizeProduct = (item: KatalogItem, index: number) => {
 
-//   let container = document.getElementById(item.id.toString());
+  let container = document.getElementById(item.id.toString());
 
-//   if(container === null){
-//     return;
-//   }
+  if(container === null){
+    return;
+  }
 
-//   let isOverflowing = container.scrollHeight > container.offsetHeight;
+  let isOverflowing = container.scrollHeight > container.offsetHeight;
 
-//   if (isOverflowing) {
-//     container.style.maxHeight = 'fit-content';
-
-//   } else {
-//     container.style.maxHeight = '50vh';
-//   }
-// };
+  if (isOverflowing) {
+    container.style.maxHeight = 'fit-content';
+  } else {
+         container.style.maxHeight = '50vh';
+  }
+};
 
 </script>
 
 <template>
     <div>
-     <div v-for="(item  ) in katalogItems" :key="item.id" class="item-box" :id="item.id.toString()"> <!--@click="resizeProduct(item, index)" --><!--, index-->
+     <div v-for="(item, index) in katalogItems" :key="item.id" class="item-box" :id="item.id.toString()" @click="resizeProduct(item, index)">
       <div class="Image_container flex_inner">
         <img :src="decodeBase64Image(item.image)" class="image" alt="Product_Image" width="100" height="100">
       </div>
@@ -188,6 +187,9 @@ a{
     min-width: 90%;
     max-width: 90%;
     margin: 15px 0 0 5%; /*top right bottom left*/
+    max-height: 50vh;
+    
+    margin: 7% 0 0 5%; /*top right bottom left*/
     padding: 0;
     position: relative;
 
