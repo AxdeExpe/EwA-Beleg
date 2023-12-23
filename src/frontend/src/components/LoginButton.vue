@@ -64,7 +64,7 @@
             <input v-model="username" type="text" class="username form-control" placeholder="Username" required><br>
             <input v-model="password" @keydown.enter="doLogin" type="password" class="password form-control" placeholder="Password" required><br>
             <button @click="doLogin" class="btn btn-primary">Login</button>
-            <button @click="router.push('/register')" class="register">Register</button>
+            <button @click="router.push('/register')" class="btn btn-primary">Register</button>
         </div>
       </div>
     </div>

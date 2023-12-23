@@ -128,6 +128,8 @@ function filteredList() {
   padding: 10px;
   width: 100%;
   overflow: auto;
+  display:block;
+  position: static;
 }
 @media screen and (max-width: 1000px) {
   .links,
@@ -196,7 +198,6 @@ header {
   display: block; 
   background-color: black;
   color: white;
-  position: fixed;
   width: 100%;
   top: 0;
   z-index: 1;

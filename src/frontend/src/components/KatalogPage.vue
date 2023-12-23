@@ -176,8 +176,6 @@ a{
     text-decoration: none;
     margin: auto;
 }
-
-
 .item-box {
     display: flex;
     justify-content: space-between;
@@ -189,7 +187,7 @@ a{
     width: fit-content;
     min-width: 90%;
     max-width: 90%;
-    margin: 7% 0 0 5%; /*top right bottom left*/
+    margin: 15px 0 0 5%; /*top right bottom left*/
     padding: 0;
     position: relative;
 
