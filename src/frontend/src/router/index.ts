@@ -4,6 +4,7 @@ import AboutView from '../views/AboutView.vue'
 import LoginButtonVue from '../components/LoginButton.vue'
 import Katalog from '../components/KatalogPage.vue'
 import Warenkorb from '../components/WarenkorbPage.vue'
+import BuchDetail from '../components/BuchDetail.vue';
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -32,6 +33,11 @@ const router = createRouter({
       path: '/login',
       name: 'login',
       component: LoginButtonVue
+    },
+    {
+      path: '/katalog/:title',
+      name: 'buch-detail',
+      component: BuchDetail
     }
   ]
 });

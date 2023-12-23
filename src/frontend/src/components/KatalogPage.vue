@@ -152,13 +152,11 @@ h1{
     text-decoration: underline;
     margin: auto;
 }
-
 a{
     font-size: 1.5vh;
     text-decoration: none;
     margin: auto;
 }
-
 .item-box {
     display: flex;
     flex-direction: row;
@@ -169,33 +167,28 @@ a{
     width: fit-content;
     min-width: 90%;
     max-width: 90%;
-    margin: auto; /*top right bottom left*/
-    margin-top: 10vh;
+    margin: 7% 0 0 5%; /*top right bottom left*/
     padding: 0;
     position: relative;
     cursor: pointer;
-    /* border: 1px solid red;     */
 }
 .flex_inner{
     flex-direction: column;
     max-width: 100%;
-    /* flex: 1; */
 }
+/* ----------------------------------------------------------------------------------------- */
 .Image_container {
     margin: 1em -3em 1em 1em; /*top right bottom left*/
-    position: relative; /* Fügt relative Positionierung hinzu, damit absolute Positionierung des Bildes relativ zum Container erfolgt */
+    position: relative; 
     width: 10%;
-    /* border: 1px solid red; */
 }
-
 .image {
     width: 100%;
     height: 100%;
     object-fit: contain;
-    position: absolute; /* Absolute Positionierung innerhalb des Containers */
+    position: absolute;
     top: 0;
     left: 0;
-    /* border: 1px solid red; */
 }
 .titel{
     text-align: center;
@@ -203,7 +196,6 @@ a{
     width: fit-content;
     width: 9%;
     word-wrap: break-word;
-    /* border: 1px solid red; */
 }
 .author{
     text-align: center;
@@ -211,7 +203,6 @@ a{
     width: fit-content;
     width: 9%;
     word-wrap: break-word;
-    /* border: 1px solid red; */
 }
 .Verlag{
     text-align: center;
@@ -219,7 +210,6 @@ a{
     width: fit-content;
     width: 9%;
     word-wrap: break-word;
-    /* border: 1px solid red; */
 }
 .beschreibung{
     text-align: center;
@@ -227,7 +217,6 @@ a{
     width: fit-content;
     width: 25%;
     word-wrap: break-word;
-    /* border: 1px solid red; */
 }
 .Preis{
     text-align: center;
@@ -235,7 +224,6 @@ a{
     width: fit-content;
     width: 7%;
     word-wrap: break-word;
-    /* border: 1px solid red; */
 }
 .Gewicht{
     text-align: center;
@@ -243,7 +231,6 @@ a{
     width: fit-content;
     width: 7%;
     word-wrap: break-word;
-    /* border: 1px solid red; */
 }
 .Lagerbestand{
     text-align: center;
@@ -251,7 +238,6 @@ a{
     width: fit-content;
     width: 7%;
     word-wrap: break-word;
-    /* border: 1px solid red; */
 }
 .Bestellung{
     text-align: center;
@@ -259,16 +245,13 @@ a{
     width: fit-content;
     width: 7%;
     word-wrap: break-word;
-        /* border: 1px solid red; */
 }
-/* Ab hier unter Objekte der Bestellungs-box */
+/* ------------------------------------------------------------------------------------ */
 .menge{
     text-align: center;
-    /* border: 1px solid red; */
     margin: 1.5em 0.5em 0.5em 0.5em; /*top right bottom left*/
 }
 .buttons{
-    /* border: 1px solid red; */
     display: flex;
     margin: 1.5em 0.5em 0.5em 0.5em; /*top right bottom left*/
 }
