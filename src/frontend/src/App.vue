@@ -224,7 +224,8 @@ function myFunction() {
 }
 header {
   display: block; 
-  background-color: black;
+  /*background-color: black;*/
+  background-color: #2196F3;
   color: white;
   width: 100%;
   top: 0;
@@ -233,7 +234,8 @@ header {
 nav{
   padding: 5px;
   font-size: 250%;     
-  border: 2px solid white; 
+  /*border: 2px solid white; */
+  border-bottom: 1px solid white;
 }
 .brand {
   font-size: 1.5em;
