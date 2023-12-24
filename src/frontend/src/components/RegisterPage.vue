@@ -36,8 +36,8 @@
             console.error('Fehler beim Registrieren: Username bereits vergeben');
         } 
         else if (response.status === 400) {
-          console.error('email or username or password are empty or not set, no POST-Request');
-          alert('email or username or password are empty or not set, no POST-Request');
+          console.error('email or username or password are empty or not set');
+          alert('email or username or password are empty or not set');
           username.value = '';
           password.value = '';
           email.value = '';
@@ -54,7 +54,7 @@
     };
 
     function isValidEmail(email: string) {
-        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
         return emailRegex.test(email);
     }
 </script>
