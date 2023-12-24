@@ -1,6 +1,8 @@
 <script setup lang="ts">
 import { onMounted } from 'vue';
-import { store, removeFromWarenkorb, updateGesamtsumme } from '@/store';
+import { ref } from "vue";
+import { store, removeFromWarenkorb, updateGesamtsumme, isloggedIn } from '@/store';
+import router from '@/router';
 
 const warenkorb = store.value.warenkorb;
 
@@ -13,11 +15,28 @@ const gesamtsumme = () => {
     return total + parseFloat(item.price_brutto) * item.quantity;
   }, 0).toFixed(2);
 };
+
+let checkLogin = () => {
+  console.log(isloggedIn.value);
+
+  if(isloggedIn.value){
+    //bestellen
+    console.log('bestellen');
+
+    //request zum server und mit stripe bezahlen
+  }
+  else{
+    //login
+    alert('Um bestellen zu können, müssen Sie sich einloggen!');
+
+  }
+
+};
 </script>
 
 <template>
    <div class="item-box">
-    <h1>Warenkorb</h1>
+    <h1>Warenkorb:</h1>
     <ul class="ausgabe">
       <li v-for="item in warenkorb" :key="item.id">
         <div>{{ item.title }}</div>
@@ -30,6 +49,8 @@ const gesamtsumme = () => {
     <div class="endsumme">
       <strong>Gesamtsumme: {{ gesamtsumme() }}€</strong>
     </div>
+
+    <button @click="checkLogin()">Bestellen</button>
   </div>
 </template>
 
