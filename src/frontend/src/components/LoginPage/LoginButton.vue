@@ -67,8 +67,8 @@
           <div class="login-header">Sign in</div>
             <input v-model="username" type="text" class="username form-control" placeholder="Username" required><br>
             <input v-model="password" @keydown.enter="doLogin" type="password" class="password form-control" placeholder="Password" required><br>
-            <button @click="doLogin" class="btn btn-primary">Login</button>
-            <router-link to="/register" class="register">
+            <button @click="doLogin" class="btn btn-primary logbtn">Login</button>
+            <router-link to="/register" class="reg">
               <div>No Account?</div>
               <div>Register now!</div>
             </router-link>
@@ -99,11 +99,16 @@ html{
   flex-direction: column;
 }
 .login{
-  background-color: white;
   padding: 20px;
   display: inline-block;
   max-width: 90%;
   box-sizing: border-box;
+  height: 70%;
+  width: 20%;
+
+  min-width: 300px;
+
+  margin: auto;
 }
 .login-header{
   font-size: 300%;
@@ -143,8 +148,58 @@ input[type="submit"]:hover {
   cursor: pointer;
   display: flex;
   flex-direction: column;
+  font-size: 120%;
 
   margin: auto;
   text-align: center;
+}
+
+.logbtn{
+  margin: auto;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  margin-top: 40px;
+  margin-bottom: 15px;
+  text-align: center;
+  justify-content: center;
+  align-items: center;
+  height: 50px;
+  font-size: 20px;
+  font-weight: bold;
+  background-color: rgb(33, 150, 243);
+  color: white;
+  border: none;
+  cursor: pointer;
+  border-radius: 5px;
+  transition: 0.3s;
+}
+
+.logbtn:hover{
+  background-color: rgb(14, 127, 219);
+  font-weight: bold;
+  color: white;
+}
+
+.reg{
+  display: flex;
+  flex-direction: column;
+  text-decoration: none;
+  font-size: 120%;
+  color: rgb(14, 127, 219);
+  margin: auto;
+  text-align: center;
+  justify-content: center;
+  align-items: center;
+
+  border: solid 1px rgb(180, 180, 180);
+  border-radius: 5px;
+  
+  transition: 0.3s;
+}
+
+.reg:hover{
+  background-color: rgba(180, 180, 180, 0.8);
+  font-weight: bold;
 }
 </style>

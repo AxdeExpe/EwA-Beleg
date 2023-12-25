@@ -49,7 +49,6 @@ if ($result) {
    while ($row = $result->fetch_assoc()) {
         $json = [
             'id' => $row['id'], # primary key
-            'image' => base64_encode(file_get_contents($row['image'])),
             'title' => $row['title'],
             'author' => $row['author'],
             'publisher' => $row['publisher'], # publishing company
@@ -58,6 +57,12 @@ if ($result) {
             'price_brutto' => $row['price_brutto'],
             'stock' => $row['stock']
         ];
+
+        if (file_exists($row['image'])) {
+            $json['image'] = base64_encode(file_get_contents($row['image']));
+        } else {
+            $json['image'] = "";
+        }
 
         $packetJSON[] = $json;
         $i++;
