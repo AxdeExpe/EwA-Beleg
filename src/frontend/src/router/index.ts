@@ -1,11 +1,12 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import HomeView from '../views/HomeView.vue'
 import AboutView from '../views/AboutView.vue'
-import LoginButtonVue from '../components/LoginButton.vue'
-import Katalog from '../components/KatalogPage.vue'
-import Warenkorb from '../components/WarenkorbPage.vue'
-import Register from '../components/RegisterPage.vue'
-import BuchDetail from '../components/BuchDetail.vue';
+import LoginButtonVue from '../components/LoginPage/LoginButton.vue'
+import Katalog from '../components/Einkauf/KatalogPage.vue'
+import Warenkorb from '../components/Einkauf/WarenkorbPage.vue'
+import Register from '../components/LoginPage/RegisterPage.vue'
+import BuchDetail from '../components/Einkauf/BuchDetail.vue';
+import Admin from '../components/AdminBereich/AdminBereich.vue';
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -44,6 +45,11 @@ const router = createRouter({
       path: '/katalog/:title',
       name: 'buch-detail',
       component: BuchDetail
+    },
+    {
+      path: '/admin',
+      name: 'admin',
+      component: Admin
     }
   ]
 });

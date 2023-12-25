@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { ref, onMounted  } from "vue";
 import { RouterLink, RouterView } from 'vue-router';
-import { store, updateGesamtsumme, isloggedIn, updateIsloggedIn } from '@/store';
+import { store, updateGesamtsumme, isloggedIn, updateIsloggedIn, is_admin } from '@/store';
 
 let gesamtPreis = () => {
   return store.value.warenkorb.reduce((total, item) => {
@@ -118,6 +118,11 @@ function myFunction() {
                   <RouterLink to="/warenkorb" class="nav-link">
                     <img src="../../images/warenkorb.png" class="warenkorb_image"> ({{ gesamtPreis() }}€)
                   </RouterLink>
+              </div>
+              <div class="admin-container">
+                <div v-if="is_admin === true" class="nav-link">
+                  <RouterLink to="/admin" class="login-button-text">Admin-Bereich</RouterLink>
+                </div>
               </div>
               <div class="button-container">
                 <div v-if="isloggedIn === true" class="nav-link" @click="isloggedIn = false; updateIsloggedIn(false), logOutAlert()">
@@ -239,12 +244,10 @@ nav{
   font-size: 1.5em;
   margin-right: 30px;
   padding: 0.1em;
-  /* border: 2px solid red; */
 }
 .nav-container {
   flex-grow: 1;
-  padding: 0;  
-  /* border: red 2px solid; */
+  padding: 0;
 }
 .nav-link {
   margin: auto;
@@ -254,15 +257,6 @@ nav{
 }
 .nav-link:hover {
   border-bottom: 2px solid #c278ff;
-}
-.right-top{
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  margin: auto;
-  position: absolute;
-  right: 0;  
-  /* border: 2px solid red; */
 }
 .button-container{
   display: flex;
@@ -281,61 +275,52 @@ nav{
   justify-content: flex-end;
   margin: auto;
   list-style: none;
+  font-size: 100%;
+}
+.admin-container{
+  right: 5%;
+  justify-content: flex-end;
+  margin: auto;
+  list-style: none;
+  font-size: 80%;
 }
 
-.searchbar-container{
+/* .searchbar-container{
   display: flex;
   position: relative;
   margin: auto;
-
   width: 25%;
   height: 3vh;
-
   right: 25%;
-
-  
   border: 2px solid white;
   border-radius: 100px;
   font-size: 1.5vh;
 
 }
-
 .searchbar-input{
   display: flex;
   position: relative;
-
   margin: auto;
-
   height: 100%;
   width: 100%;
   border: none;
   outline: none;
   background: rgba(0, 0, 0, 0);
-
   font-size: 1.5vh;
   text-decoration: none;
   color: white;
-
-
-
 }
-
 .search-button{
   display: flex;
-
-
-
   height: 100%;
   margin-right: 1%;
   padding: 1%;
-
   position: relative;
   transition: transform 0.15s ease;
 }
-
 .search-button:hover{
   transform: scale(0.85);
   cursor: pointer;
-}
+} */
 
 </style>
