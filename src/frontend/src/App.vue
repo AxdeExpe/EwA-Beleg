@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { ref, onMounted  } from "vue";
 import { RouterLink, RouterView } from 'vue-router';
-import { store, updateGesamtsumme, isloggedIn, updateIsloggedIn, is_admin } from '@/store';
+import { store, updateGesamtsumme, isloggedIn, updateIsloggedIn, is_admin, updateIsAdmin } from '@/store';
 
 let gesamtPreis = () => {
   return store.value.warenkorb.reduce((total, item) => {
@@ -125,7 +125,7 @@ function myFunction() {
                 </div>
               </div>
               <div class="button-container">
-                <div v-if="isloggedIn === true" class="nav-link" @click="isloggedIn = false; updateIsloggedIn(false), logOutAlert()">
+                <div v-if="isloggedIn === true" class="nav-link" @click="isloggedIn = false; updateIsloggedIn(false), updateIsAdmin(false), logOutAlert()">
                   <RouterLink to="/Login" class="login-button-text">Logout</RouterLink>
                 </div>
                 <div v-if="isloggedIn === false" class="nav-link">
