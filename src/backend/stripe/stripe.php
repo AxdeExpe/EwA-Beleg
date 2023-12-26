@@ -1,25 +1,17 @@
 <?php
-
-# database stuff
-$host = "localhost";
-$username = "g08";
-$password = "em28rust";
-$database = "g08";
-
-
-
 header('Access-Control-Allow-Origin: *');
 
-if (!$_SERVER['REQUEST_METHOD'] === 'POST') {
+require('./stripe-php-master/init.php');
+
+if($_SERVER['REQUEST_METHOD'] !== 'POST'){
     # no post request
     http_response_code(400);
     exit;
 }
 
-
 ## JSON-Format:
 ##[
-##    {"username": "test_user", "password": "test_password"},
+##    {"username": "testuser", "password": "test"},
 ##    {"id": 1, "amount": 2},
 ##    {"id": 2, "amount": 7}
 ##]
@@ -28,29 +20,36 @@ $requestData = file_get_contents('php://input');
 
 $jsonData = json_decode($requestData, true);
 
-echo $requestData;
-echo $jsonData[0]['id'];
-
 if ($jsonData === null || json_last_error() !== JSON_ERROR_NONE) {
-    echo 'No valid JSON data found in request.';
+    echo 'No valid JSON data found in request. 1';
     http_response_code(400);
     exit;
 }
 
 if (!is_array($jsonData) || count($jsonData) < 0 || !is_array($jsonData[0])) {
-    echo 'No valid JSON Array found in request.';
+    echo 'No valid JSON Array found in request. 2';
     http_response_code(400);
     exit;
 }
 
 $numberOfArrays = count($jsonData) - 1;
 
-
-# check if all keys of each array has legit values
-if($numberOfArrays < 0){
-    echo 'No valid JSON Array found in request.';
+if($numberOfArrays < 1){
+    echo 'No valid JSON Array found in request. 3';
     http_response_code(400);
     exit;
+}
+
+echo $numberOfArrays;
+
+
+# check if all keys of each array have legitimate values
+for($i = 1; $i <= $numberOfArrays; $i++){
+    if (!isset($jsonData[$i]['id']) || !isset($jsonData[$i]['amount']) || !is_numeric($jsonData[$i]['id']) || !is_numeric($jsonData[$i]['amount'])) {
+        echo 'Invalid values found in JSON data.';
+        http_response_code(400);
+        exit;
+    }
 }
 
 
@@ -62,8 +61,8 @@ if($numberOfArrays < 0){
 $url =  "http://ivm108.informatik.htw-dresden.de/ewa/g08/backend/login.php";
 
 $data = array(
-    'username' => $_POST['username'],
-    'password' => $_POST['password']
+    'username' => $jsonData[0]['username'],
+    'password' => $jsonData[0]['password']
 );
     
 $http = curl_init($url);
@@ -78,9 +77,9 @@ curl_close($http);
     
 $json_data = json_decode($result, true);
     
+
 # Überprüfe is_admin
-if (!isset($json_data['is_admin']) || $json_data['is_admin'] === '1') {
-    echo "Admin can not order anything.";
+if (!isset($json_data['is_admin']) || $json_data['is_admin'] !== '0') {
     http_response_code(401);
     exit;
 }
@@ -92,7 +91,7 @@ if (!isset($json_data['is_admin']) || $json_data['is_admin'] === '1') {
 
 # check if all keys of each array has legit values
 
-for($i = 0; $i < $numberOfArrays; $i++){
+for($i = 1; $i <= $numberOfArrays; $i++){
     if(!isset($jsonData[$i]['id']) || !isset($jsonData[$i]['amount']) || empty($jsonData[$i]['id']) || empty($jsonData[$i]['amount'])){
         # bad request, no id or amount
         echo $jsonData[$i]->id;
@@ -114,6 +113,8 @@ for($i = 0; $i < $numberOfArrays; $i++){
         http_response_code(400);
         exit;
     }
+
+    # echo $jsonData[$i]['id'];
 }
 
 
@@ -122,6 +123,10 @@ for($i = 0; $i < $numberOfArrays; $i++){
 
 
 # select all needed books from database
+$host = "localhost";
+$username = "g08";
+$password = "em28rust";
+$database = "g08";
 
 $conn = new mysqli($host, $username, $password, $database);
 
@@ -138,9 +143,9 @@ if (!$conn->set_charset("utf8mb4")) {
 
 $packetJSON = [];
 
-for($i = 0; i < $numberOfArrays; $i++){
+for($j = 1; $j <= $numberOfArrays; $j++){
     $statement = $conn->prepare("SELECT * FROM Books WHERE id = ?");
-    $statement->bind_param("i", $jsonData[$i]['id']);
+    $statement->bind_param("i", $jsonData[$j]['id']);
     $statement->execute();
     $result = $statement->get_result();
 
@@ -156,7 +161,7 @@ for($i = 0; i < $numberOfArrays; $i++){
 
     $row = $result->fetch_assoc();
 
-    if($row['stock'] < $jsonData[$i]['amount']){
+    if($row['stock'] < $jsonData[$j]['amount']){
         $conn->close();
         http_response_code(400);
         exit;
@@ -178,12 +183,12 @@ for($i = 0; i < $numberOfArrays; $i++){
 
 }
 
+$conn->close();
 
 
+#echo json_encode($packetJSON);
 
-
-
-# put every item into an arry
+# put every item into an seperate arry
 
 $items = [];
 
@@ -191,9 +196,9 @@ for($i = 0; $i < $numberOfArrays; $i++){
     $item = [
         'titel' => $packetJSON[$i]['title'],
         'images' => [getenv('BASE_URL') . $packetJSON[$i]['image']], # stripe.php is in backend folder
-        'quantity' => $jsonData[$i]['amount'],
+        'quantity' => $jsonData[$i+1]['amount'],
         'description' => $packetJSON[$i]['description'],
-        'price' => $packetJSON[$i]['price_brutto'],
+        'amount' => round($packetJSON[$i]['price_brutto'] * 100), # now it is in cents, bpsw.: 10,00€ = 1000 cents
         'currency' => 'eur',
     ];
 
@@ -201,7 +206,7 @@ for($i = 0; $i < $numberOfArrays; $i++){
 }
 
 
-
+echo json_encode($items);
 
 # stripe part
 
@@ -221,22 +226,24 @@ if(isset($_POST['live']) && $_POST['live'] == '1') {
     \Stripe\Stripe::setApiKey($sk);
 }
 
+$session = null;
 
 try {
     $session = \Stripe\Checkout\Session::create([
         'payment_method_types' => ['card'],
-        'line_items' => $items, # could be instead [$items]
+        'line_items' => [$items], # could be instead [$items]
         'mode' => 'payment',
-        'success_url' => 'http://ivm108.informatik.htw-dresden.de/ewa/Demos/bookstore-stripe-checkout/' . 'success.php?session_id={CHECKOUT_SESSION_ID}',
-        'cancel_url' => 'http://ivm108.informatik.htw-dresden.de/ewa/Demos/bookstore-stripe-checkout/' . 'cancel.php',
+        'success_url' => 'http://ivm108.informatik.htw-dresden.de/ewa/g08/backend/' . 'success.php?session_id={CHECKOUT_SESSION_ID}&data=' . urlencode($requestData),
+        'cancel_url' => 'http://ivm108.informatik.htw-dresden.de/ewa/g08/backend/' . 'cancel.php',
     ]);
 } catch (\Stripe\Exception\ApiErrorException $e) {
-    echo "Error in Session::create()";
+    echo "Error in Session::create() " . $e->getMessage();
 }
 
 
 # reference to checkout site
 header("Location: " . $session->url);
 
+http_response_code(200);
 
 ?>
