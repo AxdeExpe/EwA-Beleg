@@ -223,8 +223,6 @@ a{
     top: 0;
     left: 0;
 }
-
-
 .titel{
     text-align: center;
     margin: 1em -3em 1em -3em; /*top right bottom left*/

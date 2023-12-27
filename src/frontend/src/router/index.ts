@@ -6,7 +6,11 @@ import Katalog from '../components/Einkauf/KatalogPage.vue'
 import Warenkorb from '../components/Einkauf/WarenkorbPage.vue'
 import Register from '../components/LoginPage/RegisterPage.vue'
 import BuchDetail from '../components/Einkauf/BuchDetail.vue';
-import Admin from '../components/AdminBereich/AdminBereich.vue';
+import Admin from '../components/AdminBereich/AdminBereichBox.vue';
+import Benutzerverwaltung from '../components/AdminBereich/AdminBenutzerVerwaltung.vue';
+import Bestellungsverwaltung from '../components/AdminBereich/AdminBestellungenVerwaltung.vue';
+import Buecherverwaltung from '../components/AdminBereich/AdminBuecherVerwaltung.vue';
+import Lagerverwaltung from '../components/AdminBereich/AdminLagerVerwaltung.vue';
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -50,6 +54,26 @@ const router = createRouter({
       path: '/admin',
       name: 'admin',
       component: Admin
+    },
+    {
+      path: '/admin/Benutzerverwaltung',
+      name: 'Benutzerverwaltung',
+      component: Benutzerverwaltung
+    },
+    {
+      path: '/admin/Bestellungsverwaltung',
+      name: 'Bestellungsverwaltung',
+      component: Bestellungsverwaltung
+    },
+    {
+      path: '/admin/Buecherverwaltung',
+      name: 'Buecherverwaltung',
+      component: Buecherverwaltung
+    },
+    {
+      path: '/admin/Lagerverwaltung',
+      name: 'Lagerverwaltung',
+      component: Lagerverwaltung
     }
   ]
 });
