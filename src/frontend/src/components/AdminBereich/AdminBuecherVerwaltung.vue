@@ -47,7 +47,7 @@ const submitForm = async () => {
                 <div class="author">Autor:</div>
                 <div class="verlag">Verlag:</div>
                 <div class="beschreibung">Beschreibung:</div>
-                <div class="preis">Preis: (in xxx.xx€)</div>
+                <div class="preis">Preis-netto:</div>
                 <div class="gewicht">Gewicht: (in g)</div>
                 <div class="lagerbestand">Lagerbestand:</div>
                 <input v-model="formData.image" type="image" class="input1" required>
