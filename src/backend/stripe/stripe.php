@@ -11,7 +11,7 @@ if($_SERVER['REQUEST_METHOD'] !== 'POST'){
 
 ## JSON-Format:
 ##[
-##    {"username": "testuser", "password": "test"},
+##    {"username": "test_user", "password": "test"},
 ##    {"id": 1, "amount": 2},
 ##    {"id": 2, "amount": 7}
 ##]
@@ -39,8 +39,6 @@ if($numberOfArrays < 1){
     http_response_code(400);
     exit;
 }
-
-echo $numberOfArrays;
 
 
 # check if all keys of each array have legitimate values
@@ -151,7 +149,7 @@ for($j = 1; $j <= $numberOfArrays; $j++){
 
     $statement->close();
 
-    if($result->num_rows < 0){
+    if($result->num_rows <= 0){
         $conn->close();
         http_response_code(404);
         exit;
@@ -243,3 +241,93 @@ header("Location: " . $session->url);
 http_response_code(200);
 
 ?>
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    
+    <div class="text">
+        <h1>Sie werden zur Bezahlung weitergeleitet!</h1>
+    </div>
+
+    <div class="lds-ripple">
+        <div>
+
+        </div>
+        <div>
+
+        </div>
+    </div>
+
+</body>
+</html>
+
+<style>
+
+body{
+    background-color: blue;
+}
+
+.text {
+    position: absolute; /* Hinzugefügt */
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%); /* Zentriert das Element */
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+.lds-ripple {
+  position: relative; /* Hinzugefügt */
+  top: 50%;
+  left: 50%;
+  width: 80px;
+  height: 80px;
+}
+.lds-ripple div {
+  position: absolute;
+  border: 4px solid #fff;
+  opacity: 1;
+  border-radius: 50%;
+  animation: lds-ripple 1s cubic-bezier(0, 0.2, 0.8, 1) infinite;
+}
+.lds-ripple div:nth-child(2) {
+  animation-delay: -0.5s;
+}
+@keyframes lds-ripple {
+  0% {
+    top: 36px;
+    left: 36px;
+    width: 0;
+    height: 0;
+    opacity: 0;
+  }
+  4.9% {
+    top: 36px;
+    left: 36px;
+    width: 0;
+    height: 0;
+    opacity: 0;
+  }
+  5% {
+    top: 36px;
+    left: 36px;
+    width: 0;
+    height: 0;
+    opacity: 1;
+  }
+  100% {
+    top: 0px;
+    left: 0px;
+    width: 72px;
+    height: 72px;
+    opacity: 0;
+  }
+}
+
+
+</style>
