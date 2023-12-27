@@ -163,7 +163,8 @@ for($j = 1; $j <= $numberOfArrays; $j++){
 
     if($row['stock'] < $jsonData[$j]['amount']){
         $conn->close();
-        http_response_code(400);
+        echo "Not enough in stock!";
+        http_response_code(409);
         exit;
     }
 
@@ -173,14 +174,7 @@ for($j = 1; $j <= $numberOfArrays; $j++){
         'price_brutto' => $row['price_brutto']
     ];
 
-    if (file_exists($row['image'])) {
-        $json['image'] = base64_encode(file_get_contents($row['image']));
-    } else {
-        $json['image'] = "";
-    }
-
     $packetJSON[] = $json;
-
 }
 
 $conn->close();
@@ -198,8 +192,7 @@ for ($i = 0; $i < $numberOfArrays; $i++) {
             'currency' => 'eur',
             'product_data' => [
                 'name' => $packetJSON[$i]['title'],
-                'description' => $packetJSON[$i]['description'],
-                //'images' => [getenv('BASE_URL') . $packetJSON[$i]['image']], # stripe.php is in backend folder
+                'description' => $packetJSON[$i]['description']
             ],
             'unit_amount' => round($packetJSON[$i]['price_brutto'] * 100), // in cents
         ],
