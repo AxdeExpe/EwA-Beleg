@@ -1,9 +1,13 @@
 <?php
 
-header('Access-Control-Allow-Origin: *');
+    header('Access-Control-Allow-Origin: *');
 
 
-if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
+        http_response_code(400);
+        exit;
+    }
+
 
     if (!isset($_POST['username']) || !isset($_POST['password']) || empty($_POST['username']) || empty($_POST['password'])) {
         # bad request, no username or password
@@ -66,11 +70,5 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     http_response_code(401);
     exit;
 
-
-} else {
-    # no post request
-    http_response_code(400);
-    exit;
-}
 
 ?>
