@@ -190,23 +190,24 @@ $conn->close();
 
 # put every item into an seperate arry
 
-$items = [];
+$lineItems = [];
 
-for($i = 0; $i < $numberOfArrays; $i++){
+for ($i = 0; $i < $numberOfArrays; $i++) {
     $item = [
-        'titel' => $packetJSON[$i]['title'],
-        'images' => [getenv('BASE_URL') . $packetJSON[$i]['image']], # stripe.php is in backend folder
-        'quantity' => $jsonData[$i+1]['amount'],
-        'description' => $packetJSON[$i]['description'],
-        'amount' => round($packetJSON[$i]['price_brutto'] * 100), # now it is in cents, bpsw.: 10,00€ = 1000 cents
-        'currency' => 'eur',
+        'price_data' => [
+            'currency' => 'eur',
+            'product_data' => [
+                'name' => $packetJSON[$i]['title'],
+                'description' => $packetJSON[$i]['description'],
+                //'images' => [getenv('BASE_URL') . $packetJSON[$i]['image']], # stripe.php is in backend folder
+            ],
+            'unit_amount' => round($packetJSON[$i]['price_brutto'] * 100), // in cents
+        ],
+        'quantity' => $jsonData[$i + 1]['amount'],
     ];
 
-    $items[] = $item;
+    $lineItems[] = $item;
 }
-
-
-echo json_encode($items);
 
 # stripe part
 
@@ -231,13 +232,15 @@ $session = null;
 try {
     $session = \Stripe\Checkout\Session::create([
         'payment_method_types' => ['card'],
-        'line_items' => [$items], # could be instead [$items]
+        'line_items' => $lineItems,
         'mode' => 'payment',
-        'success_url' => 'http://ivm108.informatik.htw-dresden.de/ewa/g08/backend/' . 'success.php?session_id={CHECKOUT_SESSION_ID}&data=' . urlencode($requestData),
-        'cancel_url' => 'http://ivm108.informatik.htw-dresden.de/ewa/g08/backend/' . 'cancel.php',
+        'success_url' => 'http://ivm108.informatik.htw-dresden.de/ewa/g08/backend/success.php?session_id={CHECKOUT_SESSION_ID}&data=' . urlencode($requestData),
+        'cancel_url' => 'http://ivm108.informatik.htw-dresden.de/ewa/g08/backend/cancel.php',
     ]);
 } catch (\Stripe\Exception\ApiErrorException $e) {
     echo "Error in Session::create() " . $e->getMessage();
+    http_response_code(500);
+    exit;
 }
 
 
