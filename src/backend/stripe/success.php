@@ -8,7 +8,7 @@
 ###################################################################
 
 
-
+$stripe_api_key = "sk_test_51OREORC36J02THDSJqRzCyfAOimB3RTMMOb5j6126e3Yx69FDre0gbMkHz04Ak4Kb3XjIY9sWGdbju60MOVck9WZ00IVbnW19S";
 
 header('Access-Control-Allow-Origin: *');
 require('./stripe-php-master/init.php');
@@ -24,10 +24,6 @@ if($_GET['session_id'] === null || empty($_GET['session_id'])){
     http_response_code(400);
     exit;
 }
-
-
-echo $_GET['session_id'];
-echo $_GET['data'];
 
 
 $jsonData = json_decode($_GET['data'], true);
@@ -200,7 +196,6 @@ for($j = 1; $j <= $numberOfArrays; $j++){
 
 
 $api_error = null;
-$stripe_api_key = "sk_test_51OREORC36J02THDSJqRzCyfAOimB3RTMMOb5j6126e3Yx69FDre0gbMkHz04Ak4Kb3XjIY9sWGdbju60MOVck9WZ00IVbnW19S";
 $session_id = $_GET['session_id'];
 
 $api_url = "https://api.stripe.com/v1/checkout/sessions/{$session_id}";
@@ -303,10 +298,6 @@ $statement->close();
 $conn->begin_transaction();
 
 for($i = 1; $i <= $numberOfArrays; $i++){
-
-
-
-    # need to be changed ##########################################################################################################################################################################################################
     // Insert transaction data into the database 
     $sql = "INSERT INTO Orders (book_id, order_date, amount, price, modified, stripe_checkout_session_id, txn_id, customer_name, customer_email)
         SELECT
@@ -342,8 +333,6 @@ for($i = 1; $i <= $numberOfArrays; $i++){
     $stmt->close();
 }
 
-echo "INSERTED!";
-
 $conn->commit();
 
 for($i = 1; $i <= $numberOfArrays; $i++){
@@ -370,8 +359,6 @@ for($i = 1; $i <= $numberOfArrays; $i++){
 
 $conn->commit();
 $conn->close();
-
-echo "UPDATED!";
 
 http_response_code(200);
 exit;

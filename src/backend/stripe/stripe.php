@@ -1,7 +1,12 @@
 <?php
+
 header('Access-Control-Allow-Origin: *');
 
 require('./stripe-php-master/init.php');
+
+$pk = "pk_test_51OREORC36J02THDS7v1pjY6BICfVf7OgXq8V7fvZhPSd8iIa9A9Zp3NePwm2uCvl3p6dcyLe1UgbB91ItWeoysjv00mRLr04dx";
+$sk = "sk_test_51OREORC36J02THDSJqRzCyfAOimB3RTMMOb5j6126e3Yx69FDre0gbMkHz04Ak4Kb3XjIY9sWGdbju60MOVck9WZ00IVbnW19S";
+
 
 if($_SERVER['REQUEST_METHOD'] !== 'POST'){
     # no post request
@@ -201,11 +206,6 @@ for ($i = 0; $i < $numberOfArrays; $i++) {
 }
 
 # stripe part
-
-$pk = "pk_test_51OREORC36J02THDS7v1pjY6BICfVf7OgXq8V7fvZhPSd8iIa9A9Zp3NePwm2uCvl3p6dcyLe1UgbB91ItWeoysjv00mRLr04dx";
-$sk = "sk_test_51OREORC36J02THDSJqRzCyfAOimB3RTMMOb5j6126e3Yx69FDre0gbMkHz04Ak4Kb3XjIY9sWGdbju60MOVck9WZ00IVbnW19S";
-
-
 
 if(isset($_POST['live']) && $_POST['live'] == '1') {
     //if(false) {
