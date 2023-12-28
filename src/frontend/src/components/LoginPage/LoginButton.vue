@@ -1,7 +1,7 @@
 <script setup lang="ts">
     import { ref } from "vue";
     import { useRouter } from "vue-router";
-    import { updateIsloggedIn, updateIsAdmin  } from "@/store";
+    import { updateIsloggedIn, updateIsAdmin, updatePassword, updateUsername  } from "@/store";
     
     let username = ref('');
     let password = ref('');
@@ -27,6 +27,12 @@
           if(data.is_admin === '1'){
             updateIsAdmin(true);
             updateIsloggedIn(true);
+            updatePassword(password.value);
+            updateUsername(username.value);
+
+            console.log(password.value);
+            console.log(username.value);
+            
             is_admin.value = true;
             router.push('/admin');
             console.log('Admin-login erfolgreich');

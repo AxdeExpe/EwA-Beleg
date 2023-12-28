@@ -145,7 +145,10 @@ let resizeProduct = (item: KatalogItem, index: number) => {
       </div>
       <div class="beschreibung flex_inner">
         <h1>Beschreibung</h1>   
-        <a>{{ item.description }}</a>
+        <!-- <a>{{ item.description }}</a> -->
+        console.log(item.description);
+        <textarea id="w3review" name="w3review" rows="4" cols="50">{{ item.description }}</textarea>
+        console.log(item.description);
       </div>
       <div class="Preis flex_inner">
         <h1>Preis</h1>

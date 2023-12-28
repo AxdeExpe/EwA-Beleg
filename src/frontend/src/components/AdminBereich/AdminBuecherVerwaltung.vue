@@ -1,8 +1,11 @@
 <script setup lang="ts">
 import AdminBereichBox from '@/components/AdminBereich/AdminBereichBox.vue'
+import { password, username } from '@/store';
 import { ref } from 'vue'
 
 let formData = ref({
+  username: '',
+  password: '',
   id: '',
   image: '',
   title: '',
@@ -17,7 +20,12 @@ let formData = ref({
 
 const submitForm = async () => {
   try {
-    const response = await fetch('PFADE_ZUR_PHP_DATEI/admin_update_table_books.php', {
+    formData.value.username = username;
+    formData.value.password = password;
+
+    console.log(formData.value);
+
+    const response = await fetch('https://ivm108.informatik.htw-dresden.de/ewa/g08/backend/admin_insert_book.php', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/x-www-form-urlencoded'
@@ -26,7 +34,8 @@ const submitForm = async () => {
     })
 
     if (response.ok) {
-      console.log('Formular erfolgreich gesendet!')
+      console.log('Formular erfolgreich gesendet!');
+      alert('Buch wurde hinzugefügt!');
     } else {
       console.error('Fehler beim Senden des Formulars:', response.statusText)
     }
@@ -42,7 +51,7 @@ const submitForm = async () => {
           <template v-slot>
               <form class="daten-bearbeitung" @submit.prevent="submitForm">
                 <div class="e">Bitte die Daten des neuen Buches eintragen</div>
-                <div class="bild">Bild:</div>
+                <div class="bild">Bildpfad:</div>
                 <div class="buchtitel">Buchtitel:</div>
                 <div class="author">Autor:</div>
                 <div class="verlag">Verlag:</div>
@@ -50,7 +59,7 @@ const submitForm = async () => {
                 <div class="preis">Preis-netto:</div>
                 <div class="gewicht">Gewicht: (in g)</div>
                 <div class="lagerbestand">Lagerbestand:</div>
-                <input v-model="formData.image" type="image" class="input1" required>
+                <input v-model="formData.image" type="text" class="input1" required placeholder="../example/example.png">
                 <input v-model="formData.title" type="text" class="input2" required>
                 <input v-model="formData.author" type="text" class="input3" required>
                 <input v-model="formData.publisher" type="text" class="input4" required>

@@ -25,6 +25,18 @@ export const updateIsAdmin = (value: boolean) => {
   is_admin.value = value;
 };
 
+export let username: string;
+export let password: string;
+
+export let updateUsername = (value: string)=>{
+  username = value;
+} 
+
+export let updatePassword = (value: string)=>{
+  password = value;
+}
+
+
 // interface WarenkorbItem extends KatalogItem {
 //     quantity: number;
 // };
