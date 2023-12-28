@@ -225,8 +225,8 @@ try {
         'payment_method_types' => ['card'],
         'line_items' => $lineItems,
         'mode' => 'payment',
-        'success_url' => 'http://ivm108.informatik.htw-dresden.de/ewa/g08/backend/success.php?session_id={CHECKOUT_SESSION_ID}&data=' . urlencode($requestData),
-        'cancel_url' => 'http://ivm108.informatik.htw-dresden.de/ewa/g08/backend/cancel.php',
+        'success_url' => 'http://ivm108.informatik.htw-dresden.de/ewa/g08/backend/stripe/success.php?session_id={CHECKOUT_SESSION_ID}&data=' . urlencode($requestData),
+        'cancel_url' => 'http://ivm108.informatik.htw-dresden.de/ewa/g08/backend/stripe/cancel.php',
     ]);
 } catch (\Stripe\Exception\ApiErrorException $e) {
     echo "Error in Session::create() " . $e->getMessage();

@@ -1,5 +1,15 @@
 <?php
 
+###################################################################
+#                                                                 #
+# I and God once understood this code, now only God does.         #
+# Type here your attempts to comprehend this code: 3              #
+#                                                                 #
+###################################################################
+
+
+
+
 header('Access-Control-Allow-Origin: *');
 require('./stripe-php-master/init.php');
 
@@ -77,6 +87,7 @@ $json_data = json_decode($result, true);
 
 # Überprüfe is_admin
 if (!isset($json_data['is_admin']) || $json_data['is_admin'] !== '0') {
+    echo "no admin";
     http_response_code(401);
     exit;
 }
@@ -111,9 +122,6 @@ for($i = 1; $i <= $numberOfArrays; $i++){
     # echo $jsonData[$i]['id'];
 }
 
-
-
-exit;
 
 
 # select all needed books from database
@@ -191,24 +199,35 @@ for($j = 1; $j <= $numberOfArrays; $j++){
 }
 
 
-
-// Set API key 
-$stripe = new \Stripe\StripeClient(STRIPE_API_KEY); 
-         
-// Fetch the Checkout Session to display the JSON result on the success page 
-$checkout_session = null;
 $api_error = null;
+$stripe_api_key = "sk_test_51OREORC36J02THDSJqRzCyfAOimB3RTMMOb5j6126e3Yx69FDre0gbMkHz04Ak4Kb3XjIY9sWGdbju60MOVck9WZ00IVbnW19S";
+$session_id = $_GET['session_id'];
 
-try { 
-    $checkout_session = $stripe->checkout->sessions->retrieve($session_id); 
-} catch(Exception $e) {  
-    $api_error = $e->getMessage();  
-    echo $api_error;
+$api_url = "https://api.stripe.com/v1/checkout/sessions/{$session_id}";
+
+// cURL-Initialisierung
+$ch = curl_init($api_url);
+curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+curl_setopt($ch, CURLOPT_HTTPHEADER, array(
+    'Authorization: Bearer ' . $stripe_api_key,
+));
+
+// API-Aufruf durchführen
+$response = curl_exec($ch);
+
+// Überprüfe, ob ein Fehler aufgetreten ist
+$http_status = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+curl_close($ch);
+
+if ($http_status !== 200) {
+    echo "API-Fehler: HTTP-Status $http_status";
     http_response_code(500);
     exit;
-} 
+}
 
-if($api_error !== null || $checkout_session === null){
+$checkout_session = json_decode($response);
+
+if ($checkout_session === null) {
     echo "Invalid transaction!";
     http_response_code(500);
     exit;
@@ -218,38 +237,50 @@ $customer_details = $checkout_session->customer_details;
 $paymentIntent = null;
 
 try { 
-    $paymentIntent = $stripe->paymentIntents->retrieve($checkout_session->payment_intent); 
-} catch (\Stripe\Exception\ApiErrorException $e) { 
-    $api_error = $e->getMessage(); 
+    // Ersetze die Stripe-Bibliothek durch direkten API-Aufruf
+    $ch = curl_init("https://api.stripe.com/v1/payment_intents/{$checkout_session->payment_intent}");
+    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+    curl_setopt($ch, CURLOPT_HTTPHEADER, array(
+        'Authorization: Bearer ' . $stripe_api_key,
+    ));
+
+    $response = curl_exec($ch);
+
+    // Überprüfe, ob ein Fehler aufgetreten ist
+    $http_status = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+    curl_close($ch);
+
+    if ($http_status !== 200) {
+        echo "API-Fehler: HTTP-Status $http_status";
+        http_response_code(500);
+        exit;
+    }
+
+    $paymentIntent = json_decode($response);
+} catch (Exception $e) {
+    $api_error = $e->getMessage();
     echo $api_error;
     http_response_code(500);
     exit;
 }
 
-if($api_error !== null || $paymentIntent === null){
-    echo "Unable to fetch the transaction details!";
-    http_response_code(500);
-    exit;
-}
-
-if($paymentIntent === null || $paymentIntent->status !== 'succeeded'){
+if ($paymentIntent === null || $paymentIntent->status !== 'succeeded') {
     echo "Transaction has been failed!";
     http_response_code(500);
     exit;
 }
 
-$transactionID = $paymentIntent->id; 
-$paidAmount = $paymentIntent->amount; 
-$paidAmount = ($paidAmount/100); 
-$paidCurrency = $paymentIntent->currency; 
-$payment_status = $paymentIntent->status; 
-                     
-// Customer info 
-$customer_name = $customer_email = ''; 
+$transactionID = $paymentIntent->id;
+$paidAmount = $paymentIntent->amount / 100;
+$paidCurrency = $paymentIntent->currency;
+$payment_status = $paymentIntent->status;
 
-if(!empty($customer_details)){ 
-    $customer_name = !empty($customer_details->name) ? $customer_details->name:''; 
-    $customer_email = !empty($customer_details->email) ? $customer_details->email:''; 
+// Customer info
+$customer_name = $customer_email = '';
+
+if (!empty($customer_details)) {
+    $customer_name = !empty($customer_details->name) ? $customer_details->name : '';
+    $customer_email = !empty($customer_details->email) ? $customer_details->email : '';
 }
 
 
@@ -264,14 +295,14 @@ if(!$statement){
 $statement->bind_param("s", $transactionID);
 $statement->execute();
 $result = $statement->get_result();
-$prevRow = $result->fetch_assoc()
+$prevRow = $result->fetch_assoc();
 
 $statement->close();
 
 # insert into the purchases into Orders
 $conn->begin_transaction();
 
-for($i = 1; i <= $numberOfArrays; $i++){
+for($i = 1; $i <= $numberOfArrays; $i++){
 
 
 
@@ -291,14 +322,14 @@ for($i = 1; i <= $numberOfArrays; $i++){
         FROM Books b
         WHERE b.id = ?";
 
-    $stmt = $db->prepare($sql); 
+    $stmt = $conn->prepare($sql); 
         
     if(!$stmt){
         http_response_code(500);
         exit;
     }
         
-    $stmt->bind_param("iissssi", $jsonData[$i]['amount'], $jsonData[$i]['amount'], $session_id, $transactionID, $customer_name, $customer_email, $jsonData[$i]['id']); 
+    $stmt->bind_param("iissssi", $jsonData[$i]['amount'], $jsonData[$i]['amount'], $_GET['session_id'], $transactionID, $customer_name, $customer_email, $jsonData[$i]['id']); 
     $stmt->execute(); 
         
     if($stmt->affected_rows <= 0){
@@ -308,12 +339,14 @@ for($i = 1; i <= $numberOfArrays; $i++){
         exit;
     }
 
-    $statement->close();
+    $stmt->close();
 }
+
+echo "INSERTED!";
 
 $conn->commit();
 
-for($i = 1; i <= $numberOfArrays; $i++){
+for($i = 1; $i <= $numberOfArrays; $i++){
 
     // Führe die Aktualisierung der Books-Tabelle aus
     $updateSql = "UPDATE Books SET stock = stock - ? WHERE id = ?";
@@ -336,54 +369,15 @@ for($i = 1; i <= $numberOfArrays; $i++){
 }
 
 $conn->commit();
-$conmn->close();
+$conn->close();
+
+echo "UPDATED!";
 
 http_response_code(200);
 exit;
 
 # redirect to called url
 # echo "<script>setTimeout(\"location.href = 'http://ivm108.informatik.htw-dresden.de/ewa/g08/frontend/index.php';\",1500);</script>";
-
-
-
-/*
-for($i = 1; i <= $numberOfArrays; $i++){
-
-    $sql = "INSERT INTO Orders (book_id, order_date, amount, price)
-        SELECT
-            b.id AS book_id,
-            NOW() AS order_date,
-            ? AS amount,
-            b.price_brutto * ? AS price
-        FROM Books b
-        WHERE b.id = ?";
-
-    $statement = $conn->prepare($sql);
-
-    if(!$statement){
-        http_response_code(500);
-        exit;
-    }
-
-    $statement->bind_param("iii", $jsonData[$i]['amount'], $jsonData[$i]['amount'], $jsonData[$i]['id']);
-
-    $statement->execute();
-
-    if($statement->affected_rows <= 0){
-        $conn->rollback();
-        $conn->close();
-        http_response_code(500);
-        exit;
-    }
-
-    $statement->close();
-}
-
-$conn->commit();
-
-*/
-
-
 
 
 ?>
