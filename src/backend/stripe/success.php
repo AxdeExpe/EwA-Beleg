@@ -273,9 +273,11 @@ $conn->begin_transaction();
 
 for($i = 1; i <= $numberOfArrays; $i++){
 
+    
+
     # need to be changed ##########################################################################################################################################################################################################
     // Insert transaction data into the database 
-    $sql = "INSERT INTO Orders (customer_name,customer_email,item_name,item_number,item_price,item_price_currency,paid_amount,paid_amount_currency,txn_id,payment_status,stripe_checkout_session_id,created,modified) VALUES (?,?,?,?,?,?,?,?,?,?,?,NOW(),NOW())"; 
+    $sql = "INSERT INTO Orders (book_id, order_date, amount, price, modified, stripe_checkout_session_id, txn_id, customer_name, customer_email) VALUES (?,NOW(),?,?,NOW(),?,?,?,?)"; 
     $stmt = $db->prepare($sql); 
         
     if(!$stmt){
