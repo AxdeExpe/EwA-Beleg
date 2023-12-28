@@ -73,7 +73,7 @@ if (!$conn->set_charset("utf8mb4")) {
 
 # Orders
 
-$statement = $conn->prepare("SELECT o.order_id, o.order_date, b.id, b.title, o.amount, o.price FROM Orders o JOIN Books b ON o.book_id = b.id;");
+$statement = $conn->prepare("SELECT o.order_id, o.order_date, b.id, b.title, o.amount, o.price, o.stripe_checkout_session_id, o.txn_id, o.customer_name, o.customer_email FROM Orders o JOIN Books b ON o.book_id = b.id;");
 
 if(!$statement){
     http_response_code(500);
@@ -103,7 +103,11 @@ if ($result) {
             'order_id' => $row['order_id'],
             'order_date' => $row['order_date'],
             'amount' => $row['amount'],
-            'price' => $row['price']
+            'price' => $row['price'],
+            'stripe_checkout_session_id' => $row['stripe_checkout_session_id'],
+            'txn_id' => $row['txn_id'],
+            'customer_name' => $row['customer_name'],
+            'customer_email' => $row['customer_email']
         ];
 
         $purchaseJSON[] = $json;
@@ -135,6 +139,8 @@ if($result){
             'author' => $row['author'],
             'description' => $row['description'],
             'publisher' => $row['publisher'],
+            'price_netto' => $row['price_netto'],
+            'mwst' => $row['mwst'],
             'price_brutto' => $row['price_brutto'],
             'weight' => $row['weight'],
             'stock' => $row['stock']
