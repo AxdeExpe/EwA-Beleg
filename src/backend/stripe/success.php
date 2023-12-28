@@ -88,7 +88,7 @@ if (!isset($json_data['is_admin']) || $json_data['is_admin'] !== '0') {
 for($i = 1; $i <= $numberOfArrays; $i++){
     if(!isset($jsonData[$i]['id']) || !isset($jsonData[$i]['amount']) || empty($jsonData[$i]['id']) || empty($jsonData[$i]['amount'])){
         # bad request, no id or amount
-        echo $jsonData[$i]->id;
+        echo $jsonData[$i]['id'];
         echo "No id or amount found in request.";
         http_response_code(400);
         exit;
@@ -273,11 +273,24 @@ $conn->begin_transaction();
 
 for($i = 1; i <= $numberOfArrays; $i++){
 
-    
+
 
     # need to be changed ##########################################################################################################################################################################################################
     // Insert transaction data into the database 
-    $sql = "INSERT INTO Orders (book_id, order_date, amount, price, modified, stripe_checkout_session_id, txn_id, customer_name, customer_email) VALUES (?,NOW(),?,?,NOW(),?,?,?,?)"; 
+    $sql = "INSERT INTO Orders (book_id, order_date, amount, price, modified, stripe_checkout_session_id, txn_id, customer_name, customer_email)
+        SELECT
+            b.id AS book_id,
+            NOW() AS order_date,
+            ? AS amount,
+            b.price_brutto * ? AS price,
+            NOW() AS modified,
+            ? AS stripe_checkout_session_id,
+            ? AS txn_id,
+            ? AS customer_name,
+            ? AS customer_email
+        FROM Books b
+        WHERE b.id = ?";
+
     $stmt = $db->prepare($sql); 
         
     if(!$stmt){
@@ -285,7 +298,7 @@ for($i = 1; i <= $numberOfArrays; $i++){
         exit;
     }
         
-    $stmt->bind_param("ssssdsdssss", $customer_name, $customer_email, $productName, $productID, $productPrice, $currency, $paidAmount, $paidCurrency, $transactionID, $payment_status, $session_id); 
+    $stmt->bind_param("iissssi", $jsonData[$i]['amount'], $jsonData[$i]['amount'], $session_id, $transactionID, $customer_name, $customer_email, $jsonData[$i]['id']); 
     $stmt->execute(); 
         
     if($stmt->affected_rows <= 0){
@@ -311,7 +324,7 @@ for($i = 1; i <= $numberOfArrays; $i++){
         exit;
     }
 
-    $updateStmt->bind_param("ii", $jsonData[$i]['amount'], $json_data[$i]['id']);
+    $updateStmt->bind_param("ii", $jsonData[$i]['amount'], $jsonData[$i]['id']);
     $updateStmt->execute();
 
     if($updateStmt->affected_rows <= 0){
