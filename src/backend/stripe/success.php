@@ -28,6 +28,8 @@ if($_GET['session_id'] === null || empty($_GET['session_id'])){
 
 $jsonData = json_decode($_GET['data'], true);
 
+echo $_GET['data'];
+
 
 if ($jsonData === null || json_last_error() !== JSON_ERROR_NONE) {
     echo 'No valid JSON data found in request. 1';
@@ -297,9 +299,12 @@ $statement->close();
 # insert into the purchases into Orders
 $conn->begin_transaction();
 
+
+$hashedPassword = password_hash($jsonData[0]['password'], PASSWORD_DEFAULT);
+
 for($i = 1; $i <= $numberOfArrays; $i++){
     // Insert transaction data into the database 
-    $sql = "INSERT INTO Orders (book_id, order_date, amount, price, modified, stripe_checkout_session_id, txn_id, customer_name, customer_email)
+    $sql = "INSERT INTO Orders (book_id, order_date, amount, price, modified, stripe_checkout_session_id, txn_id, customer_name, customer_email, user_username)
         SELECT
             b.id AS book_id,
             NOW() AS order_date,
@@ -309,7 +314,8 @@ for($i = 1; $i <= $numberOfArrays; $i++){
             ? AS stripe_checkout_session_id,
             ? AS txn_id,
             ? AS customer_name,
-            ? AS customer_email
+            ? AS customer_email,
+            ? AS user_username
         FROM Books b
         WHERE b.id = ?";
 
@@ -320,10 +326,12 @@ for($i = 1; $i <= $numberOfArrays; $i++){
         exit;
     }
         
-    $stmt->bind_param("iissssi", $jsonData[$i]['amount'], $jsonData[$i]['amount'], $_GET['session_id'], $transactionID, $customer_name, $customer_email, $jsonData[$i]['id']); 
+    $stmt->bind_param("iisssssi", $jsonData[$i]['amount'], $jsonData[$i]['amount'], $_GET['session_id'], $transactionID, $customer_name, $customer_email, $jsonData[0]['username'], $jsonData[$i]['id']); 
     $stmt->execute(); 
         
     if($stmt->affected_rows <= 0){
+        echo "Error while inserting into Orders!";
+        echo $stmt->error;
         $conn->rollback();
         $conn->close();
         http_response_code(500);
@@ -334,6 +342,8 @@ for($i = 1; $i <= $numberOfArrays; $i++){
 }
 
 $conn->commit();
+
+echo "Successfully inserted into Orders!";
 
 for($i = 1; $i <= $numberOfArrays; $i++){
 
@@ -350,6 +360,7 @@ for($i = 1; $i <= $numberOfArrays; $i++){
     $updateStmt->execute();
 
     if($updateStmt->affected_rows <= 0){
+        echo "Error while updating the Books table!";
         $conn->rollback();
         $conn->close();
         http_response_code(500);
@@ -359,6 +370,8 @@ for($i = 1; $i <= $numberOfArrays; $i++){
 
 $conn->commit();
 $conn->close();
+
+echo "Successfully updated Books!";
 
 http_response_code(200);
 exit;

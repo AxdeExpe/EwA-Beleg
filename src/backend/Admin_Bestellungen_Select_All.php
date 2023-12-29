@@ -73,7 +73,7 @@ if (!$conn->set_charset("utf8mb4")) {
 
 # Orders
 
-$statement = $conn->prepare("SELECT o.order_id, o.order_date, b.id, b.title, o.amount, o.price, o.stripe_checkout_session_id, o.txn_id, o.customer_name, o.customer_email FROM Orders o JOIN Books b ON o.book_id = b.id;");
+$statement = $conn->prepare("SELECT o.order_id, o.order_date, b.id, b.title, o.amount, o.price, o.stripe_checkout_session_id, o.txn_id, o.customer_name, o.customer_email, o.user_username FROM Orders o JOIN Books b ON o.book_id = b.id;");
 
 if(!$statement){
     http_response_code(500);
@@ -107,7 +107,8 @@ if ($result) {
             'stripe_checkout_session_id' => $row['stripe_checkout_session_id'],
             'txn_id' => $row['txn_id'],
             'customer_name' => $row['customer_name'],
-            'customer_email' => $row['customer_email']
+            'customer_email' => $row['customer_email'],
+            'username' => $row['user_username']
         ];
 
         $purchaseJSON[] = $json;
