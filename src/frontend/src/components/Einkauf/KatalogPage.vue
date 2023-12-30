@@ -67,16 +67,6 @@ let decodeBase64Image = (base64String: string) => {
   
 };
 
-// let decodeBase64Image = (base64String: string) => {
-//   let binaryString = atob(base64String);
-//   let byteArray = new Uint8Array(binaryString.length);
-//   for (let i = 0; i < binaryString.length; i++) {
-//     byteArray[i] = binaryString.charCodeAt(i);
-//   }
-//   const blob = new Blob([byteArray], { type: 'image/png' });
-//   return URL.createObjectURL(blob);
-// };
-
 let doBestellen = (item: KatalogItem) => {
 
   if(item.quantity <= 0){
@@ -145,10 +135,7 @@ let resizeProduct = (item: KatalogItem, index: number) => {
       </div>
       <div class="beschreibung flex_inner">
         <h1>Beschreibung</h1>   
-        <!-- <a>{{ item.description }}</a> -->
-        console.log(item.description);
-        <textarea id="w3review" name="w3review" rows="4" cols="50">{{ item.description }}</textarea>
-        console.log(item.description);
+        <a>{{ item.description }}</a>
       </div>
       <div class="Preis flex_inner">
         <h1>Preis</h1>
