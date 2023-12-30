@@ -152,12 +152,12 @@ let resizeProduct = (item: KatalogItem, index: number) => {
       <div class="Bestellung flex_inner">
         <h1>Bestellung</h1>
         <div class="menge flex_inner">
-          <a> {{ item.quantity }} </a>
+          <textarea v-model="item.quantity" type="number"></textarea>
         </div>
-        <div class="buttons">
+        <!-- <div class="buttons">
           <button class="button" @click="increaseQuantity(item)">+</button>
           <button class="button" @click="decreaseQuantity(item)">-</button>
-        </div>
+        </div> -->
         <div class="buttons">
           <button class="bestellen" @click="doBestellen(item)">In den Warenkorb</button>
         </div>
