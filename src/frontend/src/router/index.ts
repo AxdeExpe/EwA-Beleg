@@ -9,8 +9,8 @@ import BuchDetail from '../components/Einkauf/BuchDetail.vue';
 import Admin from '../components/AdminBereich/AdminBereichBox.vue';
 import Benutzerverwaltung from '../components/AdminBereich/AdminBenutzerVerwaltung.vue';
 import Bestellungsverwaltung from '../components/AdminBereich/AdminBestellungenVerwaltung.vue';
-import Buecherverwaltung from '../components/AdminBereich/AdminBuecherVerwaltung.vue';
-import Lagerverwaltung from '../components/AdminBereich/AdminLagerVerwaltung.vue';
+import Bucheinfügen from '../components/AdminBereich/AdminBuchEinfügen.vue';
+import Katalogverwaltung from '../components/AdminBereich/AdminKatalogVerwaltung.vue';
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -66,14 +66,14 @@ const router = createRouter({
       component: Bestellungsverwaltung
     },
     {
-      path: '/admin/Buecherverwaltung',
-      name: 'Buecherverwaltung',
-      component: Buecherverwaltung
+      path: '/admin/Bucheinfügen',
+      name: 'Bucheinfügen',
+      component: Bucheinfügen
     },
     {
-      path: '/admin/Lagerverwaltung',
-      name: 'Lagerverwaltung',
-      component: Lagerverwaltung
+      path: '/admin/Katalogverwaltung',
+      name: 'Katalogverwaltung',
+      component: Katalogverwaltung
     }
   ]
 });

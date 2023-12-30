@@ -48,7 +48,7 @@ const submitForm = async () => {
 <template>
     <div>
         <AdminBereichBox>
-          <template v-slot>
+          <template v-slot:Bucheinfügen>
               <form class="daten-bearbeitung" @submit.prevent="submitForm">
                 <div class="e">Bitte die Daten des neuen Buches eintragen</div>
                 <div class="bild">Bildpfad:</div>
