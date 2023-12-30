@@ -23,6 +23,7 @@ let login = ref({
 })
 
 let katalogItems = ref<Array<KatalogItem>>([]);
+// let mwst = ref<number>(0);
 
 onMounted(async () => {
 try {
@@ -51,7 +52,9 @@ try {
   if (response.ok) {
     let data = await response.json();
     katalogItems.value = data['Stock'].map((item: KatalogItem) => ({ ...item, quantity: 0 }));
-    console.log(data['Stock']);
+    // mwst.value = data['mwst'];
+    // console.log(data);    
+    // console.log(data['mwst']);
     // if(Array.isArray(data)){ 
     //   katalogItems.value = data.map((item: KatalogItem) => ({ ...item, quantity: 0 }));
     //   console.log(data);
@@ -74,10 +77,10 @@ try {
   <div>
       <AdminBereichBox>
         <template v-slot:Katalogverwaltung>
-              <!-- <div class="mwst-box">
-                {{ mwst }}%
+              <!-- <div>
+                <textarea v-model="mwst"></textarea>
               </div> -->
-              <div v-for="(item) in katalogItems" :key="item.id" :id="item.id.toString()" class="item-box">
+              <div v-for="(item) in katalogItems" :key="item.id" :id="item.id ? item.id.toString() : ''" class="item-box">
                 <div>
                   <h1>Bildpfad</h1>
                   <textarea v-model="item.image"></textarea>
