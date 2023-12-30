@@ -98,7 +98,7 @@ if ($result) {
 
     while ($row = $result->fetch_assoc()) {
         $json = [
-            'book_id' => $row['id'],
+            'id' => $row['id'],
             'title' => $row['title'],
             'order_id' => $row['order_id'],
             'order_date' => $row['order_date'],
