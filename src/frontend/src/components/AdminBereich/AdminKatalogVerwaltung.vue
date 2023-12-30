@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import AdminBereichBox from '@/components/AdminBereich/AdminBereichBox.vue'
+import { password, username } from '@/store';
 import { ref, onMounted } from "vue";
 
 interface KatalogItem {
@@ -16,11 +17,18 @@ interface KatalogItem {
   mwst: number;
 }
 
+let login = ref({
+  username: '',
+  password: '',
+})
+
 let katalogItems = ref<Array<KatalogItem>>([]);
 
 onMounted(async () => {
 try {
-  let response = await fetch('https://ivm108.informatik.htw-dresden.de/ewa/g08/backend/Katalog_Beleg_Select_All.php', {
+  login.value.username = username;
+  login.value.password = password;
+  let response = await fetch('https://ivm108.informatik.htw-dresden.de/ewa/g08/backend/Admin_Bestellungen_Select_All.php', {
     method: 'POST',
     headers: {
       'Content-Type': 'application/x-www-form-urlencoded',
@@ -36,12 +44,18 @@ try {
       price_brutto: 'price_brutto',
       stock: 'stock',
       mwst: 'mwst',
+      username: login.value.username,
+      password: login.value.password,
     }),
   });
   if (response.ok) {
     let data = await response.json();
-    katalogItems.value = data.map((item: KatalogItem) => ({ ...item, quantity: 0 }));
-    console.log(data);
+    katalogItems.value = data['Stock'].map((item: KatalogItem) => ({ ...item, quantity: 0 }));
+    console.log(data['Stock']);
+    // if(Array.isArray(data)){ 
+    //   katalogItems.value = data.map((item: KatalogItem) => ({ ...item, quantity: 0 }));
+    //   console.log(data);
+    // }
   }
   else if(response.status === 404){
     alert('Katalog nicht gefunden');
@@ -60,8 +74,8 @@ try {
   <div>
       <AdminBereichBox>
         <template v-slot:Katalogverwaltung>
-              <!-- <div>
-                {{ item.mwst }}
+              <!-- <div class="mwst-box">
+                {{ mwst }}%
               </div> -->
               <div v-for="(item) in katalogItems" :key="item.id" :id="item.id.toString()" class="item-box">
                 <div>
