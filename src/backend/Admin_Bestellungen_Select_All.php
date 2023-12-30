@@ -136,6 +136,7 @@ if($result){
     while($row = $result->fetch_assoc()){
         $json = [
             'id' => $row['id'],
+            'image' => $row['image'],
             'title' => $row['title'],
             'author' => $row['author'],
             'description' => $row['description'],

@@ -1,5 +1,23 @@
 <?php
 
+    function isPNGString($inputString) {
+        $pattern = "/^\.\.\/images\/[a-zA-Z0-9_+\-.]+\.png$/";
+
+        if (preg_match($pattern, $inputString)) {
+
+            $dateiinfo = pathinfo($inputString);
+            if (isset($dateiinfo['extension']) && strtolower($dateiinfo['extension']) === 'png') {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+
+
+
+
     header('Access-Control-Allow-Origin: *');
 
 
@@ -84,8 +102,15 @@
         exit;
     }
 
+    # check if image is valid png string
+    if(!isPNGString($_POST['image']) && !empty($_POST['image'])){
+        echo "image is not a valid png string";
+        http_response_code(400);
+        exit;
+    }
+
     #check if title is valid, string
-    if((!is_string($_POST['title']) || strlen($_POST['title']) > 255 || is_numeric($_POST['image']))){
+    if((!is_string($_POST['title']) || strlen($_POST['title']) > 255 || is_numeric($_POST['title']))){
         # bad request, title is not string
         echo "title is no string or too long";
         http_response_code(400);
@@ -93,7 +118,7 @@
     }
 
     #check if author is valid, string
-    if((!is_string($_POST['author']) || strlen($_POST['author']) > 255 || is_numeric($_POST['image']))){
+    if((!is_string($_POST['author']) || strlen($_POST['author']) > 255 || is_numeric($_POST['author']))){
         # bad request, author is not string
         echo "author is no string or too long";
         http_response_code(400);
@@ -115,7 +140,7 @@
     }
 
     # check if description is valid, string
-    if((!is_string($_POST['description']) || strlen($_POST['description']) > 4096 || is_numeric($_POST['image']))){
+    if((!is_string($_POST['description']) || strlen($_POST['description']) > 4096 || is_numeric($_POST['description']))){
         # bad request, description is not string
         echo "description is no string or too long";
         http_response_code(400);
@@ -123,7 +148,7 @@
     }
 
     # check if publisher is valid, string
-    if((!is_string($_POST['publisher']) || strlen($_POST['publisher']) > 255 || is_numeric($_POST['image']))){
+    if((!is_string($_POST['publisher']) || strlen($_POST['publisher']) > 255 || is_numeric($_POST['publisher']))){
         # bad request, publisher is not string
         echo "publisher is no string or too long";
         http_response_code(400);
@@ -195,7 +220,7 @@
     $selectStmt->execute();
     $result = $selectStmt->get_result();
     
-    if($result->num_rows === 0){
+    if($result->num_rows <= 0){
         echo "no book with this id";
         http_response_code(404);
         exit;
@@ -236,6 +261,7 @@
             WHERE id = ?";
 
     $stmt = $conn->prepare($sql);
+
 
     if(!$stmt){
         echo "Error while preparing the statement!";
