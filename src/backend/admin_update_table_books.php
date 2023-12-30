@@ -85,7 +85,7 @@
     }
 
     #check if title is valid, string
-    if((!is_string($_POST['title']) || strlen($_POST['title']) > 255 || is_numeric($_POST['image']))){
+    if((!is_string($_POST['title']) || strlen($_POST['title']) > 255 || is_numeric($_POST['title']))){
         # bad request, title is not string
         echo "title is no string or too long";
         http_response_code(400);
@@ -93,7 +93,7 @@
     }
 
     #check if author is valid, string
-    if((!is_string($_POST['author']) || strlen($_POST['author']) > 255 || is_numeric($_POST['image']))){
+    if((!is_string($_POST['author']) || strlen($_POST['author']) > 255 || is_numeric($_POST['author']))){
         # bad request, author is not string
         echo "author is no string or too long";
         http_response_code(400);
@@ -115,7 +115,7 @@
     }
 
     # check if description is valid, string
-    if((!is_string($_POST['description']) || strlen($_POST['description']) > 4096 || is_numeric($_POST['image']))){
+    if((!is_string($_POST['description']) || strlen($_POST['description']) > 4096 || is_numeric($_POST['description']))){
         # bad request, description is not string
         echo "description is no string or too long";
         http_response_code(400);
@@ -123,7 +123,7 @@
     }
 
     # check if publisher is valid, string
-    if((!is_string($_POST['publisher']) || strlen($_POST['publisher']) > 255 || is_numeric($_POST['image']))){
+    if((!is_string($_POST['publisher']) || strlen($_POST['publisher']) > 255 || is_numeric($_POST['publisher']))){
         # bad request, publisher is not string
         echo "publisher is no string or too long";
         http_response_code(400);
