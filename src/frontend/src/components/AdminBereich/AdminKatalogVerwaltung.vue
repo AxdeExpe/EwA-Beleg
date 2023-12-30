@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import AdminBereichBox from '@/components/AdminBereich/AdminBereichBox.vue'
+import { password, username } from '@/store';
 import { ref, onMounted } from "vue";
 
 interface KatalogItem {
@@ -16,11 +17,19 @@ interface KatalogItem {
   mwst: number;
 }
 
+let login = ref({
+  username: '',
+  password: '',
+})
+
 let katalogItems = ref<Array<KatalogItem>>([]);
+let mwst = ref<number>(0);
 
 onMounted(async () => {
 try {
-  let response = await fetch('https://ivm108.informatik.htw-dresden.de/ewa/g08/backend/Katalog_Beleg_Select_All.php', {
+  login.value.username = username;
+  login.value.password = password;
+  let response = await fetch('https://ivm108.informatik.htw-dresden.de/ewa/g08/backend/Admin_Bestellungen_Select_All.php', {
     method: 'POST',
     headers: {
       'Content-Type': 'application/x-www-form-urlencoded',
@@ -36,12 +45,31 @@ try {
       price_brutto: 'price_brutto',
       stock: 'stock',
       mwst: 'mwst',
+      username: login.value.username,
+      password: login.value.password,
     }),
   });
   if (response.ok) {
     let data = await response.json();
-    katalogItems.value = data.map((item: KatalogItem) => ({ ...item, quantity: 0 }));
-    console.log(data);
+    katalogItems.value = data['Stock'].map((item: KatalogItem) => ({ ...item, quantity: 0 }));
+
+    //mwst werte von allen katalog items in array speichern
+    let mwst_test = [];
+    for(let i = 0; i<data['Stock'].length; i++){
+      mwst_test.push(data['Stock'][i]['mwst']);
+    }
+
+    //prüfen ob alle werte im array gleich sind
+    let mwst_test_2 = mwst_test.every( (val, i, arr) => val === arr[0]);
+    console.log(mwst_test_2);
+    
+    //wenn nicht gleich, dann alert
+    if(mwst_test_2 == false){
+      alert('Mehrwertsteuer der Artikel unterscheidet sich');
+    }
+    
+    mwst.value = data['Stock'][0]['mwst'];
+    console.log(mwst.value);
   }
   else if(response.status === 404){
     alert('Katalog nicht gefunden');
@@ -60,10 +88,10 @@ try {
   <div>
       <AdminBereichBox>
         <template v-slot:Katalogverwaltung>
-              <!-- <div>
-                {{ item.mwst }}
-              </div> -->
-              <div v-for="(item) in katalogItems" :key="item.id" :id="item.id.toString()" class="item-box">
+              <div>
+                <textarea v-model="mwst"></textarea>
+              </div>
+              <div v-for="(item) in katalogItems" :key="item.id" :id="item.id ? item.id.toString() : ''" class="item-box">
                 <div>
                   <h1>Bildpfad</h1>
                   <textarea v-model="item.image"></textarea>

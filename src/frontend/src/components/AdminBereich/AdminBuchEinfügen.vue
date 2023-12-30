@@ -23,8 +23,6 @@ const submitForm = async () => {
     formData.value.username = username;
     formData.value.password = password;
 
-    console.log(formData.value);
-
     const response = await fetch('https://ivm108.informatik.htw-dresden.de/ewa/g08/backend/admin_insert_book.php', {
       method: 'POST',
       headers: {

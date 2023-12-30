@@ -135,7 +135,7 @@ if($result){
     $stockJSON= [];
     while($row = $result->fetch_assoc()){
         $json = [
-            'book_id' => $row['id'],
+            'id' => $row['id'],
             'title' => $row['title'],
             'author' => $row['author'],
             'description' => $row['description'],
