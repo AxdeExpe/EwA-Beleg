@@ -23,7 +23,7 @@ let login = ref({
 })
 
 let katalogItems = ref<Array<KatalogItem>>([]);
-// let mwst = ref<number>(0);
+let mwst = ref<number>(0);
 
 onMounted(async () => {
 try {
@@ -52,13 +52,24 @@ try {
   if (response.ok) {
     let data = await response.json();
     katalogItems.value = data['Stock'].map((item: KatalogItem) => ({ ...item, quantity: 0 }));
-    // mwst.value = data['mwst'];
-    // console.log(data);    
-    // console.log(data['mwst']);
-    // if(Array.isArray(data)){ 
-    //   katalogItems.value = data.map((item: KatalogItem) => ({ ...item, quantity: 0 }));
-    //   console.log(data);
-    // }
+
+    //mwst werte von allen katalog items in array speichern
+    let mwst_test = [];
+    for(let i = 0; i<data['Stock'].length; i++){
+      mwst_test.push(data['Stock'][i]['mwst']);
+    }
+
+    //prüfen ob alle werte im array gleich sind
+    let mwst_test_2 = mwst_test.every( (val, i, arr) => val === arr[0]);
+    console.log(mwst_test_2);
+    
+    //wenn nicht gleich, dann alert
+    if(mwst_test_2 == false){
+      alert('Mehrwertsteuer der Artikel unterscheidet sich');
+    }
+    
+    mwst.value = data['Stock'][0]['mwst'];
+    console.log(mwst.value);
   }
   else if(response.status === 404){
     alert('Katalog nicht gefunden');
@@ -77,9 +88,9 @@ try {
   <div>
       <AdminBereichBox>
         <template v-slot:Katalogverwaltung>
-              <!-- <div>
+              <div>
                 <textarea v-model="mwst"></textarea>
-              </div> -->
+              </div>
               <div v-for="(item) in katalogItems" :key="item.id" :id="item.id ? item.id.toString() : ''" class="item-box">
                 <div>
                   <h1>Bildpfad</h1>
