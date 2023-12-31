@@ -58,6 +58,7 @@ try {
     let mwst_test = [];
     for(let i = 0; i<data['Stock'].length; i++){
       mwst_test.push(data['Stock'][i]['mwst']);
+      // console.log(mwst_test);
     }
 
     //prüfen ob alle werte im array gleich sind
@@ -88,6 +89,15 @@ try {
     //durch alle id durch iterieren und dann alle werte updaten
     login.value.username = username;
     login.value.password = password;
+    
+    //Auf Submit prüfen ob die mwst geändert wurde, falls ja den mwst wert für alle katalog items ändern
+    for(let i = 0; i<katalogItems.value.length; i++){
+      if(katalogItems.value[i]['mwst'] != mwst.value){
+        katalogItems.value[i]['mwst'] = mwst.value;
+      }
+    }
+    console.log(katalogItems.value);
+    
     
 
     for(let i = 0; i<katalogItems.value.length; i++){

@@ -83,18 +83,18 @@ let doBestellen = (item: KatalogItem) => {
   item.quantity = 0;
 };
 
-let increaseQuantity = (item: KatalogItem) => {
-  item.quantity++;
-};
+// let increaseQuantity = (item: KatalogItem) => {
+//   item.quantity++;
+// };
 
-let decreaseQuantity = (item: KatalogItem) => {
+// let decreaseQuantity = (item: KatalogItem) => {
 
-  if(item.quantity <= 0){
-    return;
-  }
+//   if(item.quantity <= 0){
+//     return;
+//   }
 
-  item.quantity--;
-};
+//   item.quantity--;
+// };
 
 let resizeProduct = (item: KatalogItem, index: number) => {
 
@@ -280,14 +280,14 @@ a{
     display: flex;
     margin: 1.5em 0.5em 0.5em 0.5em; /*top right bottom left*/
 }
-.button{
+/* .button{
     background-color: rgb(255, 255, 255);
     color: black;
     font-size: 1em;
-    margin: 0.5em 0.5em 0.5em 0.5em; /*top right bottom left*/
-    padding: 0.25em 0.25em 0.25em 0.25em; /*top right bottom left*/
+    margin: 0.5em 0.5em 0.5em 0.5em; top right bottom left
+    padding: 0.25em 0.25em 0.25em 0.25em; top right bottom left
     flex: 1;
-}
+} */
 .bestellen{
     background-color: rgb(255, 255, 255);
     color: black;
