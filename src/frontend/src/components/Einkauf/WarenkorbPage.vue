@@ -115,20 +115,20 @@ let order = async () => {
 <template>
    <div class="item-box">
     <h1>Warenkorb:</h1>
-    <ul class="ausgabe">
-      <li v-for="item in warenkorb" :key="item.id">
+    <div class="ausgabe">
+      <div v-for="item in warenkorb" :key="item.id">
         <div>{{ item.title }}</div>
         <div>Menge: {{ item.quantity }}</div>
         <div>Einzelpreis: {{ parseFloat(item.price_brutto) }}€</div>
         <div>Teilgesamtpreis: {{ (parseFloat(item.price_brutto) * item.quantity).toFixed(2) }}€</div>
-        <button @click="removeFromWarenkorb(item.id)">Entfernen</button>
-      </li>
-    </ul>
+        <button @click="removeFromWarenkorb(item.id)" class="entfernen-button">Entfernen</button>
+      </div>
+    </div>
     <div class="endsumme">
       <strong>Gesamtsumme: {{ gesamtsumme() }}€</strong>
     </div>
 
-    <button @click="order()">Bestellen</button>
+    <button @click="order()" class="bezahl-button">Bestellen</button>
   </div>
 </template>
 
@@ -140,29 +140,44 @@ let order = async () => {
     flex-direction: column;
     background-color: rgb(0, 80, 133);
     color: white;
-    min-height: 40%;
+    min-height: 45%;
     width: 50%;
     justify-content: center;
     align-items: center;
     position: relative;
     font-size: 1;
-    /* border: 1px solid red; */
+    border-radius: 5px;
+    border: solid 1px white;
 }
-
 h1{
-    font-size: 300%;
+    font-size: calc(3em + 1vw);
     text-decoration: underline;
     margin: auto;
-    
-}
+}                
 .ausgabe{
     margin: auto;
-    /* border: red 1px solid; */
+    font-size: calc(.5em + 1vw);
 }
 .endsumme{
-    margin: auto;
+    margin: 5% 0 0 0;
     font-size: 300%;
     text-decoration: underline;
 }
-
+.entfernen-button{
+  font-size: calc(.1em + 1vw);
+  border-radius: 5px;
+  font-weight: bold;
+}
+.bezahl-button{
+    font-size: 250%;
+    text-align: center;
+    font-weight: bold;
+    width: 25%;
+    height: 100%;
+    background-color: #4CAF50;
+    color: white;
+    border-radius: 5px;
+    margin-top: 2%;
+    margin-bottom: 2%;
+}
 </style>

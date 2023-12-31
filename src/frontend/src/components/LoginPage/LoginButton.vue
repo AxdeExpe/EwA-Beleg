@@ -67,7 +67,6 @@
 </script>
 
 <template>
-    <div class="flex">
       <div class="flex-box">
         <div class="login">
           <div class="login-header">Sign in</div>
@@ -80,59 +79,40 @@
             </router-link>
         </div>
       </div>
-    </div>
 </template>
   
 <style>
-html{
-  height: 100%;
-  margin: 0;
-  padding: 0;
-  width: 100%;
-}
-.flex {
-  display: flex;
-  flex-direction: column;
-  /* background-color: black; */
-  height: 100%;
-}
 .flex-box {
-  /* background-color: black; */
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex: 1;
-  flex-direction: column;
+  height: 100%;
 }
 .login{
-  padding: 20px;
   display: inline-block;
-  max-width: 90%;
   box-sizing: border-box;
-  height: 70%;
-  width: 20%;
-
+  padding: 20px;
+  max-width: 90%;
+  min-height: 20%;
   min-width: 300px;
-
-  margin: auto;
+  width: 20%;
+  border-radius: 5px;
 }
 .login-header{
-  font-size: 300%;
+  font-size: calc(1.5vw + 1.5vh + 1vmin);
   font-weight: bold;
   padding-bottom: 20px;
   text-align: center;
   color: black;
 }
 input[type="text"], input[type="password"] {
+  box-sizing: border-box;
   padding: 10px;
-  line-height: 20px;
   margin: 0px 0px 10px;
   font-weight: bold;
-  width: 200px;
+  font-size: calc(.7em + 1vh);
   text-align: center;
+  line-height: 20px;
+  width: 200px;
   max-width: 100%;
   width: 3000px;
-  box-sizing: border-box;
 }
 input[type="submit"] {
   background-color: white;
@@ -147,19 +127,16 @@ input[type="submit"]:hover {
   font-weight: bold;
   color: white;
 }
-
 .register {
-  color: blue;
-  text-decoration: underline;
-  cursor: pointer;
   display: flex;
   flex-direction: column;
-  font-size: 120%;
-
-  margin: auto;
   text-align: center;
+  font-size: 120%;
+  margin: auto;
+  color: blue;
+  text-decoration: underline;
+  cursor: pointer;  
 }
-
 .logbtn{
   margin: auto;
   display: flex;
@@ -175,35 +152,29 @@ input[type="submit"]:hover {
   font-weight: bold;
   background-color: rgb(33, 150, 243);
   color: white;
-  border: none;
   cursor: pointer;
   border-radius: 5px;
   transition: 0.3s;
 }
-
 .logbtn:hover{
   background-color: rgb(14, 127, 219);
   font-weight: bold;
   color: white;
 }
-
 .reg{
   display: flex;
   flex-direction: column;
-  text-decoration: none;
-  font-size: 120%;
-  color: rgb(14, 127, 219);
-  margin: auto;
   text-align: center;
   justify-content: center;
   align-items: center;
-
+  margin: auto;
+  font-size: calc(.5em + 1vw);
+  font-weight: bold;
+  color: rgb(14, 127, 219);
   border: solid 1px rgb(180, 180, 180);
   border-radius: 5px;
-  
   transition: 0.3s;
 }
-
 .reg:hover{
   background-color: rgba(180, 180, 180, 0.8);
   font-weight: bold;
