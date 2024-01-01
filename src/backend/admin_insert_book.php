@@ -1,5 +1,21 @@
 <?php
 
+function isPNGString($inputString) {
+    $pattern = "/^\.\.\/images\/[a-zA-Z0-9_+\-.]+\.png$/";
+
+    if (preg_match($pattern, $inputString)) {
+
+        $dateiinfo = pathinfo($inputString);
+        if (isset($dateiinfo['extension']) && strtolower($dateiinfo['extension']) === 'png') {
+            return true;
+        }
+    }
+
+    return false;
+}
+
+
+
 header('Access-Control-Allow-Origin: *');
 
     if($_SERVER['REQUEST_METHOD'] !== 'POST'){
@@ -38,6 +54,13 @@ header('Access-Control-Allow-Origin: *');
          http_response_code(400);
          exit;
      }
+
+    # check if image is valid png string
+    if(!isPNGString($_POST['image']) && !empty($_POST['image'])){
+        echo "image is not a valid png string";
+        http_response_code(400);
+        exit;
+    }
  
      #check if title is valid, string
      if((!is_string($_POST['title']) || strlen($_POST['title']) > 255 || is_numeric($_POST['image']))){
