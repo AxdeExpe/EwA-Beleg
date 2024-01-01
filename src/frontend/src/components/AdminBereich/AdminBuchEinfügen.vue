@@ -63,8 +63,8 @@ const submitForm = async () => {
                 <input v-model="formData.publisher" type="text" class="input4" required>
                 <input v-model="formData.description" type="text" class="input5" required>
                 <input v-model="formData.price_netto" type="number" class="input6" min="0" step="0.01" placeholder="0.00" required>
-                <input v-model="formData.weight" type="number" class="input7" required>
-                <input v-model="formData.stock" type="number" class="input8" required>
+                <input v-model="formData.weight" type="number" class="input7" min="0" required>
+                <input v-model="formData.stock" type="number" class="input8" min="0" required>
                 <button type="submit" class="submit-button">Submit</button>
               </form>
           </template>
