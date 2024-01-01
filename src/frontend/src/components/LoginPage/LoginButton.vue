@@ -1,87 +1,80 @@
 <script setup lang="ts">
-    import { ref } from "vue";
-    import { useRouter } from "vue-router";
-    import { updateIsloggedIn, updateIsAdmin, updatePassword, updateUsername  } from "@/store";
+import { ref } from "vue";
+import { useRouter } from "vue-router";
+import { updateIsloggedIn, updateIsAdmin, updatePassword, updateUsername  } from "@/store";
     
-    let username = ref('');
-    let password = ref('');
-    let is_admin = ref(false);
-    let router = useRouter();
+let username = ref('');
+let password = ref('');
+let is_admin = ref(false);
+let router = useRouter();
     
-    let doLogin = async () => {
-      try {
-        let response = await fetch('http://ivm108.informatik.htw-dresden.de/ewa/g08/backend/login.php', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/x-www-form-urlencoded',
-          },
-          body: new URLSearchParams({
-            username: username.value,
-            password: password.value,
-          }),
-        });
-
-        if (response.ok) {
-          let data = await response.json();
-
-          if(data.is_admin === '1'){
-            updateIsAdmin(true);
-            updateIsloggedIn(true);
-            updatePassword(password.value);
-            updateUsername(username.value);
-
-            console.log(password.value);
-            console.log(username.value);
-            
-            is_admin.value = true;
-            router.push('/admin');
-            console.log('Admin-login erfolgreich');
-            alert('Admin-login erfolgreich');
-          }
-          else{
-            updateIsAdmin(false);
-            updateIsloggedIn(true);
-            updatePassword(password.value);
-            updateUsername(username.value);
-
-            router.push('/katalog');
-            console.log('Login erfolgreich');
-            alert('Login erfolgreich');
-          }
-        } else if (response.status === 400) {
-          console.error('username or password are empty or not set, no POST-Request');
-          alert('username or password are empty or not set, no POST-Request');
-          username.value = '';
-          password.value = '';
-        } else if (response.status === 401) {
-          console.error('not authorized');
-          alert('not authorized');
-          username.value = '';
-          password.value = '';
-        } else if (response.status === 500) {
-          console.error('Server Error');
-          alert('Server Error');
-          username.value = '';
-          password.value = '';
-        }
-      } catch (error) {
-        console.error('Fehler bei der Anfrage:', error);}
-    };
+let doLogin = async () => {
+  try {
+    let response = await fetch('http://ivm108.informatik.htw-dresden.de/ewa/g08/backend/login.php', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/x-www-form-urlencoded',
+      },
+      body: new URLSearchParams({
+        username: username.value,
+        password: password.value,
+      }),
+    });
+    if (response.status === 200) {
+      let data = await response.json();
+      if(data.is_admin === '1'){
+        updateIsAdmin(true);
+        updateIsloggedIn(true);
+        updatePassword(password.value);
+        updateUsername(username.value);
+        is_admin.value = true;
+        router.push('/admin');
+        alert('Admin-login erfolgreich');
+      }
+      else{
+        updateIsAdmin(false);
+        updateIsloggedIn(true);
+        updatePassword(password.value);
+        updateUsername(username.value);
+        router.push('/katalog');
+        alert('Login erfolgreich');
+      }
+    } else if (response.status === 400) {
+      console.error('username or password are empty or not set, no POST-Request');
+      alert('username or password are empty or not set, no POST-Request');
+      username.value = '';
+      password.value = '';
+    } else if (response.status === 401) {
+      console.error('not authorized');
+      alert('not authorized');
+      username.value = '';
+      password.value = '';
+    } else if (response.status === 500) {
+      console.error('Server Error');
+      alert('Server Error');
+      username.value = '';
+      password.value = '';
+    }
+  } catch (error) {
+    console.error('Fehler bei der Anfrage:', error);}
+};
 </script>
 
 <template>
-      <div class="flex-box">
-        <div class="login">
-          <div class="login-header">Sign in</div>
-            <input v-model="username" type="text" class="username form-control" placeholder="Username" required><br>
-            <input v-model="password" @keydown.enter="doLogin" type="password" class="password form-control" placeholder="Password" required><br>
-            <button @click="doLogin" class="btn btn-primary logbtn">Login</button>
-            <router-link to="/register" class="reg">
-              <div>No Account?</div>
-              <div>Register now!</div>
-            </router-link>
-        </div>
+  <div class="flex-box">
+    <div class="login">
+      <div class="login-header">
+        Sign in
       </div>
+      <input v-model="username" type="text" class="username form-control" placeholder="Username" required><br>
+      <input v-model="password" @keydown.enter="doLogin" type="password" class="password form-control" placeholder="Password" required><br>
+      <button @click="doLogin" class="btn btn-primary logbtn">Login</button>
+      <router-link to="/register" class="reg">
+        <div>No Account?</div>
+        <div>Register now!</div>
+      </router-link>
+    </div>
+  </div>
 </template>
   
 <style>

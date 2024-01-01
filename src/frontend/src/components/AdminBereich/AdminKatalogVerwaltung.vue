@@ -26,63 +26,59 @@ let katalogItems = ref<Array<KatalogItem>>([]);
 let mwst = ref<number>(0);
 
 onMounted(async () => {
-try {
-  login.value.username = username;
-  login.value.password = password;
-  let response = await fetch('https://ivm108.informatik.htw-dresden.de/ewa/g08/backend/Admin_Bestellungen_Select_All.php', {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/x-www-form-urlencoded',
-    },
-    body: new URLSearchParams({
-      id: 'id',
-      image: 'image',
-      title: 'title',
-      author: 'author',
-      publisher: 'publisher',
-      description: 'description',
-      weight: 'weight',
-      price_netto: 'price_netto',
-      stock: 'stock',
-      mwst: 'mwst',
-      username: login.value.username,
-      password: login.value.password,
-    }),
-  });
-  if (response.ok) {
-    let data = await response.json();
-    katalogItems.value = data['Stock'].map((item: KatalogItem) => ({ ...item, quantity: 0 }));
-    console.log(data['Stock']);
-
-    //mwst werte von allen katalog items in array speichern
-    let mwst_test = [];
-    for(let i = 0; i<data['Stock'].length; i++){
-      mwst_test.push(data['Stock'][i]['mwst']);
-      // console.log(mwst_test);
+  try {
+    login.value.username = username;
+    login.value.password = password;
+    let response = await fetch('https://ivm108.informatik.htw-dresden.de/ewa/g08/backend/Admin_Bestellungen_Select_All.php', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/x-www-form-urlencoded',
+      },
+      body: new URLSearchParams({
+        id: 'id',
+        image: 'image',
+        title: 'title',
+        author: 'author',
+        publisher: 'publisher',
+        description: 'description',
+        weight: 'weight',
+        price_netto: 'price_netto',
+        stock: 'stock',
+        mwst: 'mwst',
+        username: login.value.username,
+        password: login.value.password,
+      }),
+    });
+    if (response.status === 200) {
+      let data = await response.json();
+      katalogItems.value = data['Stock'].map((item: KatalogItem) => ({ ...item, quantity: 0 }));
+      //mwst werte von allen katalog items in array speichern
+      let mwst_test = [];
+      for (let i = 0; i<data['Stock'].length; i++){
+        mwst_test.push(data['Stock'][i]['mwst']);
+      }
+      //prüfen ob alle werte im array gleich sind
+      let mwst_test_2 = mwst_test.every((val, i, arr) => val === arr[0]);
+      //wenn nicht gleich, dann alert
+      if (mwst_test_2 == false){
+        alert('Mehrwertsteuer der Artikel unterscheidet sich');
+      }
+      mwst.value = data['Stock'][0]['mwst'];
     }
-
-    //prüfen ob alle werte im array gleich sind
-    let mwst_test_2 = mwst_test.every((val, i, arr) => val === arr[0]);
-    console.log(mwst_test_2);
-    
-    //wenn nicht gleich, dann alert
-    if(mwst_test_2 == false){
-      alert('Mehrwertsteuer der Artikel unterscheidet sich');
+    else if (response.status === 400){
+      console.error('data is invalid, no POST-Request');
     }
-    
-    mwst.value = data['Stock'][0]['mwst'];
-    console.log(mwst.value);
-  }
-  else if(response.status === 404){
-    alert('Katalog nicht gefunden');
-    console.error('Fehler beim Abrufen des Katalogs: Katalog nicht gefunden');
+    else if (response.status === 404){
+      alert('Katalog nicht gefunden');
+      console.error('Fehler beim Abrufen des Katalogs: Katalog nicht gefunden');
+    } 
+    else if (response.status === 500){
+      console.error('Fehler beim Abrufen des Katalogs: Serverfehler');
+    }
   } 
-  else {
-    console.error('Fehler beim Abrufen des Katalogs: Serverfehler');
+  catch (error) {
+    console.error('Fehler beim Abrufen des Katalogs:', error);
   }
-} catch (error) {
-  console.error('Fehler beim Abrufen des Katalogs:', error);
-}
 });
 
  let submit = async () => {
@@ -96,10 +92,7 @@ try {
         katalogItems.value[i]['mwst'] = mwst.value;
       }
     }
-    console.log(katalogItems.value);
-    
-    
-
+  
     for(let i = 0; i<katalogItems.value.length; i++){
       try {
         
@@ -151,64 +144,63 @@ try {
 
 <template>
   <div>
-      <AdminBereichBox>
-        <template v-slot:Katalogverwaltung>
-              <div class="mwst-box">
-                <textarea  v-model="mwst"></textarea>
-              </div>
-              <div v-for="(item) in katalogItems" :key="item.id" :id="item.id ? item.id.toString() : ''" class="item-box">
-                <div>
-                  <h1>Bildpfad</h1>
-                  <textarea v-model="item.image"></textarea>
-                </div>
-                <div>
-                  <h1>Titel</h1>
-                  <textarea v-model="item.title"></textarea>
-                </div>
-                <div>
-                  <h1>Autor</h1>
-                  <textarea v-model="item.author"></textarea>
-                </div>
-                <div>
-                  <h1>Verlag</h1>
-                  <textarea v-model="item.publisher"></textarea>
-                </div>
-                <div>
-                  <h1>Beschreibung</h1>   
-                  <textarea v-model="item.description"></textarea>
-                </div>
-                <div>
-                  <h1>Preis</h1>
-                  <textarea v-model="item.price_netto"></textarea>
-                </div>
-                <div>
-                  <h1>Gewicht</h1>
-                  <textarea v-model="item.weight"></textarea>
-                </div>
-                <div>
-                  <h1>Lagerbestand</h1>
-                  <textarea v-model="item.stock"></textarea>
-                </div>
-              </div>
-              <button type="submit" class="submit-button" @click="submit">Submit</button>
-        </template>
-      </AdminBereichBox>
+    <AdminBereichBox>
+      <template v-slot:Katalogverwaltung>
+        <div class="mwst-box">
+          <textarea  v-model="mwst"></textarea>
+        </div>
+        <div v-for="(item) in katalogItems" :key="item.id" :id="item.id ? item.id.toString() : ''" class="item-box">
+          <div>
+             <h1>Bildpfad</h1>
+              <textarea v-model="item.image"></textarea>
+          </div>
+          <div>
+            <h1>Titel</h1>
+            <textarea v-model="item.title"></textarea>
+          </div>
+          <div>
+            <h1>Autor</h1>
+            <textarea v-model="item.author"></textarea>
+          </div>
+          <div>
+            <h1>Verlag</h1>
+            <textarea v-model="item.publisher"></textarea>
+          </div>
+          <div>
+            <h1>Beschreibung</h1>   
+            <textarea v-model="item.description"></textarea>
+          </div>
+          <div>
+            <h1>Preis</h1>
+            <textarea v-model="item.price_netto"></textarea>
+          </div>
+          <div>
+            <h1>Gewicht</h1>
+            <textarea v-model="item.weight"></textarea>
+          </div>
+          <div>
+            <h1>Lagerbestand</h1>
+            <textarea v-model="item.stock"></textarea>
+          </div>
+        </div>
+        <button type="submit" class="submit-button" @click="submit">Submit</button>
+      </template>
+    </AdminBereichBox>
   </div>
 </template>
 
 <style scoped>
 .item-box {
-    display: grid;
-    grid-template-columns: repeat(8, 12%);
-    grid-template-rows: repeat(2, 100px);
-    justify-content: space-between;
-    background-color: rgb(0, 80, 133);
-    color: white;
-    margin: 15px 0 0 0; /*top right bottom left*/
-    /* max-height: 300px; */
-    padding: 0px 0px 5px;
-    position: relative;
-    cursor: pointer;
+  display: grid;
+  grid-template-columns: repeat(8, 12%);
+  grid-template-rows: repeat(2, 100px);
+  justify-content: space-between;
+  background-color: rgb(0, 80, 133);
+  color: white;
+  margin: 15px 0 0 0; /*top right bottom left*/
+  padding: 0px 0px 5px;
+  position: relative;
+  cursor: pointer;
 }
 .item-box textarea{
   height: 150px;
@@ -217,15 +209,15 @@ try {
   width: 25%;
 }
 .submit-button{
-    font-size: calc(.5em + 1vw);
-    text-align: center;
-    font-weight: bold;
-    width: 25%;
-    height: 100%;
-    background-color: #4CAF50;
-    color: white;
-    border-radius: 5px;
-    padding: 15px 32px;
-    margin-top: calc(.1em + 1vw);    
+  font-size: calc(.5em + 1vw);
+  text-align: center;
+  font-weight: bold;
+  width: 25%;
+  height: 100%;
+  background-color: #4CAF50;
+  color: white;
+  border-radius: 5px;
+  padding: 15px 32px;
+  margin-top: calc(.1em + 1vw);    
 }
 </style>

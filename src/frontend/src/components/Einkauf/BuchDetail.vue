@@ -19,23 +19,22 @@ let props = defineProps(['katalogItems']);
 let route = useRoute();
 
 let book = ref<katalogItem>({
-    id: 0,
-    image: '',
-    title: '',
-    author: '',
-    publisher: '',
-    description: '',
-    weight: 0,
-    price_brutto: '',
-    stock: 0,
-    quantity: 0,
+  id: 0,
+  image: '',
+  title: '',
+  author: '',
+  publisher: '',
+  description: '',
+  weight: 0,
+  price_brutto: '',
+  stock: 0,
+  quantity: 0,
 });
 
 
 onMounted(() => {
   let title = route.params.title;
   let selectedBook = props.katalogItems.find((item: katalogItem) => item.title === title);
-
   if (selectedBook) {
     book.value = Object.assign({},selectedBook);
   }
@@ -56,38 +55,38 @@ let decodeBase64Image = (base64String: string) => {
 </script>
 
 <template>
-    <div class="ausgabe">
-      <div class="Image_container flex_inner">
-        <img :src="decodeBase64Image(book.image)" class="image" alt="Bild" width="100" height="100">
-      </div>
-      <div class="titel flex_inner">
-        <h1>Titel</h1>
-        <p>{{ book.title }}</p>
-      </div>
-      <div class="author flex_inner">
-        <h1>Autor</h1>
-        <a>{{ book.author }}</a>
-      </div>
-      <div class="Verlag flex_inner">
-        <h1>Verlag</h1>
-        <a>{{ book.publisher }}</a>
-      </div>
-      <div class="beschreibung flex_inner">
-        <h1>Beschreibung</h1>   
-        <a>{{ book.description }}</a>
-      </div>
-      <div class="Preis flex_inner">
-        <h1>Preis</h1>
-        <a>{{ book.price_brutto }}€</a>
-      </div>
-      <div class="Gewicht flex_inner">
-        <h1>Gewicht</h1>
-        <a>{{ book.weight }}g</a>
-      </div>
-      <div class="Lagerbestand flex_inner">
-        <h1>Lagerbestand</h1>
-        <a>{{ book.stock }}</a>
-      </div>
+  <div class="ausgabe">
+    <div class="Image_container flex_inner">
+      <img :src="decodeBase64Image(book.image)" class="image" alt="Bild" width="100" height="100">
+    </div>
+    <div class="titel flex_inner">
+      <h1>Titel</h1>
+      <p>{{ book.title }}</p>
+    </div>
+    <div class="author flex_inner">
+      <h1>Autor</h1>
+      <a>{{ book.author }}</a>
+    </div>
+    <div class="Verlag flex_inner">
+      <h1>Verlag</h1>
+      <a>{{ book.publisher }}</a>
+    </div>
+    <div class="beschreibung flex_inner">
+      <h1>Beschreibung</h1>   
+      <a>{{ book.description }}</a>
+    </div>
+    <div class="Preis flex_inner">
+      <h1>Preis</h1>
+      <a>{{ book.price_brutto }}€</a>
+    </div>
+    <div class="Gewicht flex_inner">
+      <h1>Gewicht</h1>
+      <a>{{ book.weight }}g</a>
+    </div>
+    <div class="Lagerbestand flex_inner">
+      <h1>Lagerbestand</h1>
+      <a>{{ book.stock }}</a>
+    </div>
   </div>
 </template>
 

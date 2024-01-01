@@ -48,16 +48,17 @@ let getKatalog = async () => {
         password: login.value.password,
       }),
     });
-    if (response.ok) {
+    if (response.status === 200) {
       let data = await response.json();
       katalogItems.value = data['Stock'].map((item: KatalogItem) => ({ ...item, quantity: 0 }));
-      console.log(data['Stock']);
     }
-    else if(response.status === 404){
-      alert('Katalog nicht gefunden');
+    else if (response.status === 400){
+      console.error('data is invalid, no POST-Request');
+    }
+    else if (response.status === 404){
       console.error('Fehler beim Abrufen des Katalogs: Katalog nicht gefunden');
     } 
-    else {
+    else if (response.status === 500){
       console.error('Fehler beim Abrufen des Katalogs: Serverfehler');
     }
   } catch (error) {
@@ -65,93 +66,91 @@ let getKatalog = async () => {
   }
 }
 
-
 onMounted(async () => {
   await getKatalog();
 });
 
 let deleteItem = async (id: number) => {
-    if (window.confirm('Möchten Sie das Buch wirklich löschen?')) {
-        try {
-            let response = await fetch('https://ivm108.informatik.htw-dresden.de/ewa/g08/backend/admin_delete_books.php', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/x-www-form-urlencoded',
-                },
-                body: new URLSearchParams({
-                    id: id.toString(),
-                    username: login.value.username,
-                    password: login.value.password,
-                }),
-            });
-            if (response.status === 200) {
-                alert('Buch wurde erfolgreich gelöscht');
-                console.log(response.status);
-                
-                //reload page / get new data
-                await getKatalog();
-            }
-            else if(response.status === 404){
-                alert('Buch nicht gefunden');
-                console.error('Fehler beim Löschen des Buchs: Buch nicht gefunden');
-                console.log(response.status);
-            } 
-            else {
-                console.error('Fehler beim Löschen des Buchs: Serverfehler');
-                console.log(response.status);
-            }
-        } catch (error) {
-            console.error('Fehler beim Löschen des Buchs:', error);
-        }
+  if (window.confirm('Möchten Sie das Buch wirklich löschen?')) {
+    try {
+      let response = await fetch('https://ivm108.informatik.htw-dresden.de/ewa/g08/backend/admin_delete_books.php', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/x-www-form-urlencoded',
+        },
+        body: new URLSearchParams({
+          id: id.toString(),
+          username: login.value.username,
+          password: login.value.password,
+        }),
+      });
+      if (response.status === 200) {
+        alert('Buch wurde erfolgreich gelöscht');
+        //reload page / get new data
+        await getKatalog();
+      }
+      else if (response.status === 400){
+        console.error('data is invalid, no POST-Request');
+      }
+      else if (response.status === 404){
+        alert('Buch nicht gefunden');
+        console.error('Fehler beim Löschen des Buchs: Buch nicht gefunden');
+      } 
+      else if (response.status === 500){
+        console.error('Fehler beim Löschen des Buchs: Serverfehler');
+      }
+    } catch (error) {
+      console.error('Fehler beim Löschen des Buchs:', error);
     }
+  }
 }
   
 </script>
 
 <template>
-    <div>
-        <AdminBereichBox>
-        <template v-slot:Katalogverwaltung>
-              <div v-for="(item) in katalogItems" :key="item.id" :id="item.id ? item.id.toString() : ''" class="item-box">
-                <div>
-                  <h1>Bildpfad</h1>
-                  <textarea v-model="item.image"></textarea>
-                </div>
-                <div>
-                  <h1>Titel</h1>
-                  <textarea v-model="item.title"></textarea>
-                </div>
-                <div>
-                  <h1>Autor</h1>
-                  <textarea v-model="item.author"></textarea>
-                </div>
-                <div>
-                  <h1>Verlag</h1>
-                  <textarea v-model="item.publisher"></textarea>
-                </div>
-                <div>
-                  <h1>Beschreibung</h1>   
-                  <textarea v-model="item.description"></textarea>
-                </div>
-                <div>
-                  <h1>Preis</h1>
-                  <textarea v-model="item.price_netto"></textarea>
-                </div>
-                <div>
-                  <h1>Gewicht</h1>
-                  <textarea v-model="item.weight"></textarea>
-                </div>
-                <div>
-                  <h1>Lagerbestand</h1>
-                  <textarea v-model="item.stock"></textarea>
-                </div>
-                <div class="delete-button" @click="deleteItem(item.id)">
-                    X
-                </div>
-              </div>
-        </template>
-      </AdminBereichBox>
-    </div>
+  <div>
+    <AdminBereichBox>
+      <template v-slot:Katalogverwaltung>
+        <div v-for="(item) in katalogItems" :key="item.id" :id="item.id ? item.id.toString() : ''" class="item-box">
+          <div>
+            <h1>Bildpfad</h1>
+            <textarea v-model="item.image"></textarea>
+          </div>
+          <div>
+            <h1>Titel</h1>
+            <textarea v-model="item.title"></textarea>
+          </div>
+          <div>
+            <h1>Autor</h1>
+            <textarea v-model="item.author"></textarea>
+          </div>
+          <div>
+            <h1>Verlag</h1>
+            <textarea v-model="item.publisher"></textarea>
+          </div>
+          <div>
+            <h1>Beschreibung</h1>   
+            <textarea v-model="item.description"></textarea>
+          </div>
+          <div>
+            <h1>Preis</h1>
+            <textarea v-model="item.price_netto"></textarea>
+          </div>
+          <div>
+            <h1>Gewicht</h1>
+            <textarea v-model="item.weight"></textarea>
+          </div>
+          <div>
+            <h1>Lagerbestand</h1>
+            <textarea v-model="item.stock"></textarea>
+          </div>
+          <div class="delete-button" @click="deleteItem(item.id)">
+            X
+          </div>
+        </div>
+      </template>
+    </AdminBereichBox>
+  </div>
 </template>
 
 <style scoped>
