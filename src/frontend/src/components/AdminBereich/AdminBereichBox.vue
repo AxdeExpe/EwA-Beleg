@@ -75,7 +75,6 @@ let isLinkActive = (routePath: string) => {
     font-weight: bold;
     word-wrap: break-word;
 }
-
 </style>
 
 <script lang="ts">

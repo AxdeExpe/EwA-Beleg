@@ -2,16 +2,16 @@
 import { ref } from 'vue';
 
 interface KatalogItem {
-    id: number;
-    image: string;
-    title: string;
-    author: string;
-    publisher: string;
-    description: string;
-    weight: number;
-    price_brutto: string;
-    stock: number;
-    quantity: number;
+  id: number;
+  image: string;
+  title: string;
+  author: string;
+  publisher: string;
+  description: string;
+  weight: number;
+  price_brutto: string;
+  stock: number;
+  quantity: number;
 }
 
 export const isloggedIn = ref(false);

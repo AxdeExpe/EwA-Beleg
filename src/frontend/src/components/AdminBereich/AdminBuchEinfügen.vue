@@ -32,11 +32,18 @@ const submitForm = async () => {
       body: new URLSearchParams(formData.value).toString()
     })
 
-    if (response.ok) {
-      console.log('Formular erfolgreich gesendet!');
-      alert('Buch wurde hinzugefügt!');
-    } else {
-      console.error('Fehler beim Senden des Formulars:', response.statusText)
+    if (response.status === 200) {
+        console.log('Formular erfolgreich gesendet!');
+        alert('Buch wurde hinzugefügt!');
+    } 
+    else if (response.status === 400) {
+        console.error('data is invalid, no POST-Request')
+    } 
+    else if (response.status === 401) {
+        console.error('user not authorized')
+    } 
+    else if (response.status === 500) {
+        console.error('Server error')
     }
   } catch (error: any) {
     console.error('Fehler beim Senden des Formulars:', error.message)

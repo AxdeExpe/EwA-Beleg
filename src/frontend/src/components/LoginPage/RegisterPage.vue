@@ -1,77 +1,78 @@
 <script setup lang="ts">
-    import { ref } from "vue";
-    import { useRouter } from "vue-router";
+import { ref } from "vue";
+import { useRouter } from "vue-router";
     
-    let username = ref('');
-    let password = ref('');
-    let email = ref('');
-    let router = useRouter();
-    
-    let register = async () => {
+let username = ref('');
+let password = ref('');
+let email = ref('');
+let router = useRouter();
+ 
+let register = async () => {
+  if (!isValidEmail(email.value)) {
+    alert('Bitte geben Sie eine gültige E-Mail-Adresse ein!');
+    return;
+  }
+  try {
+    let response = await fetch('http://ivm108.informatik.htw-dresden.de/ewa/g08/backend/register.php', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/x-www-form-urlencoded',
+      },
+      body: new URLSearchParams({
+        email: email.value,
+        username: username.value,
+        password: password.value,
+      }),
+    });
 
-     if (!isValidEmail(email.value)) {
-        alert('Bitte geben Sie eine gültige E-Mail-Adresse ein!');
-        return;
-     }
-
-      try {
-        let response = await fetch('http://ivm108.informatik.htw-dresden.de/ewa/g08/backend/register.php', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/x-www-form-urlencoded',
-          },
-          body: new URLSearchParams({
-            email: email.value,
-            username: username.value,
-            password: password.value,
-          }),
-        });
-
-        if (response.ok) {
-          console.log('Registrierung erfolgreich');
-          router.push('/');
-          alert('Registrierung erfolgreich');
-        }else if(response.status === 409){
-            alert('User existiert bereits!');
-            console.error('Fehler beim Registrieren: Username bereits vergeben');
-        } 
-        else if (response.status === 400) {
-          console.error('email or username or password are empty or not set, no POST-Request');
-          alert('email or username or password are empty or not set, no POST-Request');
-          username.value = '';
-          password.value = '';
-          email.value = '';
-        }
-        else if (response.status === 500) {
-          console.error('Server Error');
-          alert('Server Error');
-          username.value = '';
-          password.value = '';
-          email.value = '';
-        }
-      } catch (error) {
-        console.error('Fehler bei der Anfrage:', error);}
-    };
-
-    function isValidEmail(email: string) {
-        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-        return emailRegex.test(email);
+    if (response.status === 200) {
+      console.log('Registrierung erfolgreich');
+      router.push('/');
+      alert('Registrierung erfolgreich');
     }
+    else if(response.status === 409){
+      alert('User existiert bereits!');
+      console.error('Fehler beim Registrieren: Username bereits vergeben');
+    } 
+    else if (response.status === 400) {
+      console.error('email or username or password are empty or not set, no POST-Request');
+      alert('email or username or password are empty or not set, no POST-Request');
+      username.value = '';
+      password.value = '';
+      email.value = '';
+    }
+    else if (response.status === 500) {
+      console.error('Server Error');
+      alert('Server Error');
+      username.value = '';
+      password.value = '';
+      email.value = '';
+    }
+  } catch (error) {
+    console.error('Fehler bei der Anfrage:', error);}
+};
+
+function isValidEmail(email: string) {
+  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  return emailRegex.test(email);
+}
 </script>
 
 <template>
-    <div class="flex">
-      <div class="flex-box">
-        <div class="login">
-          <router-link to="/login" class="back">Go back</router-link>
-          <div class="login-header">Register</div>
-            <input v-model="username" type="text" class="username form-control" placeholder="Username" required><br>
-            <input v-model="password"  type="password" class="password form-control" placeholder="Password" required><br>
-            <input v-model="email" @keydown.enter="register" type="text" class="username form-control" placeholder="E-Mail" required><br>
-            <button @click="register" class="btn btn-primary">Register</button>
-          </div>
+  <div class="flex">
+    <div class="flex-box">
+      <div class="login">
+        <router-link to="/login" class="back">Go back</router-link>
+        <div class="login-header">
+          Register
+        </div>
+        <input v-model="username" type="text" class="username form-control" placeholder="Username" required><br>
+        <input v-model="password"  type="password" class="password form-control" placeholder="Password" required><br>
+        <input v-model="email" @keydown.enter="register" type="text" class="username form-control" placeholder="E-Mail" required><br>
+        <button @click="register" class="btn btn-primary">Register</button>
       </div>
     </div>
+  </div>
 </template>
   
 <style>
@@ -84,11 +85,9 @@ html{
 .flex {
   display: flex;
   flex-direction: column;
-  /* background-color: black; */
   height: 100%;
 }
 .flex-box {
-  /* background-color: black; */
   display: flex;
   align-items: center;
   justify-content: center;
@@ -133,12 +132,10 @@ input[type="submit"]:hover {
   font-weight: bold;
   color: white;
 }
-
 .back{
   text-decoration: underline;
   color: blue;
   font-size: 120%;
   margin: auto;
 }
-
 </style>
