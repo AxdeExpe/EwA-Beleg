@@ -24,45 +24,50 @@ let login = ref({
 
 let katalogItems = ref<Array<KatalogItem>>([]);
 
-onMounted(async () => {
-try {
-  login.value.username = username;
-  login.value.password = password;
-  let response = await fetch('https://ivm108.informatik.htw-dresden.de/ewa/g08/backend/Admin_Bestellungen_Select_All.php', {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/x-www-form-urlencoded',
-    },
-    body: new URLSearchParams({
-      id: 'id',
-      image: 'image',
-      title: 'title',
-      author: 'author',
-      publisher: 'publisher',
-      description: 'description',
-      weight: 'weight',
-      price_netto: 'price_netto',
-      stock: 'stock',
-      mwst: 'mwst',
-      username: login.value.username,
-      password: login.value.password,
-    }),
-  });
-  if (response.ok) {
-    let data = await response.json();
-    katalogItems.value = data['Stock'].map((item: KatalogItem) => ({ ...item, quantity: 0 }));
-    console.log(data['Stock']);
+let getKatalog = async () => {
+  try {
+    login.value.username = username;
+    login.value.password = password;
+    let response = await fetch('https://ivm108.informatik.htw-dresden.de/ewa/g08/backend/Admin_Bestellungen_Select_All.php', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/x-www-form-urlencoded',
+      },
+      body: new URLSearchParams({
+        id: 'id',
+        image: 'image',
+        title: 'title',
+        author: 'author',
+        publisher: 'publisher',
+        description: 'description',
+        weight: 'weight',
+        price_netto: 'price_netto',
+        stock: 'stock',
+        mwst: 'mwst',
+        username: login.value.username,
+        password: login.value.password,
+      }),
+    });
+    if (response.ok) {
+      let data = await response.json();
+      katalogItems.value = data['Stock'].map((item: KatalogItem) => ({ ...item, quantity: 0 }));
+      console.log(data['Stock']);
+    }
+    else if(response.status === 404){
+      alert('Katalog nicht gefunden');
+      console.error('Fehler beim Abrufen des Katalogs: Katalog nicht gefunden');
+    } 
+    else {
+      console.error('Fehler beim Abrufen des Katalogs: Serverfehler');
+    }
+  } catch (error) {
+    console.error('Fehler beim Abrufen des Katalogs:', error);
   }
-  else if(response.status === 404){
-    alert('Katalog nicht gefunden');
-    console.error('Fehler beim Abrufen des Katalogs: Katalog nicht gefunden');
-  } 
-  else {
-    console.error('Fehler beim Abrufen des Katalogs: Serverfehler');
-  }
-} catch (error) {
-  console.error('Fehler beim Abrufen des Katalogs:', error);
 }
+
+
+onMounted(async () => {
+  await getKatalog();
 });
 
 let deleteItem = async (id: number) => {
@@ -79,18 +84,21 @@ let deleteItem = async (id: number) => {
                     password: login.value.password,
                 }),
             });
-            if (response.ok) {
-                let data = await response.json();
-                console.log(data);
+            if (response.status === 200) {
                 alert('Buch wurde erfolgreich gelöscht');
-                location.reload();
+                console.log(response.status);
+                
+                //reload page / get new data
+                await getKatalog();
             }
             else if(response.status === 404){
                 alert('Buch nicht gefunden');
                 console.error('Fehler beim Löschen des Buchs: Buch nicht gefunden');
+                console.log(response.status);
             } 
             else {
                 console.error('Fehler beim Löschen des Buchs: Serverfehler');
+                console.log(response.status);
             }
         } catch (error) {
             console.error('Fehler beim Löschen des Buchs:', error);
