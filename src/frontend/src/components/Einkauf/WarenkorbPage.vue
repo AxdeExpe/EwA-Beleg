@@ -19,30 +19,20 @@ const gesamtsumme = () => {
 let order = async () => {
 
   // check if warenkorb is empty
-  if(store.value.warenkorb.length === 0){
+  if(store.value.warenkorb.length <= 0){
     alert('Es sind keine Artikel im Warenkorb!');
     return;
   }
 
-
   // check if admin
-
-  	if(is_admin.value){
-      alert('Admins können keine Bestellungen aufgeben!');
-      return;
-    }
-
-  console.log(isloggedIn.value);
+  if(is_admin.value){
+    alert('Admins können keine Bestellungen aufgeben!');
+    return;
+  }
 
   if(isloggedIn.value){
-    //bestellen
-    console.log('bestellen');
-
-
-
     // Dynamicly wrap JSON-Datapacket
     let data = [];
-
 
     // TODO get username and password from store, currently it is undefined
     data.push({
@@ -58,58 +48,47 @@ let order = async () => {
       });
     }
 
-    console.log(data);
-    return;
+    console.log(JSON.stringify(data));
 
+    // JSON-Format:
+    // [
+    //     {"username": "test_user", "password": "test"},
+    //     {"id": 1, "amount": 2},
+    //     {"id": 2, "amount": 7}
+    // ]
 
     //request zum server und mit stripe bezahlen
     try{
-      let response = await fetch('http://ivm108.informatik.htw-dresden.de/ewa/g08/backend/stripe/stripe.php', {
+      let response = await fetch('https://ivm108.informatik.htw-dresden.de/ewa/g08/backend/stripe/stripe.php', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
 
-
-        // JSON-Format:
-        // [
-        //     {"username": "test_user", "password": "test"},
-        //     {"id": 1, "amount": 2},
-        //     {"id": 2, "amount": 7}
-        // ]
-
-
-        body: JSON.stringify({
-          "username": username,
-          "password": password,
-          "warenkorb": store.value.warenkorb
-        })
-
-
+        body: JSON.stringify(data),
 
       });
 
-      if (response.status === 200) {
-        let data = await response.json();
-
-
+      if (response.ok) {
+        //let data = await response.json();
+        //console.log(data);
 
 
 
       } else if (response.status === 400) {
-        console.error('warenkorb is empty or not set, no POST-Request');
+        console.log('warenkorb is empty or not set, no POST-Request');
         alert('warenkorb is empty or not set, no POST-Request');
       } else if (response.status === 401) {
-        console.error('not authorized');
+        console.log('not authorized');
         alert('not authorized');
       } else if(response.status === 404){
-        console.error('Any book not found');
+        console.log('Any book not found');
         alert('Any book not found');
       } else if(response.status === 409){
-        console.error('Not enough books in stock');
+        console.log('Not enough books in stock');
         alert('Not enough books in stock');
       } else if (response.status === 500) {
-        console.error('Server Error');
+        console.log('Server Error');
         alert('Server Error');
       }
     }
