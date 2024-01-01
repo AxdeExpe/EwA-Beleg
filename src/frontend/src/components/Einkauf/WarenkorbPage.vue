@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { onMounted } from 'vue';
 import { ref } from "vue";
-import { store, removeFromWarenkorb, updateGesamtsumme, isloggedIn, username, password } from '@/store';
+import { store, removeFromWarenkorb, updateGesamtsumme, isloggedIn, username, password, is_admin } from '@/store';
 import router from '@/router';
 
 const warenkorb = store.value.warenkorb;
@@ -17,6 +17,21 @@ const gesamtsumme = () => {
 };
 
 let order = async () => {
+
+  // check if warenkorb is empty
+  if(store.value.warenkorb.length === 0){
+    alert('Es sind keine Artikel im Warenkorb!');
+    return;
+  }
+
+
+  // check if admin
+
+  	if(is_admin.value){
+      alert('Admins können keine Bestellungen aufgeben!');
+      return;
+    }
+
   console.log(isloggedIn.value);
 
   if(isloggedIn.value){
