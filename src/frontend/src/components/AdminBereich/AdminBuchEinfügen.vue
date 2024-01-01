@@ -20,6 +20,7 @@ let formData = ref({
 
 const submitForm = async () => {
   try {
+    formatPrice();
     formData.value.username = username;
     formData.value.password = password;
 
@@ -39,6 +40,17 @@ const submitForm = async () => {
     }
   } catch (error: any) {
     console.error('Fehler beim Senden des Formulars:', error.message)
+  }
+}
+
+const formatPrice = () => {
+  // Überprüfen, ob formData.price_netto eine Zahl ist
+  if (!isNaN(parseFloat(formData.value.price_netto))) {
+    // Konvertieren und auf zwei Dezimalstellen runden
+    formData.value.price_netto = parseFloat(formData.value.price_netto).toFixed(2);
+  } else {
+    // Wenn keine Zahl eingegeben wurde, auf den Standardwert setzen
+    formData.value.price_netto = '0.00';
   }
 }
 </script>
@@ -62,7 +74,7 @@ const submitForm = async () => {
                 <input v-model="formData.author" type="text" class="input3" required>
                 <input v-model="formData.publisher" type="text" class="input4" required>
                 <input v-model="formData.description" type="text" class="input5" required>
-                <input v-model="formData.price_netto" type="number" class="input6" min="0" step="0,01" placeholder="0,00" required>
+                <input v-model="formData.price_netto" type="number" class="input6" min="0" step="0.01" placeholder="0.00" required>
                 <input v-model="formData.weight" type="number" class="input7" min="0" required>
                 <input v-model="formData.stock" type="number" class="input8" min="0" required>
                 <button type="submit" class="submit-button">Submit</button>
