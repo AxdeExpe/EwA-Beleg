@@ -83,6 +83,7 @@ let deleteItem = async (id: number) => {
                 let data = await response.json();
                 console.log(data);
                 alert('Buch wurde erfolgreich gelöscht');
+                location.reload();
             }
             else if(response.status === 404){
                 alert('Buch nicht gefunden');
