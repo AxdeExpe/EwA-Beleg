@@ -10,6 +10,7 @@ $sk = "sk_test_51OREORC36J02THDSJqRzCyfAOimB3RTMMOb5j6126e3Yx69FDre0gbMkHz04Ak4K
 
 if($_SERVER['REQUEST_METHOD'] !== 'POST'){
     # no post request
+    echo "no post request";
     http_response_code(400);
     exit;
 }
@@ -97,7 +98,7 @@ if (!isset($json_data['is_admin']) || $json_data['is_admin'] !== '0') {
 for($i = 1; $i <= $numberOfArrays; $i++){
     if(!isset($jsonData[$i]['id']) || !isset($jsonData[$i]['amount']) || empty($jsonData[$i]['id']) || empty($jsonData[$i]['amount'])){
         # bad request, no id or amount
-        echo $jsonData[$i]->id;
+        echo $jsonData[$i]['id'];
         echo "No id or amount found in request.";
         http_response_code(400);
         exit;
@@ -134,6 +135,7 @@ $database = "g08";
 $conn = new mysqli($host, $username, $password, $database);
 
 if ($conn->connect_error) {
+    echo "Error while connecting to database: " . $conn->connect_error . "\n";
     http_response_code(500);
     exit;
 }
@@ -155,6 +157,7 @@ for($j = 1; $j <= $numberOfArrays; $j++){
     $statement->close();
 
     if($result->num_rows <= 0){
+        echo "No book with this id found!";
         $conn->close();
         http_response_code(404);
         exit;
@@ -242,32 +245,13 @@ http_response_code(200);
 
 ?>
 
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-</head>
-<body>
-    
-    <div class="text">
-        <h1>Sie werden zur Bezahlung weitergeleitet!</h1>
-    </div>
-
-    <div class="lds-ripple">
-        <div>
-
-        </div>
-        <div>
-
-        </div>
-    </div>
-
-</body>
-</html>
-
-<style>
+    <style>
 
 body{
     background-color: blue;
@@ -331,3 +315,24 @@ body{
 
 
 </style>
+
+    <title>Document</title>
+</head>
+<body>
+    
+    <div class="text">
+        <h1>Sie werden zur Bezahlung weitergeleitet!</h1>
+    </div>
+
+    <div class="lds-ripple">
+        <div>
+
+        </div>
+        <div>
+
+        </div>
+    </div>
+
+</body>
+</html>
+
