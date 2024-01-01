@@ -2,6 +2,11 @@
 
 header('Access-Control-Allow-Origin: *');
 
+//header('Access-Control-Allow-Origin: https://localhost:5173');
+//header('Access-Control-Allow-Methods: POST, GET, OPTIONS');
+//header('Access-Control-Allow-Headers: Content-Type');
+//header('Access-Control-Allow-Credentials: true');
+
 require('./stripe-php-master/init.php');
 
 $pk = "pk_test_51OREORC36J02THDS7v1pjY6BICfVf7OgXq8V7fvZhPSd8iIa9A9Zp3NePwm2uCvl3p6dcyLe1UgbB91ItWeoysjv00mRLr04dx";
