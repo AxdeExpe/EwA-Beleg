@@ -62,18 +62,20 @@ let order = async () => {
       let response = await fetch('https://ivm108.informatik.htw-dresden.de/ewa/g08/backend/stripe/stripe.php', {
         method: 'POST',
         headers: {
-          'Content-Type': 'application/json',
+          'Content-Type': 'application/x-www-form-urlencoded',
         },
+        redirect: 'follow',
 
         body: JSON.stringify(data),
 
       });
 
       if (response.ok) {
-        //let data = await response.json();
-        //console.log(data);
+        let redirectUrl = await response.json();
 
+        console.log(redirectUrl);
 
+        window.location.href = redirectUrl;
 
       } else if (response.status === 400) {
         console.log('warenkorb is empty or not set, no POST-Request');
