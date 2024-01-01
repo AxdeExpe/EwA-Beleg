@@ -41,6 +41,9 @@
           else{
             updateIsAdmin(false);
             updateIsloggedIn(true);
+            updatePassword(password.value);
+            updateUsername(username.value);
+
             router.push('/katalog');
             console.log('Login erfolgreich');
             alert('Login erfolgreich');
