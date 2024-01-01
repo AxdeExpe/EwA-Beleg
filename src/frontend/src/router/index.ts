@@ -7,7 +7,7 @@ import Warenkorb from '../components/Einkauf/WarenkorbPage.vue'
 import Register from '../components/LoginPage/RegisterPage.vue'
 import BuchDetail from '../components/Einkauf/BuchDetail.vue';
 import Admin from '../components/AdminBereich/AdminBereichBox.vue';
-import Benutzerverwaltung from '../components/AdminBereich/AdminBenutzerVerwaltung.vue';
+import Buchentfernen from '../components/AdminBereich/AdminBuchentfernen.vue';
 import Bestellungsverwaltung from '../components/AdminBereich/AdminBestellungenVerwaltung.vue';
 import Bucheinfügen from '../components/AdminBereich/AdminBuchEinfügen.vue';
 import Katalogverwaltung from '../components/AdminBereich/AdminKatalogVerwaltung.vue';
@@ -56,9 +56,9 @@ const router = createRouter({
       component: Admin
     },
     {
-      path: '/admin/Benutzerverwaltung',
-      name: 'Benutzerverwaltung',
-      component: Benutzerverwaltung
+      path: '/admin/Buchentfernen',
+      name: 'Buchentfernen',
+      component: Buchentfernen
     },
     {
       path: '/admin/Bestellungsverwaltung',

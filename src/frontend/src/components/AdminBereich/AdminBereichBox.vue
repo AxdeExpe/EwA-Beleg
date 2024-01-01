@@ -11,8 +11,8 @@ let isLinkActive = (routePath: string) => {
 <template>
     <div class="box">
         <div class="admin-meu">
-            <RouterLink to="/admin/Benutzerverwaltung" :class="{ 'active': isLinkActive('/admin/Benutzerverwaltung') }" class="button-a">Benutzer Verwaltung</RouterLink>
-            <RouterLink to="/admin/Bucheinfügen" :class="{ 'active': isLinkActive('/admin/Bucheinfügen') }" class="button-b">Bücher hinzufügen</RouterLink>
+            <RouterLink to="/admin/Bucheinfügen" :class="{ 'active': isLinkActive('/admin/Bucheinfügen') }" class="button-a">Bücher hinzufügen</RouterLink>
+            <RouterLink to="/admin/Buchentfernen" :class="{ 'active': isLinkActive('/admin/Buchentfernen') }" class="button-b">Bücher entfernen</RouterLink>
             <RouterLink to="/admin/Katalogverwaltung" :class="{ 'active': isLinkActive('/admin/Katalogverwaltung') }" class="button-c">Katalog ändern</RouterLink>
             <RouterLink to="/admin/Bestellungsverwaltung" :class="{ 'active': isLinkActive('/admin/Bestellungsverwaltung') }" class="button-d">Bestellungen verwalten</RouterLink>
         </div>
