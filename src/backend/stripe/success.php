@@ -28,7 +28,7 @@ if($_GET['session_id'] === null || empty($_GET['session_id'])){
 
 $jsonData = json_decode($_GET['data'], true);
 
-echo $_GET['data'];
+#echo $_GET['data'];
 
 
 if ($jsonData === null || json_last_error() !== JSON_ERROR_NONE) {
@@ -343,7 +343,7 @@ for($i = 1; $i <= $numberOfArrays; $i++){
 
 $conn->commit();
 
-echo "Successfully inserted into Orders!";
+# echo "Successfully inserted into Orders!";
 
 for($i = 1; $i <= $numberOfArrays; $i++){
 
@@ -371,7 +371,7 @@ for($i = 1; $i <= $numberOfArrays; $i++){
 $conn->commit();
 $conn->close();
 
-echo "Successfully updated Books!";
+#echo "Successfully updated Books!";
 
 http_response_code(200);
 exit;
@@ -383,15 +383,74 @@ exit;
 ?>
 
 <!DOCTYPE html>
-<html lang="en">
+<html lang="de">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Abgebrochene Bestellung</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #f4f4f4;
+            text-align: center;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+        }
+
+        form {
+            background-color: #2196F3;
+            border: 2px solid #ccc;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            max-width: 400px;
+            width: 100%;
+            margin: auto;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: bold;
+        }
+
+        input {
+            width: 100%;
+            padding: 8px;
+            margin-bottom: 16px;
+            box-sizing: border-box;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+
+        button {
+            background-color: #4CAF50;
+            color: #fff;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #45a049;
+        }
+
+    </style>
 </head>
 <body>
-    <h1>Die Zahlung ist eingegangen!</h1>
-    <h2>Vielen Dank für Ihre Bestellung!</h2>
-    <h3>Sie werden in Kürze weitergeleitet!</h3>
+
+    <form>
+        <h2>Bestellung war Erfolgreich!</h2>
+        <p>Ihre Bestellung ist bei uns eingegangen, Sie werden in naher Zukunft </p>
+        <p>Kontaktieren Sie unseren Kunden-Support, falls Sie Fragen oder Schwierigkeiten haben.</p>
+
+        <img src="./cancel.png" alt="Canceld order">
+    </form>
+
 </body>
 </html>
