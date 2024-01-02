@@ -36,12 +36,6 @@
             width: 100%;
             margin: auto;
         }
-
-        label {
-            display: block;
-            margin-bottom: 8px;
-            font-weight: bold;
-        }
     </style>
 </head>
 <body>
