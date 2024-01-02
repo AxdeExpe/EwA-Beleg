@@ -391,7 +391,7 @@ exit;
     <style>
         body {
             font-family: 'Arial', sans-serif;
-            background-color: #f4f4f4;
+            background-color: rgba(20, 20, 20, 1);
             text-align: center;
             margin: 0;
             padding: 0;
