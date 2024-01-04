@@ -374,11 +374,11 @@ $conn->close();
 #echo "Successfully updated Books!";
 
 http_response_code(200);
-exit;
 
 # redirect to called url
 # echo "<script>setTimeout(\"location.href = 'http://ivm108.informatik.htw-dresden.de/ewa/g08/frontend/index.php';\",1500);</script>";
 
+$days = rand(5, 150);
 
 ?>
 
@@ -418,10 +418,10 @@ exit;
 
     <form>
         <h2>Bestellung war Erfolgreich!</h2>
-        <p>Ihre Bestellung ist bei uns eingegangen, Sie werden in naher Zukunft </p>
+        <p>Ihre Bestellung ist bei uns eingegangen, Sie werden voraussichtlich in <?php echo $days ?> Tagen Ihr Paket erhalten.</p>
         <p>Kontaktieren Sie unseren Kunden-Support, falls Sie Fragen oder Schwierigkeiten haben.</p>
 
-        <img src="./cancel.png" alt="Canceld order">
+        <img src="./success.svg" alt="Success order">
     </form>
 
 </body>
