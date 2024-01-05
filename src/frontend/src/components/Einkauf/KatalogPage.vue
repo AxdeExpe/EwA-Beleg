@@ -83,17 +83,34 @@ let doBestellen = (item: KatalogItem) => {
 let resizeProduct = (item: KatalogItem, index: number) => {
   let container = document.getElementById(item.id.toString());
 
-  if(container === null){
+  if (container === null) {
     return;
   }
 
   let isOverflowing = container.scrollHeight > container.offsetHeight;
 
-  if (isOverflowing) {
-    container.style.maxHeight = 'fit-content';
-  } else {
-    container.style.maxHeight = '300px';
-  }
+  // Füge eine Transition-Klasse zum Container hinzu
+  container.classList.add('resizing-transition');
+
+  // Warte kurz, um die Transition-Klasse anzuwenden, bevor die max-height geändert wird
+  setTimeout(() => {
+    if (isOverflowing) {
+      if (container !== null) {
+        container.style.maxHeight = container.scrollHeight + 'px';
+      }
+    } else {
+      if (container !== null) {
+        container.style.maxHeight = '300px';
+      }
+    }
+  }, 0);
+
+  // Füge einen Timeout hinzu, um die Transition-Klasse zu entfernen
+  setTimeout(() => {
+    if (container !== null) {
+      container.classList.remove('resizing-transition');
+    }
+  }, 300); // Hier die Zeit anpassen, um sicherzustellen, dass die Transition abgeschlossen ist
 };
 
 </script>
@@ -263,5 +280,8 @@ a{
   margin: 0.5em 0.5em 0.5em 0.5em; /*top right bottom left*/
   padding: 0.25em 0.25em 0.25em 0.25em; /*top right bottom left*/
   flex: 1;
+}
+.resizing-transition {
+  transition: max-height 0.3s ease; /* Ändere die Übergangszeit und Funktion nach Bedarf */
 }
 </style>
