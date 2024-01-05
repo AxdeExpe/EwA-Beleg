@@ -55,10 +55,17 @@ export const addToWarenkorb = (item: KatalogItem) => {
   const existingItemIndex = store.value.warenkorb.findIndex((cartItem) => cartItem.id === item.id);
 
   if (existingItemIndex !== -1) {
+
+    if(store.value.warenkorb[existingItemIndex].quantity + item.quantity > store.value.warenkorb[existingItemIndex].stock){
+      alert("Sie haben die maximale Anzahl " + store.value.warenkorb[existingItemIndex].title + "erreicht!");
+      return;
+    }
+
     store.value.warenkorb[existingItemIndex].quantity += item.quantity;
   } else {
     store.value.warenkorb.push({ ...item, quantity: item.quantity });
   }
+  alert('Es wurden ' + item.quantity + ' Exemplare von ' + item.title + ' bestellt.');
   updateGesamtsumme();
 };
 

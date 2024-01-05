@@ -75,7 +75,7 @@ let doBestellen = (item: KatalogItem) => {
     item.quantity = 0;
     return;
   }
-  alert('Es wurden ' + item.quantity + ' Exemplare von ' + item.title + ' bestellt.');
+
   addToWarenkorb(item);
   item.quantity = 0;
 };
