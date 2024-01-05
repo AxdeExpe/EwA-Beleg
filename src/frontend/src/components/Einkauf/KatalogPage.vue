@@ -89,10 +89,8 @@ let resizeProduct = (item: KatalogItem, index: number) => {
 
   let isOverflowing = container.scrollHeight > container.offsetHeight;
 
-  // Füge eine Transition-Klasse zum Container hinzu
   container.classList.add('resizing-transition');
 
-  // Warte kurz, um die Transition-Klasse anzuwenden, bevor die max-height geändert wird
   setTimeout(() => {
     if (isOverflowing) {
       if (container !== null) {
@@ -105,12 +103,12 @@ let resizeProduct = (item: KatalogItem, index: number) => {
     }
   }, 0);
 
-  // Füge einen Timeout hinzu, um die Transition-Klasse zu entfernen
+
   setTimeout(() => {
     if (container !== null) {
       container.classList.remove('resizing-transition');
     }
-  }, 300); // Hier die Zeit anpassen, um sicherzustellen, dass die Transition abgeschlossen ist
+  }, 300); 
 };
 
 </script>
