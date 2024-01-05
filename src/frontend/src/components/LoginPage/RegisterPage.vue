@@ -62,14 +62,16 @@ function isValidEmail(email: string) {
   <div class="flex">
     <div class="flex-box">
       <div class="login">
-        <router-link to="/login" class="back">Go back</router-link>
+        <router-link to="/login">
+          <img src="../../../images/back.png" alt="Go Back" class="back" />
+        </router-link>
         <div class="login-header">
           Register
         </div>
         <input v-model="username" type="text" class="username form-control" placeholder="Username" required><br>
         <input v-model="password"  type="password" class="password form-control" placeholder="Password" required><br>
         <input v-model="email" @keydown.enter="register" type="text" class="username form-control" placeholder="E-Mail" required><br>
-        <button @click="register" class="btn btn-primary">Register</button>
+        <button @click="register" class="regbtn">Register</button>
       </div>
     </div>
   </div>
@@ -132,10 +134,39 @@ input[type="submit"]:hover {
   font-weight: bold;
   color: white;
 }
-.back{
-  text-decoration: underline;
-  color: blue;
-  font-size: 120%;
+.back {
+  width: 25px;
   margin: auto;
+  border-radius: 5px;
+  border: 1px solid transparent; /* Setze eine transparente Border, damit die Transition funktioniert */
+  transition: border 0.3s ease; /* Ändere die Transition-Zeit und füge eine Transition-Funktion hinzu */
+}
+
+.back:hover {
+  border: 1px solid lightgray;
+  border-radius: 5px;
+}
+.regbtn{
+  margin-top: 20px;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  background-color: rgb(33, 150, 243);
+  color: white;
+  cursor: pointer;
+  border-radius: 5px;
+  transition: 0.3s;
+  height: 50px;
+  font-size: 20px;
+  display: flex;
+  text-align: center;
+  justify-content: center;
+  align-items: center;
+  font-weight: bold;
+}
+.regbtn:hover{
+  background-color: rgb(14, 127, 219);
+  font-weight: bold;
+  color: white;
 }
 </style>
