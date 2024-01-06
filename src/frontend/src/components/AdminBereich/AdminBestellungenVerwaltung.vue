@@ -94,10 +94,10 @@ const formatFieldName = (fieldName: string) => {
     <div>
         <AdminBereichBox>
             <template v-slot:Katalogverwaltung>
-                <div v-for="(item) in katalogItems" :key="item.id" class="item-container">
-                    <div class="item" v-for="(value, key) in item" :key="key">
-                        <div class="label">{{ formatFieldName(key) }}</div>
-                        <div class="value">{{ value }}</div>
+                <div v-for="(item) in katalogItems" :key="item.id" class="book-table">
+                    <div class="book-tablerow" v-for="(value, key) in item" :key="key">
+                        <div class="book-tablecell">{{ formatFieldName(key) }}</div>
+                        <div class="book-tablecell">{{ value }}</div>
                     </div>
                 </div>
             </template>
@@ -106,44 +106,54 @@ const formatFieldName = (fieldName: string) => {
 </template>
 
 <style scoped>
-.item-container {
-  display: grid;
-  grid-template-columns: 1fr; /* Anpassen Sie dies je nach gewünschter Anzahl von Spalten */
-  gap: 10px; /* Abstand zwischen den Elementen */
-  background-color: rgb(0, 80, 133);
-  color: white;
-  margin: 15px 0 0 0;
-  padding: 0px 0px 5px;
-  cursor: pointer;
-}
-.item {
-  display: flex;
-  justify-content: space-between;
-  padding: 8px;
-}
-.label {
+.book-table{
+  width: 100%;
+  border: 2px solid #ffffff;
+  display: table;
+  table-layout: fixed;
+  background-color: blue;
   font-weight: bold;
+  font-size: calc(10px + 2vmin);
+  margin-bottom: 10px;
+  color: white;
+  word-wrap: break-word;
+  overflow: hidden;
 }
-.value {
-  margin-left: 10px;
+.book-tablerow {
+  display: table-row;
 }
-/* .item-box {
-    display: grid;
-    grid-template-columns: 35% 65%;
-    grid-template-rows: repeat(11, 30px);
-    font-size: calc(.1em + .18w);
-    justify-content: space-between;
-    background-color: rgb(0, 80, 133);
-    color: white;
-    margin: 15px 0 0 0; /*top right bottom left
-    padding: 0px 0px 5px;
-    position: relative;
-    cursor: pointer;
-} */
-/* .tabelle {
-    border: 1px solid red;
-    background-color: blue;
-    color: white;
-    margin-top: 5px;
+.book-tablecell {
+  padding: 5px;
+  display: table-cell;
+  width: 20%;
+}
+.book-tablecell:last-child {
+  width: 80%;
+}
+@media screen and (max-width: 1000px) {
+  .book-table{
+    float: none !important;
+    border: 1px solid yellow;
+    width: 100% !important;
+  }
+  .book-table{
+    background-color: red;
+  }
+}
+/* @media screen and (max-width: 1000px) {
+  .links,
+  .mitte,
+  .rechts
+  {
+    float: none !important;
+    border: 1px solid yellow;
+    width: 100% !important;
+  }
+  .grid-container{
+    background-color: red;
+  }
+  .rechts{
+    text-align: left !important;
+  }
 } */
 </style>

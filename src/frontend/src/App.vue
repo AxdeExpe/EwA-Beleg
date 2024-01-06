@@ -3,6 +3,8 @@ import { ref, onMounted  } from "vue";
 import { RouterLink, RouterView } from 'vue-router';
 import { store, updateGesamtsumme, isloggedIn, updateIsloggedIn, is_admin, updateIsAdmin } from '@/store';
 
+let displaylist = false;
+
 let gesamtPreis = () => {
   return store.value.warenkorb.reduce((total, item) => {
     return total + parseFloat(item.price_brutto) * item.quantity;
@@ -74,13 +76,6 @@ function filteredList() {
     item.title.toLowerCase().includes(input.value.toLowerCase())
   );
 }
-
-function myFunction() {
-  let dropdown = document.getElementById("myDropdown");
-  if (dropdown) {
-    dropdown.classList.toggle("show");
-  }
-}
 </script>
 
 <template>
@@ -101,9 +96,9 @@ function myFunction() {
 <!-- ------------------------------------------------------------------------------------ -->
           <div class="mitte">   
             <div class="dropdown">
-              <input type="text" v-model="input" placeholder="Suche..." >
-              <div v-if="input && filteredList().length > 0" @input="myFunction()" id="myDropdown" class="dropdown-content">
-                <div v-for="book in filteredList()" :key="book.id" >
+              <input type="text" v-model="input" placeholder="Suche...">
+              <div v-if="input && filteredList().length > 0" id="myDropdown"  class="dropdown-content">
+                <div v-for="book in filteredList()" :key="book.id">
                   <RouterLink :to="{ name: 'buch-detail', params: { title: book.title } }">{{ book.title }}</RouterLink>
                 </div>
                 <div class="item error" v-if="input && !filteredList().length">
@@ -186,7 +181,7 @@ function myFunction() {
   justify-content: center;
   align-items: center; 
   position: relative;
-  margin-top: 2em;
+  margin-top: 1em;
 }
 .rechts{
   align-items: center;
@@ -209,18 +204,22 @@ function myFunction() {
   position: relative;
   box-sizing: border-box;
   width: 100%;
+  background-color: red;
 }
 .dropdown-content{
-  /* display: none; */
   position: absolute;
   background-color: #f1f1f1;
-  /* min-width: 160px; */
-  overflow: auto;
   border: 1px solid #ddd;
   z-index: 1;
+  width: 100%;
 }
 .dropdown a:hover {background-color: #ddd;}
-.show {display: block;}
+#myDropdown{
+  display: none;
+}
+.dropdown:hover #myDropdown{
+  display: block;
+}
 /* ------------------------------------------------------ */
 .login-button-text{
   text-decoration: none;
@@ -229,17 +228,14 @@ function myFunction() {
 }
 header {
   display: block; 
-  /*background-color: black;*/
   background-color: #2196F3;
   color: white;
   width: 100%;
-  top: 0;
   z-index: 1;
 } 
 nav{
   padding: 5px;
   font-size: 250%;     
-  /*border: 2px solid white; */
   border-bottom: 1px solid white;
 }
 .brand {
