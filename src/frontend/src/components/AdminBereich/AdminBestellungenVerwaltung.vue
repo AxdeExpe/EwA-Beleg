@@ -73,17 +73,17 @@ const formatFieldName = (fieldName: string) => {
   // Beispiel: 'oder_id' wird zu 'Bestellungs ID'
   // Hier können Sie die Anpassungen für Ihre Feldnamen vornehmen
   const formattedFieldNames: Record<string, string> = {
-    id: 'ID',
-    title: 'Titel',
-    oder_id: 'Bestellungs ID',
-    oder_date: 'Bestellungs Datum',
-    amount: 'Anzahl',
-    price: 'Preis',
-    stripe_checkout_session_id: 'Stripe Checkout Session ID',
-    txn_id: 'Transaktions ID',
-    customer_name: 'Kundenname',
-    customer_email: 'Kunden E-Mail',
-    username: 'Username',
+    id: 'ID:',
+    title: 'Titel:',
+    oder_id: 'Bestellungs ID:',
+    oder_date: 'Bestellungs Datum:',
+    amount: 'Anzahl:',
+    price: 'Preis (€):',
+    stripe_checkout_session_id: 'Stripe Checkout Session ID:',
+    txn_id: 'Transaktions ID:',
+    customer_name: 'Kundenname:',
+    customer_email: 'Kunden E-Mail:',
+    username: 'Username:',
   };
 
   return formattedFieldNames[fieldName] || fieldName;
