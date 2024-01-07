@@ -148,11 +148,11 @@ function filteredList() {
   .rechts
   {
     float: none !important;
-    border: 1px solid yellow;
+    border: 1px solid lightgray;
     width: 100% !important;
   }
   .grid-container{
-    background-color: red;
+    background-color: #2196F3;
   }
   .rechts{
     text-align: left !important;
@@ -204,7 +204,6 @@ function filteredList() {
   position: relative;
   box-sizing: border-box;
   width: 100%;
-  background-color: red;
 }
 .dropdown-content{
   position: absolute;

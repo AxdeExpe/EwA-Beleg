@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { ref, onMounted, defineProps } from 'vue';
 import { useRoute } from 'vue-router';
+import { addToWarenkorb } from '@/store';
 
 interface katalogItem {
   id: number;
@@ -52,63 +53,108 @@ let decodeBase64Image = (base64String: string) => {
   let blob = new Blob([byteArray], { type: 'image/png' });
   return URL.createObjectURL(blob);
 };
+
+let doBestellen = (item: katalogItem) => {
+  if(item.quantity <= 0){
+    return;
+  }
+
+  if (item.stock < item.quantity) {
+    alert('Nicht genügend Exemplare auf Lager');
+    item.quantity = 0;
+    return;
+  }
+
+  addToWarenkorb(item);
+  item.quantity = 0;
+};
 </script>
 
 <template>
   <div class="ausgabe">
-    <div class="Image_container flex_inner">
-      <img :src="decodeBase64Image(book.image)" class="image" alt="Bild" width="100" height="100">
+    <div class="item-beschreibung">Bild</div>
+    <img :src="decodeBase64Image(book.image)" alt="Bild" width="100" height="100">
+    <div></div>
+    <div class="item-beschreibung">Titel</div>
+    <div>{{ book.title }}</div>
+    <div></div>
+    <div class="item-beschreibung">Autor</div>
+    <div>{{ book.author }}</div>
+    <div></div>
+    <div class="item-beschreibung">Verlag</div>
+    <div>{{ book.publisher }}</div>
+    <div></div>
+    <div class="item-beschreibung">Beschreibung</div>   
+    <div>{{ book.description }}</div>
+    <div class="einkauf">
+      <h1>Bestellen?</h1>
+      <textarea v-model="book.quantity" type="number"></textarea><br>
+      <button class="button-menge" @click="book.quantity++">+</button>
+      <button class="button-menge" @click="book.quantity--">-</button><br>
+      <button class="bestellen" @click="doBestellen(book)">In den Warenkorb</button>
     </div>
-    <div class="titel flex_inner">
-      <h1>Titel</h1>
-      <p>{{ book.title }}</p>
-    </div>
-    <div class="author flex_inner">
-      <h1>Autor</h1>
-      <a>{{ book.author }}</a>
-    </div>
-    <div class="Verlag flex_inner">
-      <h1>Verlag</h1>
-      <a>{{ book.publisher }}</a>
-    </div>
-    <div class="beschreibung flex_inner">
-      <h1>Beschreibung</h1>   
-      <a>{{ book.description }}</a>
-    </div>
-    <div class="Preis flex_inner">
-      <h1>Preis</h1>
-      <a>{{ book.price_brutto }}€</a>
-    </div>
-    <div class="Gewicht flex_inner">
-      <h1>Gewicht</h1>
-      <a>{{ book.weight }}g</a>
-    </div>
-    <div class="Lagerbestand flex_inner">
-      <h1>Lagerbestand</h1>
-      <a>{{ book.stock }}</a>
-    </div>
+    <div class="item-beschreibung">Preis</div>
+    <div>{{ book.price_brutto }}€</div>
+    <div></div>
+    <div class="item-beschreibung">Gewicht</div>
+    <div class="item-g">{{ book.weight }}g</div>
+    <div></div>
+    <div class="item-beschreibung">Lagerbestand</div>
+    <div>{{ book.stock }}</div>
   </div>
 </template>
 
 <style scoped>
 .ausgabe {
   display: grid;
-  grid-template-columns: 1fr 1fr;
-  grid-template-rows: 1fr 1fr 1fr 1fr 1fr 1fr 1fr;
-  grid-template-areas: 
-    "Image_container titel"
-    "Image_container author"
-    "Image_container Verlag"
-    "Image_container beschreibung"
-    "Image_container Preis"
-    "Image_container Gewicht"
-    "Image_container Lagerbestand";
-  grid-gap: 10px;
+  grid-template-columns: 15% 60% 24%;
+  gap: 10px;
   padding: 10px;
-  margin-top: 10%;
   border: 1px solid black;
   border-radius: 5px;
   background-color: aliceblue;
   color: black;
+  width: 80%;
+  margin: 3% 0 0 10%;
+  font-size: calc(.1em + 2vmin);
+}
+.einkauf{
+  border: solid white 5px;
+  background-color: lightblue;
+}
+h1{
+  font-size: calc(1em + 2vmin);
+  text-decoration: underline;
+  margin: 10px 10px 10px 10px;
+}
+textarea{
+  width: 50%;
+  height: 15%;
+  border-radius: 5px;
+  font-size: calc(.1em + 2vmin);
+  margin: 10px 10px 10px 10px;
+}
+.button-menge{
+  font-size: calc(.1em + 2vmin);
+  width: 15%;
+  height: 15%;
+  border-radius: 5px;
+  color: white;
+  background-color: yellowgreen;
+  margin: 10px 10px 10px 10px;
+}
+.bestellen{
+  font-size: calc(.1em + 2vmin);
+  width: 50%;
+  height: 15%;
+  border-radius: 5px;
+  color: white;
+  background-color: yellowgreen;
+  margin: 10px 10px 10px 10px;
+}
+.item-beschreibung{
+  font-size: calc(.5em + 2vmin);
+  font-weight: bold;
+  margin: 10px 10px 10px 10px;
 }
 </style>
