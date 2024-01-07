@@ -173,10 +173,15 @@ let deleteItem = async (id: number) => {
   width: 100%;
 }
 .delete-button{
+  left: 0;
+  top: 50%;
+  position: relative;
   background-color: red;
-  margin: 15px 15px 15px 15px;
+  width: 50%;
+  margin: auto;
   color: white;
   text-align: center;
+  justify-content: center;
   font-size: calc(2em + 1vw);
   font-weight: bold;
   cursor: pointer;
