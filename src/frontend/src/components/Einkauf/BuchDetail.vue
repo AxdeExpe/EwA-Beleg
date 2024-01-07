@@ -56,6 +56,7 @@ let decodeBase64Image = (base64String: string) => {
 
 let doBestellen = (item: katalogItem) => {
   if(item.quantity <= 0){
+    alert('Bitte geben Sie eine gültige Menge ein');
     return;
   }
 
