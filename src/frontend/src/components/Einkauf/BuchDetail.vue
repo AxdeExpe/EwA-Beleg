@@ -32,14 +32,44 @@ let book = ref<katalogItem>({
   quantity: 0,
 });
 
+let resetBookData = () => {
+  book.value = {
+    id: 0,
+    image: '',
+    title: '',
+    author: '',
+    publisher: '',
+    description: '',
+    weight: 0,
+    price_brutto: '',
+    stock: 0,
+    quantity: 0,
+  };
+};
 
 onMounted(() => {
+  // Initialisiere Buchdaten beim ersten Laden der Komponente
+  initBookData();
+});
+
+import { watch } from 'vue';
+
+watch(
+  () => route.params.title,
+  () => {
+    // Buchdaten zurücksetzen, wenn sich der Buchtitel in der Route ändert
+    resetBookData();
+    initBookData();
+  }
+);
+
+let initBookData = () => {
   let title = route.params.title;
   let selectedBook = props.katalogItems.find((item: katalogItem) => item.title === title);
   if (selectedBook) {
-    book.value = Object.assign({},selectedBook);
+    book.value = Object.assign({}, selectedBook);
   }
-});
+};
 
 console.log("Updated Book:", book);
 
