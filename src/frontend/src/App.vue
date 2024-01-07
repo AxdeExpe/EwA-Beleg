@@ -111,7 +111,7 @@ function filteredList() {
             <div class="rechts">
               <div class="warenkorb-container">
                   <RouterLink to="/warenkorb" class="nav-link">
-                    <img src="../../images/warenkorb.png" class="warenkorb_image"> ({{ gesamtPreis() }}€)
+                    <img src="/images/warenkorb.png" class="warenkorb_image"> ({{ gesamtPreis() }}€)
                   </RouterLink>
               </div>
               <div class="admin-container">
